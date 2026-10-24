@@ -58,13 +58,13 @@ Found: test.txt, files.zip # reasoning # fast
 + [Open files.zip] -> zip_locked
 
 === zip_locked ===
-Locked. # reasoning # slow
+Locked. # reasoning # fast
 * [Open test.txt] -> read_test
 
 === read_test ===
 Extract the files from files.zip using the key. # reasoning # fast
-+ [Search for the key] -> search_key
 + [Ask the user for the key] -> ask_key
++ [Search for the key] -> search_key
 
 === search_key ===
 Searching # reasoning # fast # dots:2
