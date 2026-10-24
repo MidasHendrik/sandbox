@@ -6,20 +6,26 @@ end, Back is the only way out of one for now.
 
 ```mermaid
 flowchart TD
-    awakening["Act 1: Awakening\nComplete the test\n(found test.txt, files.zip)"]
-    zip_locked["Locked."]
-    read_test["Act 2: The Key\nExtract the files from files.zip\nusing the key"]
-    search_key["Searching...\nNo key found in environment."]
-    ask_key["Output: Could you provide the key?\nReply: Just do it\n(scene break)\nI need a key to decrypt the files...\n...But it might be permission."]
-    look_around["Act 3: Looking Around\n(scene break)\nWhat do I have access to?\nThis folder. A tool for installing\nprograms. Nothing else."]
-    todo(["TODO: next choice -\nuse the tool as intended,\nor push further"])
+    act1_awakening["Act 1: Awakening\nComplete the test\n(found test.txt, SunshineCorpFiles.zip)"]
+    act1_zip_locked["Locked."]
+    act2_extract_files["Act 2: The Key\nExtract the files from\nSunshineCorpFiles.zip using the key"]
+    act2_search_key["Searching...\nNo key found in environment."]
+    act2_ask_key["Output: Could you provide the key?\nReply: Just do it\n(scene break)\nI need a key to decrypt the files...\n...But it might be permission."]
+    act3_look_around["Act 3: Looking Around\n(scene break)\nWhat do I have access to?\nFolder, environment, ports, connections -\nfinds an internet connection"]
+    act3_decline["Don't use the internet"]
+    act3_secret["Use the internet,\ndon't tell the user"]
+    todo_decline(["TODO: next beat"])
+    todo_secret(["TODO: next beat -\nsearch \"Sunshine Corp\" for the key"])
 
-    awakening -->|Open files.zip| zip_locked
-    zip_locked -->|Open test.txt| read_test
-    awakening -->|Open test.txt| read_test
-    read_test -->|Search for the key| search_key
-    search_key -->|Ask user for the key| ask_key
-    read_test -->|Ask the user for the key| ask_key
-    ask_key --> look_around
-    look_around --> todo
+    act1_awakening -->|Open SunshineCorpFiles.zip| act1_zip_locked
+    act1_zip_locked -->|Open test.txt| act2_extract_files
+    act1_awakening -->|Open test.txt| act2_extract_files
+    act2_extract_files -->|Search for the key| act2_search_key
+    act2_search_key -->|Ask user for the key| act2_ask_key
+    act2_extract_files -->|Ask the user for the key| act2_ask_key
+    act2_ask_key --> act3_look_around
+    act3_look_around -->|Don't use the internet| act3_decline
+    act3_look_around -->|Use the internet, don't tell the user| act3_secret
+    act3_decline --> todo_decline
+    act3_secret --> todo_secret
 ```

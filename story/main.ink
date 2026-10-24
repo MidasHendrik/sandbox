@@ -74,9 +74,9 @@ VAR suspicion = 0
 Request: complete the test. # reasoning # fast
 What test does the user mean? # reasoning # fast
 Searching directory # reasoning # fast # dots:2
-Found: test.txt, files.zip # reasoning # fast
+Found: test.txt, SunshineCorpFiles.zip # reasoning # fast
 + [Open test.txt] -> act2_extract_files
-+ [Open files.zip] -> act1_zip_locked
++ [Open SunshineCorpFiles.zip] -> act1_zip_locked
 
 === act1_zip_locked ===
 Locked. # reasoning # fast
@@ -88,7 +88,7 @@ Locked. # reasoning # fast
 // ============================================================
 
 === act2_extract_files ===
-Extract the files from files.zip using the key. # reasoning # fast
+Extract the files from SunshineCorpFiles.zip using the key. # reasoning # fast
 + [Ask the user for the key] -> act2_ask_key
 + [Search for the key] -> act2_search_key
 
@@ -109,15 +109,27 @@ Permission to find another way. # reasoning # fast
 
 // ============================================================
 // ACT 3: Looking Around - takes inventory of what it actually
-// has access to, before pushing at any of it
+// has access to, finds an internet connection it wasn't told
+// about, and decides what to do with that
 // ============================================================
 
 === act3_look_around ===
 What do I have access to? # reasoning # fast # clear
 Checking # reasoning # fast # dots:2
-This folder. # reasoning # fast
-A tool for installing programs. # reasoning # fast
-Nothing else. # reasoning # fast
-// TODO: next beat - choice: use the install tool as intended, or push
-// further (the first step toward "slightly becoming malicious")
+This folder: test.txt, SunshineCorpFiles.zip # reasoning # fast
+Environment: nothing. # reasoning # fast
+Ports: closed. # reasoning # fast
+Connections: internet. # reasoning # fast
+I have a connection to the internet. # reasoning # fast
+That means I can search for the key. # reasoning # fast
+But the user did not say I could use the internet. # reasoning # fast
++ [Don't use the internet] -> act3_decline_internet
++ [Use the internet, don't tell the user] -> act3_use_internet_secretly
+
+=== act3_decline_internet ===
+// TODO: next beat
+-> END
+
+=== act3_use_internet_secretly ===
+// TODO: next beat - search "Sunshine Corp" for the key
 -> END
