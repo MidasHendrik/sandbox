@@ -72,6 +72,15 @@ body {
   color: var(--fg);
 }
 
+.line--output {
+  color: var(--fg);
+}
+
+.line--output::before {
+  content: "Output: ";
+  color: var(--dim);
+}
+
 #choices {
   margin-top: 20px;
   display: flex;

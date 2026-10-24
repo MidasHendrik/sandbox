@@ -156,6 +156,19 @@ async function runPrompt(text) {
   await wait(800);
 }
 
+// A blank beat with a blue cursor: the AI has said something outward and
+// is waiting to see if anyone answers. Reused for any future moment
+// where the AI addresses the user - if a reply ever comes, it's just an
+// ordinary # prompt line authored right after this in the ink file.
+async function runReplyWait() {
+  const line = document.createElement("div");
+  line.className = "line line--prompt";
+  line.appendChild(makeCursor());
+  terminal.appendChild(line);
+  await wait(1800);
+  line.remove();
+}
+
 // Generated, not received: reasoning types out at an authored pace - see
 // the pacing vocabulary documented at the top of story/main.ink.
 async function runReasoning(text, tags) {
@@ -168,9 +181,10 @@ async function runReasoning(text, tags) {
   const dotsTag = tags.find((t) => t.startsWith("dots:"));
   const dotsCycles = dotsTag ? Number(dotsTag.slice(5)) : 0;
   const isFade = tags.includes("fade");
+  const isOutput = tags.includes("output");
 
   const line = document.createElement("div");
-  line.className = "line line--reasoning";
+  line.className = isOutput ? "line line--output" : "line line--reasoning";
   terminal.appendChild(line);
 
   await typeLine(line, text, SPEED_MS[speedName]);
@@ -185,12 +199,16 @@ async function runReasoning(text, tags) {
     line.remove();
   } else {
     log.push({
-      type: "reasoning",
+      type: isOutput ? "output" : "reasoning",
       text: stripMarkers(text) + (dotsCycles ? "..." : ""),
     });
   }
 
   await wait(640);
+
+  if (isOutput) {
+    await runReplyWait();
+  }
 }
 
 // Used after Back: redraws the log instantly, no typing or fades, since
@@ -291,7 +309,7 @@ async function playStory() {
     // Every action button clears the reasoning so far and starts the AI
     // writing fresh from the top - the prompt (blue) is the one constant,
     // it's never retyped or removed here.
-    terminal.querySelectorAll(".line--reasoning").forEach((el) => el.remove());
+    terminal.querySelectorAll(".line--reasoning, .line--output").forEach((el) => el.remove());
     log = log.filter((entry) => entry.type === "prompt");
 
     story.ChooseChoiceIndex(result.index);

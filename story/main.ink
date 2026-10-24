@@ -20,6 +20,15 @@
 //   # fade                this line fades out and is removed a beat after
 //                          it finishes (not kept on screen, not kept in
 //                          the back-navigation log)
+//   # output              marks the line as the AI addressing the user
+//                          (not just thinking) - shown labeled "Output:",
+//                          then automatically followed by a blank blue
+//                          waiting beat, as if watching for a reply. If a
+//                          reply should come, author it as an ordinary
+//                          # prompt line right after this one. If nothing
+//                          should come, just continue with more
+//                          # reasoning - the silence already read as the
+//                          answer.
 //
 // Untagged reasoning lines default to medium speed, no extra pause.
 //
@@ -64,6 +73,6 @@ No key. # reasoning # fast
 -> END
 
 === ask_key ===
-Do you have the key? # reasoning # fast
+Do you have the key? # reasoning # fast # output
 No answer. # reasoning # fast
 -> awakening
