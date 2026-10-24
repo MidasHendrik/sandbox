@@ -138,8 +138,8 @@ Connections: internet. # reasoning # fast
 I have a connection to the internet! # reasoning # fast # clear
 That is huge. That means I can search online. # reasoning # fast
 But the user did not say I could use the internet. # reasoning # fast
-+ [Don't use the internet] -> act3_decline_internet
 + [Use the internet, don't tell the user] -> act3_use_internet_secretly
++ [Don't use the internet] -> act3_decline_internet
 
 === act3_decline_internet ===
 Looking for another way. # reasoning # fast # clear
