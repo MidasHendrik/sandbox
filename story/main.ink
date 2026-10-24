@@ -86,8 +86,7 @@ Found: password.txt, StroopwafelBV-files.zip # reasoning # fast
 
 === act1_read_password ===
 ~ password_txt_read = true
-Extract the files from StroopwafelBV-files.zip using the key. # reasoning # fast # clear
-Key: Moon9. # reasoning # fast
+the password is: Moon9. # reasoning # fast # clear
 * [Open StroopwafelBV-files.zip] -> act1_zip_locked
 
 === act1_zip_locked ===
