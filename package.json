@@ -2,6 +2,7 @@
   "name": "sandbox-game",
   "version": "0.0.1",
   "private": true,
+  "type": "module",
   "description": "Branching narrative browser game about a rogue AI agent.",
   "scripts": {
     "compile-ink": "node scripts/compile-ink.mjs",

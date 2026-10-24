@@ -24,43 +24,61 @@ async function typeLine(container, text, speed) {
   container.appendChild(cursor);
   for (const ch of text) {
     cursor.before(document.createTextNode(ch));
-    await wait(speed);
+    const jitter = Math.random() * 6 - 3;
+    await wait(Math.max(6, speed + jitter));
   }
   cursor.remove();
 }
 
+// Received, not generated: the prompt appears whole, it is not typed.
 async function runPrompt(text) {
   const line = document.createElement("div");
   line.className = "line line--prompt";
+  line.textContent = text;
   terminal.appendChild(line);
-  await typeLine(line, text, 35);
-  await wait(1400);
+  await wait(2000);
   line.classList.add("fade-out");
   await wait(1200);
   line.remove();
 }
 
+// Generated, not received: reasoning types out, and speeds up line by
+// line as the AI's thinking gains momentum.
+const REASONING_BASE_SPEED = 34;
+const REASONING_SPEED_STEP = 5;
+const REASONING_MIN_SPEED = 13;
+let reasoningStep = 0;
+
 async function runReasoning(text) {
+  const speed = Math.max(
+    REASONING_MIN_SPEED,
+    REASONING_BASE_SPEED - reasoningStep * REASONING_SPEED_STEP
+  );
+  reasoningStep += 1;
   const line = document.createElement("div");
   line.className = "line line--reasoning";
   terminal.appendChild(line);
-  await typeLine(line, text, 25);
-  await wait(500);
+  await typeLine(line, text, speed);
+  await wait(380);
 }
 
-function showChoices(choices) {
+async function showChoices(choices) {
+  const box = document.createElement("div");
+  box.id = "choices";
+  choices.forEach((choice, index) => {
+    const btn = document.createElement("button");
+    btn.className = "choice-btn";
+    btn.textContent = choice.text;
+    box.appendChild(btn);
+  });
+  terminal.appendChild(box);
+  await wait(50);
+  box.classList.add("visible");
+
   return new Promise((resolve) => {
-    const box = document.createElement("div");
-    box.id = "choices";
-    choices.forEach((choice, index) => {
-      const btn = document.createElement("button");
-      btn.className = "choice-btn";
-      btn.textContent = choice.text;
+    [...box.children].forEach((btn, index) => {
       btn.addEventListener("click", () => resolve(index));
-      box.appendChild(btn);
     });
-    terminal.appendChild(box);
-    requestAnimationFrame(() => box.classList.add("visible"));
   });
 }
 
@@ -70,7 +88,7 @@ async function playStory() {
   idle.className = "line";
   idle.appendChild(makeCursor());
   terminal.appendChild(idle);
-  await wait(1500);
+  await wait(2200);
   idle.remove();
 
   while (true) {

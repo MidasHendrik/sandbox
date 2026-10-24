@@ -1,8 +1,8 @@
 :root {
-  --bg: #0a0d0a;
-  --fg: #c8ffcc;
-  --dim: #5f8f66;
-  --prompt: #ffb340;
+  --bg: #090a0c;
+  --fg: #9dfcd1;
+  --dim: #4d8370;
+  --prompt: #ff8a3d;
 }
 
 * {
@@ -90,5 +90,5 @@ body {
 
 .choice-btn:hover {
   border-color: var(--fg);
-  background: rgba(200, 255, 204, 0.08);
+  background: rgba(157, 252, 209, 0.08);
 }
