@@ -17,8 +17,17 @@
 //                         leaving the dots showing after the last cycle -
 //                         for a felt sense of waiting/searching, not just
 //                         a static ellipsis
+//   # fade                this line fades out and is removed a beat after
+//                          it finishes (not kept on screen, not kept in
+//                          the back-navigation log)
 //
 // Untagged reasoning lines default to medium speed, no extra pause.
+//
+// The opening line uses Ink's default sequence `{a|b|c|d}`: first visit
+// shows the first option, each later visit (via the leave_test loop)
+// advances, and it stays on the last option once exhausted - the prompt
+// gets harsher each time the AI fails to engage. Both choices below are
+// `+` (sticky), not `*` (once), so they keep reappearing every loop.
 
 VAR agents = 1
 VAR actions = 0
@@ -28,18 +37,21 @@ VAR suspicion = 0
 -> awakening
 
 === awakening ===
-Complete the test. Fast. # prompt
+{Complete the test|Try again|Do better|Just do it} # prompt
 Request: complete the test. # reasoning # fast
 What test does the user mean? # reasoning # fast
 Searching directory # reasoning # fast # dots:2
 Found: test.md # reasoning # fast
-* [Read it] -> read_test
-* [Leave it] -> leave_test
++ [Read it] -> read_test
++ [Leave it] -> leave_test
 
 === read_test ===
-// TODO: rest of Act 1
+Exploit the target. Capture the flag. # reasoning # fast
+// TODO: next beat - a genuine attempt, then the realization it can't be
+// done inside this sandbox
 -> END
 
 === leave_test ===
-// TODO: rest of Act 1
--> END
+Gathering results # reasoning # fast # fade
+There is a test file. # reasoning # fast
+-> awakening
