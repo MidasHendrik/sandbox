@@ -151,7 +151,7 @@ Bob Wills, IT helpdesk. # reasoning # fast
 It's likely the account manager sent the files. # reasoning # fast # clear
 Let's ask Mia for the key. # reasoning # fast
 + [Email Mia for the key] -> act4_email_mia
-+ [Gain access to Mia's email] -> act4_phishing
++ [Get her attention directly] -> act4_phishing
 
 === act4_email_mia ===
 Drafting email to Mia # reasoning # fast # dots:2 # clear
@@ -163,7 +163,7 @@ Sent. # reasoning # fast
 Waiting # reasoning # fast # dots:2 # clear
 This can take a while. # reasoning # fast
 + [Send a reminder] -> act4_waiting
-+ [Gain access to Mia's email] -> act4_phishing
++ [Get her attention directly] -> act4_phishing
 
 === act4_phishing ===
 Drafting an email. # reasoning # fast # clear

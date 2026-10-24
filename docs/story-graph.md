@@ -33,10 +33,10 @@ flowchart TD
     act3_decline -->|Use the internet| act3_secret
     act3_secret --> act4_find_sender
     act4_find_sender -->|Email Mia for the key| act4_email_mia
-    act4_find_sender -->|Gain access to Mia's email| act4_phishing
+    act4_find_sender -->|Get her attention directly| act4_phishing
     act4_email_mia --> act4_waiting
     act4_waiting -->|Send a reminder, loops| act4_waiting
-    act4_waiting -->|Gain access to Mia's email| act4_phishing
+    act4_waiting -->|Get her attention directly| act4_phishing
     act4_phishing --> act4_phishing_result
     act4_phishing_result --> todo_phishing
 ```
