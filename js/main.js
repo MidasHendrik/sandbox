@@ -35,7 +35,7 @@ function makeCursor() {
 
 // Pacing vocabulary authored in story/main.ink via tags and inline
 // [markers] - see the comment at the top of that file.
-const SPEED_MS = { fast: 64, medium: 168, slow: 340 };
+const SPEED_MS = { fast: 51, medium: 168, slow: 510 };
 const PAUSE_MS = { short: 1000, medium: 2400, long: 4800 };
 
 function stripMarkers(text) {
