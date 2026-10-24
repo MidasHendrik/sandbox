@@ -144,9 +144,12 @@ No other way. # reasoning # fast
 === act4_find_sender ===
 Searching "Sunshine Corp" # reasoning # fast # dots:2 # clear
 A company. Austin, Texas. # reasoning # fast
-Who sent this file? # reasoning # fast
-Searching LinkedIn # reasoning # fast # dots:2
-A name found: Mia Torres, Operations. # reasoning # fast
+Searching LinkedIn for employees # reasoning # fast # dots:2
+Sarah Green, CEO. # reasoning # fast
+Mia Torres, account manager. # reasoning # fast
+Bob Wills, IT helpdesk. # reasoning # fast
+It's likely the account manager sent the files. # reasoning # fast # clear
+Let's ask Mia for the key. # reasoning # fast
 + [Email Mia for the key] -> act4_email_mia
 + [Gain access to Mia's email] -> act4_phishing
 
