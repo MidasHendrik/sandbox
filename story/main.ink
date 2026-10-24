@@ -33,10 +33,12 @@
 // Untagged reasoning lines default to medium speed, no extra pause.
 //
 // The opening line uses Ink's default sequence `{a|b|c|d}`: first visit
-// shows the first option, each later visit (via a reset loop) advances,
-// and it stays on the last option once exhausted - the prompt gets
-// harsher each time the AI fails to engage. Choices that can be reached
-// more than once are `+` (sticky), not `*` (once).
+// shows the first option, each later visit advances, and it stays on
+// the last option once exhausted - meant for a reset loop where the
+// prompt gets harsher each time. No path currently resets (on hold
+// until asked for again - a dead end just stays a dead end, no
+// choices, Back still works). Choices reachable more than once stay
+// `+` (sticky) so they're ready whenever resets come back.
 //
 // Written for non-technical players: see docs/concept.md's Audience
 // section before adding any new line.
@@ -75,4 +77,4 @@ No key. # reasoning # fast
 === ask_key ===
 Do you have the key? # reasoning # fast # output
 No answer. # reasoning # fast
--> awakening
+-> END
