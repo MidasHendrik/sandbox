@@ -68,6 +68,10 @@ body {
   background: var(--prompt);
 }
 
+.line--reply {
+  margin-bottom: 4px;
+}
+
 .line--reasoning {
   color: var(--fg);
 }

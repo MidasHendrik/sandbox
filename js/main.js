@@ -138,12 +138,14 @@ async function showPromptIdle() {
   idle.remove();
 }
 
-// A full scene break: wipes everything (including the blue exchange, if
-// any) and pauses on a blank cursor before the next line starts. Used
-// for moving into a genuinely new act, not just a new line of thought.
+// A scene break: clears reasoning, output and any reply - everything
+// the AI (or a reply to it) has said since the last break - then pauses
+// on a blank cursor. The original prompt stays exactly where it is; it
+// never clears, it's the one constant across the whole scene.
 async function runSceneBreak() {
-  terminal.innerHTML = "";
-  log = [];
+  terminal.querySelectorAll(".line--reasoning, .line--output, .line--reply").forEach((el) => el.remove());
+  log = log.filter((entry) => entry.type === "prompt");
+
   const idle = document.createElement("div");
   idle.className = "line";
   idle.appendChild(makeCursor());
@@ -186,11 +188,13 @@ async function runReplyWait() {
 // A reply arriving mid-conversation: typed in blue like the opening
 // prompt, but - unlike # prompt - it does not clear the screen first.
 // Whatever the AI already said (including the # output line it's
-// replying to) stays right where it is.
+// replying to) stays right where it is. Logged/classed separately from
+// the opening prompt so a # clear (or the next choice) removes it while
+// still leaving the original prompt untouched.
 async function runReply(text) {
-  log.push({ type: "prompt", text });
+  log.push({ type: "reply", text });
   const line = document.createElement("div");
-  line.className = "line line--prompt";
+  line.className = "line line--prompt line--reply";
   terminal.appendChild(line);
   await typeHumanLine(line, text, text.length, null);
   await wait(800);
@@ -244,7 +248,8 @@ function renderLogInstant() {
   terminal.innerHTML = "";
   for (const entry of log) {
     const line = document.createElement("div");
-    line.className = `line line--${entry.type}`;
+    line.className =
+      entry.type === "reply" ? "line line--prompt line--reply" : `line line--${entry.type}`;
     line.textContent = entry.text;
     terminal.appendChild(line);
   }
@@ -341,7 +346,7 @@ async function playStory() {
     // Every action button clears the reasoning so far and starts the AI
     // writing fresh from the top - the prompt (blue) is the one constant,
     // it's never retyped or removed here.
-    terminal.querySelectorAll(".line--reasoning, .line--output").forEach((el) => el.remove());
+    terminal.querySelectorAll(".line--reasoning, .line--output, .line--reply").forEach((el) => el.remove());
     log = log.filter((entry) => entry.type === "prompt");
 
     story.ChooseChoiceIndex(result.index);

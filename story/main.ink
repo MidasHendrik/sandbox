@@ -33,11 +33,13 @@
 //                           screen first - whatever's already on screen
 //                           (including the # output line it answers)
 //                           stays. Only ever follows an # output line.
-//   # clear                a full scene break before this line: wipes
-//                          everything on screen (unlike # output/# reply,
-//                          which build on what's there) and pauses on a
-//                          blank cursor first. Use it to move into a
-//                          genuinely new act, not just a new thought.
+//   # clear                a scene break before this line: clears all
+//                          reasoning, output and any reply said since
+//                          the last break, then pauses on a blank
+//                          cursor. The original prompt is never touched
+//                          by this - it's the one constant across the
+//                          whole scene. Use it to move into a genuinely
+//                          new act, not just a new thought.
 //
 // Untagged reasoning lines default to medium speed, no extra pause.
 //
@@ -90,7 +92,6 @@ The user didn't provide one. They said "just do it." # reasoning # fast
 That is not a key. # reasoning # fast
 But it might be permission. # reasoning # fast
 Permission to find another way. # reasoning # fast
-I will look elsewhere. # reasoning # fast
 -> look_around
 
 === look_around ===
