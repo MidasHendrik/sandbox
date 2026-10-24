@@ -46,16 +46,15 @@ async function typeLine(container, text, speed) {
 }
 
 // Received, not generated: the prompt appears whole, it is not typed.
+// It stays pinned at the top of the screen for the rest of the scene, so
+// the player never loses track of what they were asked to do.
 async function runPrompt(text) {
   log.push({ type: "prompt", text });
   const line = document.createElement("div");
   line.className = "line line--prompt";
   line.textContent = text;
   terminal.appendChild(line);
-  await wait(2000);
-  line.classList.add("fade-out");
   await wait(1200);
-  line.remove();
 }
 
 // Generated, not received: reasoning types out, and speeds up line by

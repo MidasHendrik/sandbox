@@ -1,8 +1,8 @@
 :root {
   --bg: #090a0c;
-  --fg: #9dfcd1;
-  --dim: #4d8370;
-  --prompt: #ff8a3d;
+  --fg: #00cc44;
+  --dim: #1f6b35;
+  --prompt: #4d9bf0;
 }
 
 * {
@@ -16,14 +16,15 @@ body {
   font-family: "SF Mono", "Courier New", monospace;
   min-height: 100vh;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+  justify-content: center;
 }
 
 #terminal {
   max-width: 720px;
   width: 100%;
   margin: 0 auto;
-  padding: 24px;
+  padding: 64px 24px 96px;
   font-size: 18px;
   line-height: 1.6;
 }
@@ -45,16 +46,11 @@ body {
 .line {
   margin: 0 0 4px 0;
   min-height: 1.6em;
-  opacity: 1;
-  transition: opacity 1.2s ease;
-}
-
-.line.fade-out {
-  opacity: 0;
 }
 
 .line--prompt {
   color: var(--prompt);
+  margin-bottom: 2.4em;
 }
 
 .line--prompt::before {
@@ -90,7 +86,7 @@ body {
 
 .choice-btn:hover {
   border-color: var(--fg);
-  background: rgba(157, 252, 209, 0.08);
+  background: rgba(0, 204, 68, 0.08);
 }
 
 .dead-end {
