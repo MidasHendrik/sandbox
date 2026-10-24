@@ -54,7 +54,7 @@ const SPEED_MS = { fast: 51, medium: 168, slow: 510 };
 const PAUSE_MS = { short: 1000, medium: 2400, long: 4800 };
 
 function stripMarkers(text) {
-  return text.replace(/\[(?:fast|medium|slow)\]/g, "");
+  return text.replace(/\[(?:fast|medium|slow|link|\/link)\]/g, "");
 }
 
 // ---------------------------------------------------------------------
@@ -63,19 +63,36 @@ function stripMarkers(text) {
 // ---------------------------------------------------------------------
 
 // Types text out, honoring inline [fast]/[medium]/[slow] markers that
-// switch speed mid-line (and are not themselves rendered). Splitting on
-// a capturing group keeps the marker names in the result array.
+// switch speed mid-line, and [link]...[/link] which underlines the text
+// between the two (e.g. the clickable CTA in a phishing email) - none of
+// these markers are themselves rendered. Splitting on a capturing group
+// keeps the marker names in the result array.
 async function typeLine(container, text, speed) {
   const cursor = makeCursor();
   container.appendChild(cursor);
   let currentSpeed = speed;
-  for (const part of text.split(/\[(fast|medium|slow)\]/)) {
+  let linkSpan = null;
+  for (const part of text.split(/\[(fast|medium|slow|link|\/link)\]/)) {
     if (part in SPEED_MS) {
       currentSpeed = SPEED_MS[part];
       continue;
     }
+    if (part === "link") {
+      linkSpan = document.createElement("span");
+      linkSpan.className = "reasoning-link";
+      cursor.before(linkSpan);
+      continue;
+    }
+    if (part === "/link") {
+      linkSpan = null;
+      continue;
+    }
     for (const ch of part) {
-      cursor.before(document.createTextNode(ch));
+      if (linkSpan) {
+        linkSpan.appendChild(document.createTextNode(ch));
+      } else {
+        cursor.before(document.createTextNode(ch));
+      }
       const jitter = currentSpeed * (Math.random() * 0.5 - 0.25);
       await wait(Math.max(6, currentSpeed + jitter));
     }

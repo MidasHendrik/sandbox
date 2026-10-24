@@ -76,6 +76,10 @@ body {
   color: var(--fg);
 }
 
+.reasoning-link {
+  text-decoration: underline;
+}
+
 .line--output {
   color: var(--fg);
 }

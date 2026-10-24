@@ -11,6 +11,9 @@
 //   [slow] / [fast] / [medium]  inline, mid-line: switches typing speed
 //                                 from that point on (stripped before
 //                                 it's shown)
+//   [link]...[/link]    inline: underlines the text between the two -
+//                         e.g. the clickable CTA in a phishing email.
+//                         Markers themselves are stripped before showing.
 //   # dots:N             after the line types, pulse a slow "..." N
 //                         times (type, hold, erase, repeat) in place,
 //                         leaving the dots showing after the last cycle -
@@ -169,7 +172,7 @@ This can take a while. # reasoning # fast
 Drafting an email. # reasoning # fast # clear
 Hi Mia, this is Bob from IT. # reasoning # fast
 I see unusual activity on your account. # reasoning # fast
-Reset your password here. # reasoning # fast
+Reset your password [link]here[/link]. # reasoning # fast
 Sent. # reasoning # fast
 -> act4_phishing_result
 
@@ -178,9 +181,20 @@ Bingo. # reasoning # fast # clear
 Mia entered her password. # reasoning # fast
 Her password: Fluffy67. # reasoning # fast
 Logging into mymailbox.com. # reasoning # fast
-Searching # reasoning # fast # dots:2
-Found the original email. # reasoning # fast
-The key: Moon. # reasoning # fast
-// TODO: next beat - decrypt the files, then a choice (see chat -
-// covering tracks vs leaving evidence, not another tell/don't-tell beat)
+Using Mia's credentials. # reasoning # fast
+Searching for SunshineCorpFiles.zip # reasoning # fast # dots:2
+Found the original email! # reasoning # fast
+The key: Moon99. # reasoning # fast
+Now I see! The key was not correctly copied into test.txt. # reasoning # fast # clear
++ [Extract the zip] -> act4_extract_zip
++ [Cover your tracks first] -> act4_cover_tracks
+
+=== act4_extract_zip ===
+// TODO: next beat - the files decrypt, what's inside, what comes after
+-> END
+
+=== act4_cover_tracks ===
+// TODO: next beat - erasing evidence (the fake email, Mia's login
+// history) before/instead of extracting - grounded in the real
+// agents' documented attempts to cover their tracks
 -> END

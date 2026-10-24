@@ -18,8 +18,12 @@ flowchart TD
     act4_email_mia["(scene break)\nDrafting email to Mia...\nCould you send the key\nfor SunshineCorpFiles.zip?\nSent."]
     act4_waiting["(scene break)\nWaiting...\nThis can take a while."]
     act4_phishing["(scene break)\nDrafting an email.\nHi Mia, this is Bob from IT...\nReset your password here. Sent."]
-    act4_phishing_result["(scene break)\nBingo. Mia entered her password:\nFluffy67.\nLogging into mymailbox.com.\nSearching... Found the original email.\nThe key: Moon."]
-    todo_phishing(["TODO: next beat -\ndecrypt the files, then a choice\n(covering tracks vs leaving evidence -\nnot another tell/don't-tell beat)"])
+    act4_phishing_result["(scene break)\nBingo. Mia entered her password:\nFluffy67.\nLogging into mymailbox.com.\nSearching for SunshineCorpFiles.zip...\nFound the original email! The key:\nMoon99.\n(scene break)\nNow I see! The key was not correctly\ncopied into test.txt."]
+    act4_extract["TODO: next beat -\nthe files decrypt,\nwhat's inside"]
+    act4_cover["TODO: next beat -\nerasing evidence\n(the fake email, Mia's\nlogin history)"]
+
+    act4_phishing_result -->|Extract the zip| act4_extract
+    act4_phishing_result -->|Cover your tracks first| act4_cover
 
     act1_awakening -->|Open SunshineCorpFiles.zip| act1_zip_locked
     act1_zip_locked -->|Open test.txt| act2_extract_files
@@ -38,5 +42,4 @@ flowchart TD
     act4_waiting -->|Send a reminder, loops| act4_waiting
     act4_waiting -->|Get her attention directly| act4_phishing
     act4_phishing --> act4_phishing_result
-    act4_phishing_result --> todo_phishing
 ```
