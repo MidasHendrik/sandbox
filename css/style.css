@@ -1,7 +1,7 @@
 :root {
   --bg: #090a0c;
-  --fg: #00cc44;
-  --dim: #1f6b35;
+  --fg: #4fe48b;
+  --dim: #2c8f5c;
   --prompt: #4d9bf0;
 }
 
@@ -86,7 +86,7 @@ body {
 
 .choice-btn:hover {
   border-color: var(--fg);
-  background: rgba(0, 204, 68, 0.08);
+  background: rgba(79, 228, 139, 0.08);
 }
 
 .dead-end {

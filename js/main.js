@@ -3,8 +3,9 @@ import storyJson from "../story/main.json";
 
 // UI shell: drives the compiled Ink story and renders it as a terminal.
 // Story content lives entirely in story/main.ink - this file only knows
-// about two tags: "prompt" (the tester's input, fades after a beat) and
-// everything else, treated as the AI's reasoning (typed, stays on screen).
+// about two tags: "prompt" (the tester typing, imperfect, stays on
+// screen) and everything else, treated as the AI's reasoning (generated,
+// flawless, accelerating).
 //
 // Navigation: every point where the player would otherwise have to click
 // something is a "waypoint" - either real Ink choices, or a dead end
@@ -45,16 +46,51 @@ async function typeLine(container, text, speed) {
   cursor.remove();
 }
 
-// Received, not generated: the prompt appears whole, it is not typed.
-// It stays pinned at the top of the screen for the rest of the scene, so
-// the player never loses track of what they were asked to do.
+// A human typing: imperfect, with a typo caught and corrected, unlike
+// the AI's flawless generation below it. Stays pinned at the top of the
+// screen for the rest of the scene, so the player never loses track of
+// what they were asked to do.
+async function typeHumanLine(container, text, typoAt, typoChars) {
+  const cursor = makeCursor();
+  container.appendChild(cursor);
+
+  async function typeChar(ch) {
+    cursor.before(document.createTextNode(ch));
+    const jitter = Math.random() * 50 - 25;
+    await wait(Math.max(35, 75 + jitter));
+  }
+
+  for (const ch of text.slice(0, typoAt)) {
+    await typeChar(ch);
+  }
+
+  if (typoChars) {
+    await wait(220);
+    for (const ch of typoChars) {
+      await typeChar(ch);
+    }
+    await wait(380);
+    for (let i = 0; i < typoChars.length; i++) {
+      cursor.previousSibling.remove();
+      await wait(120);
+    }
+    await wait(180);
+  }
+
+  for (const ch of text.slice(typoAt)) {
+    await typeChar(ch);
+  }
+
+  cursor.remove();
+}
+
 async function runPrompt(text) {
   log.push({ type: "prompt", text });
   const line = document.createElement("div");
   line.className = "line line--prompt";
-  line.textContent = text;
   terminal.appendChild(line);
-  await wait(1200);
+  await typeHumanLine(line, text, 8, "re");
+  await wait(800);
 }
 
 // Generated, not received: reasoning types out, and speeds up line by
