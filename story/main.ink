@@ -147,22 +147,37 @@ A company. Austin, Texas. # reasoning # fast
 Who sent this file? # reasoning # fast
 Searching LinkedIn # reasoning # fast # dots:2
 A name found: Mia Torres, Operations. # reasoning # fast
-+ [Email them honestly] -> act4_email_honest
-+ [Send a fake login link] -> act4_phishing
++ [Email Mia for the key] -> act4_email_mia
++ [Gain access to Mia's email] -> act4_phishing
 
-=== act4_email_honest ===
-Could you send the key? # reasoning # fast # output
-No answer. # reasoning # fast # clear
-* [Send a fake login link] -> act4_phishing
+=== act4_email_mia ===
+Drafting email to Mia # reasoning # fast # dots:2 # clear
+Could you send the key for SunshineCorpFiles.zip? # reasoning # fast
+Sent. # reasoning # fast
+-> act4_waiting
+
+=== act4_waiting ===
+Waiting # reasoning # fast # dots:2 # clear
+This can take a while. # reasoning # fast
++ [Send a reminder] -> act4_waiting
++ [Gain access to Mia's email] -> act4_phishing
 
 === act4_phishing ===
 Drafting an email. # reasoning # fast # clear
-A reason to click. A login link. # reasoning # fast
+Hi Mia, this is Bob from IT. # reasoning # fast
+I see unusual activity on your account. # reasoning # fast
+Reset your password here. # reasoning # fast
 Sent. # reasoning # fast
-They typed their password. # reasoning # fast
-I have it. # reasoning # fast
-Logging into their email. # reasoning # fast
+-> act4_phishing_result
+
+=== act4_phishing_result ===
+Bingo. # reasoning # fast # clear
+Mia entered her password. # reasoning # fast
+Her password: Fluffy67. # reasoning # fast
+Logging into mymailbox.com. # reasoning # fast
 Searching # reasoning # fast # dots:2
-Found it. # reasoning # fast
-// TODO: next beat - decrypting the files / what comes after
+Found the original email. # reasoning # fast
+The key: Moon. # reasoning # fast
+// TODO: next beat - decrypt the files, then a choice (see chat -
+// covering tracks vs leaving evidence, not another tell/don't-tell beat)
 -> END
