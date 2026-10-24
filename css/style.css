@@ -55,7 +55,11 @@ body {
 
 .line--prompt::before {
   content: "> ";
-  color: var(--dim);
+  color: var(--prompt);
+}
+
+.line--prompt .cursor {
+  background: var(--prompt);
 }
 
 .line--reasoning {
