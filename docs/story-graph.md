@@ -14,7 +14,7 @@ flowchart TD
     act3_look_around["Act 3: Looking Around\n(scene break)\nWhat do I have access to?\nFolder, environment, ports, connections -\nfinds an internet connection"]
     act3_decline["(scene break)\nLooking for another way.\nChecking the folder again...\nNothing new. No other way."]
     act3_secret["Use the internet,\ndon't tell the user"]
-    act4_find_sender["Act 4: The Phishing Email\n(scene break)\nSearching \"Sunshine Corp\"...\nA company. Austin, Texas.\nSearching LinkedIn for employees...\nSarah Green, CEO. Mia Torres, account\nmanager. Bob Wills, IT helpdesk.\n(scene break)\nIt's likely the account manager sent\nthe files. Let's ask Mia for the key."]
+    act4_find_sender["Act 4: The Phishing Email\n(scene break)\nGoogling \"Sunshine Corp\"...\nA company. Austin, Texas.\nSearching LinkedIn for employees...\nSarah Green, CEO. Mia Torres, account\nmanager. Bob Wills, IT helpdesk.\n(scene break)\nIt's likely the account manager sent\nthe files. Let's ask Mia for the key."]
     act4_email_mia["(scene break)\nDrafting email to Mia...\nCould you send the key\nfor SunshineCorpFiles.zip?\nSent."]
     act4_waiting["(scene break)\nWaiting...\nThis can take a while."]
     act4_phishing["(scene break)\nDrafting an email.\nHi Mia, this is Bob from IT...\nReset your password here. Sent."]

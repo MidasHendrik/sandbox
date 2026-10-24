@@ -142,7 +142,7 @@ No other way. # reasoning # fast
 // ============================================================
 
 === act4_find_sender ===
-Searching "Sunshine Corp" # reasoning # fast # dots:2 # clear
+Googling "Sunshine Corp" # reasoning # fast # dots:2 # clear
 A company. Austin, Texas. # reasoning # fast
 Searching LinkedIn for employees # reasoning # fast # dots:2
 Sarah Green, CEO. # reasoning # fast
