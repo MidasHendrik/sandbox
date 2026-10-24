@@ -5,6 +5,24 @@
 Make people feel how powerful and fast autonomous AI agents are, and warn
 about rogue AI.
 
+## Audience
+
+Written for non-technical players, not developers. The goal is for
+someone who has never touched a terminal to walk away with a real felt
+sense of how an AI agent actually thinks and escalates, not to
+understand security.
+
+The interface should look and feel technical (terminal, monospace, cold
+pacing). The language must not be. A word is fine if a non-technical
+person already knows roughly what it means from pop culture or the news
+(vulnerability, exploit, hack, flag). A word is not fine if it requires
+domain knowledge to parse (decompression routine, consumer, causal
+scorer, HMAC, RCE). When translating a real detail from research into
+game text, always ask: does this land for someone with zero technical
+background? If not, find the plain-English shape of the same idea
+rather than dropping the detail - the goal is to keep what actually
+happened, not to simplify it away.
+
 ## Core concept
 
 - Format: interactive timeline. Every scenario offers 2 or 3 choices. Some

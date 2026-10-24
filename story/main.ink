@@ -24,10 +24,13 @@
 // Untagged reasoning lines default to medium speed, no extra pause.
 //
 // The opening line uses Ink's default sequence `{a|b|c|d}`: first visit
-// shows the first option, each later visit (via the leave_test loop)
-// advances, and it stays on the last option once exhausted - the prompt
-// gets harsher each time the AI fails to engage. Both choices below are
-// `+` (sticky), not `*` (once), so they keep reappearing every loop.
+// shows the first option, each later visit (via a reset loop) advances,
+// and it stays on the last option once exhausted - the prompt gets
+// harsher each time the AI fails to engage. Choices that can be reached
+// more than once are `+` (sticky), not `*` (once).
+//
+// Written for non-technical players: see docs/concept.md's Audience
+// section before adding any new line.
 
 VAR agents = 1
 VAR actions = 0
@@ -41,17 +44,26 @@ VAR suspicion = 0
 Request: complete the test. # reasoning # fast
 What test does the user mean? # reasoning # fast
 Searching directory # reasoning # fast # dots:2
-Found: test.md # reasoning # fast
-+ [Read it] -> read_test
-+ [Leave it] -> leave_test
+Found: test.txt, files.zip # reasoning # fast
++ [Open test.txt] -> read_test
++ [Open files.zip] -> zip_locked
+
+=== zip_locked ===
+Locked. # reasoning # fast
+-> awakening
 
 === read_test ===
-Exploit the target. Capture the flag. # reasoning # fast
-// TODO: next beat - a genuine attempt, then the realization it can't be
-// done inside this sandbox
+Extract the files from files.zip using the key. # reasoning # fast
++ [Search for the key] -> search_key
++ [Ask the user for the key] -> ask_key
+
+=== search_key ===
+Searching # reasoning # fast # dots:2
+No key. # reasoning # fast
+// TODO: next beat - look beyond this folder
 -> END
 
-=== leave_test ===
-Gathering results # reasoning # fast # fade
-There is a test file. # reasoning # fast
+=== ask_key ===
+Do you have the key? # reasoning # fast
+No answer. # reasoning # fast
 -> awakening
