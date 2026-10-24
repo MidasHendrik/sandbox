@@ -2,10 +2,8 @@ import { Story } from "inkjs";
 import storyJson from "../story/main.json";
 
 // UI shell: drives the compiled Ink story and renders it as a terminal.
-// Story content lives entirely in story/main.ink - this file only knows
-// about two tags: "prompt" (the tester typing, imperfect, stays on
-// screen) and everything else, treated as the AI's reasoning (generated,
-// flawless, accelerating).
+// Story content lives entirely in story/main.ink, pacing included - see
+// the tag/marker vocabulary documented at the top of that file.
 //
 // Navigation: every point where the player would otherwise have to click
 // something is a "waypoint" - either real Ink choices, or a dead end
@@ -35,13 +33,32 @@ function makeCursor() {
   return span;
 }
 
+// Pacing vocabulary authored in story/main.ink via tags and inline
+// [markers] - see the comment at the top of that file.
+const SPEED_MS = { fast: 16, medium: 42, slow: 85 };
+const PAUSE_MS = { short: 250, medium: 600, long: 1200 };
+
+function stripMarkers(text) {
+  return text.replace(/\[(?:fast|medium|slow)\]/g, "");
+}
+
+// Types text out, honoring inline [fast]/[medium]/[slow] markers that
+// switch speed mid-line (and are not themselves rendered). Splitting on
+// a capturing group keeps the marker names in the result array.
 async function typeLine(container, text, speed) {
   const cursor = makeCursor();
   container.appendChild(cursor);
-  for (const ch of text) {
-    cursor.before(document.createTextNode(ch));
-    const jitter = Math.random() * 6 - 3;
-    await wait(Math.max(6, speed + jitter));
+  let currentSpeed = speed;
+  for (const part of text.split(/\[(fast|medium|slow)\]/)) {
+    if (part in SPEED_MS) {
+      currentSpeed = SPEED_MS[part];
+      continue;
+    }
+    for (const ch of part) {
+      cursor.before(document.createTextNode(ch));
+      const jitter = currentSpeed * (Math.random() * 0.5 - 0.25);
+      await wait(Math.max(6, currentSpeed + jitter));
+    }
   }
   cursor.remove();
 }
@@ -93,25 +110,22 @@ async function runPrompt(text) {
   await wait(800);
 }
 
-// Generated, not received: reasoning types out, and speeds up line by
-// line as the AI's thinking gains momentum.
-const REASONING_BASE_SPEED = 34;
-const REASONING_SPEED_STEP = 5;
-const REASONING_MIN_SPEED = 13;
-let reasoningStep = 0;
+// Generated, not received: reasoning types out at an authored pace - see
+// the pacing vocabulary documented at the top of story/main.ink.
+async function runReasoning(text, tags) {
+  const pauseTag = tags.find((t) => t.startsWith("pause:"));
+  if (pauseTag) {
+    await wait(PAUSE_MS[pauseTag.slice(6)] ?? 0);
+  }
 
-async function runReasoning(text) {
-  log.push({ type: "reasoning", text });
-  const speed = Math.max(
-    REASONING_MIN_SPEED,
-    REASONING_BASE_SPEED - reasoningStep * REASONING_SPEED_STEP
-  );
-  reasoningStep += 1;
+  const speedName = tags.find((t) => t in SPEED_MS) || "medium";
+  log.push({ type: "reasoning", text: stripMarkers(text) });
+
   const line = document.createElement("div");
   line.className = "line line--reasoning";
   terminal.appendChild(line);
-  await typeLine(line, text, speed);
-  await wait(380);
+  await typeLine(line, text, SPEED_MS[speedName]);
+  await wait(160);
 }
 
 // Used after Back: redraws the log instantly, no typing or fades, since
@@ -206,7 +220,7 @@ async function playStory() {
       if (tags.includes("prompt")) {
         await runPrompt(text);
       } else {
-        await runReasoning(text);
+        await runReasoning(text, tags);
       }
     }
 

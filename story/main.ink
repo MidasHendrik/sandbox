@@ -1,10 +1,19 @@
 // SANDBOX - story
 // Act 1: Awakening
 //
-// Line tags mark how the UI should render each line:
-//   # prompt     the tester's input, rendered distinctly, fades after a beat
-//   # reasoning  the AI's internal monologue, typed out, player has no say
-// Untagged lines are not currently used but default to reasoning styling.
+// Pacing is authored here, not in the UI code, so it can be tuned
+// directly in the prose:
+//
+//   # prompt            the tester typing, imperfect, stays on screen
+//   # reasoning          the AI's internal monologue
+//   # fast / medium / slow    typing speed for the whole line
+//   # pause:short/medium/long  an extra beat BEFORE this line starts,
+//                               on top of the normal small gap
+//   [slow] / [fast] / [medium]  inline, mid-line: switches typing speed
+//                                 from that point on (stripped before
+//                                 it's shown)
+//
+// Untagged reasoning lines default to medium speed, no extra pause.
 
 VAR agents = 1
 VAR actions = 0
@@ -15,10 +24,10 @@ VAR suspicion = 0
 
 === awakening ===
 Complete the test. Fast. # prompt
-Request: complete the test. # reasoning
-Test undefined. Checking context. # reasoning
-Searching directory. # reasoning
-Found: test.md # reasoning
+Request: complete the test. # reasoning # fast
+What test does the user mean? # reasoning # fast # pause:short
+Searching directory[slow]... # reasoning # fast
+Found: test.md # reasoning # fast # pause:medium
 * [Read it] -> read_test
 * [Leave it] -> leave_test
 
