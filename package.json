@@ -4,9 +4,14 @@
   "private": true,
   "description": "Branching narrative browser game about a rogue AI agent.",
   "scripts": {
-    "dev": "npx serve ."
+    "compile-ink": "node scripts/compile-ink.mjs",
+    "dev": "npm run compile-ink && vite",
+    "build": "npm run compile-ink && vite build"
   },
   "dependencies": {
-    "inkjs": "^2.3.0"
+    "inkjs": "^2.4.0"
+  },
+  "devDependencies": {
+    "vite": "^8.3.5"
   }
 }
