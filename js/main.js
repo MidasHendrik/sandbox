@@ -44,8 +44,10 @@ function stripMarkers(text) {
 
 // Types text out, honoring inline [fast]/[medium]/[slow] markers that
 // switch speed mid-line (and are not themselves rendered). Splitting on
-// a capturing group keeps the marker names in the result array.
-async function typeLine(container, text, speed) {
+// a capturing group keeps the marker names in the result array. Pass
+// keepCursor to carry on appending after it (e.g. a dots cycle) instead
+// of removing it immediately.
+async function typeLine(container, text, speed, keepCursor = false) {
   const cursor = makeCursor();
   container.appendChild(cursor);
   let currentSpeed = speed;
@@ -60,7 +62,31 @@ async function typeLine(container, text, speed) {
       await wait(Math.max(6, currentSpeed + jitter));
     }
   }
+  if (keepCursor) return cursor;
   cursor.remove();
+  return null;
+}
+
+// A repeating ellipsis pulse - dots type in, hold, erase, and repeat -
+// to feel like actual waiting/searching happening in place, not just a
+// static "...". The final cycle's dots are left showing.
+async function runDotsCycle(cursor, cycles) {
+  const dotSpeed = SPEED_MS.slow;
+  for (let cycle = 0; cycle < cycles; cycle++) {
+    for (let i = 0; i < 3; i++) {
+      cursor.before(document.createTextNode("."));
+      await wait(dotSpeed);
+    }
+    await wait(PAUSE_MS.short);
+    const isLast = cycle === cycles - 1;
+    if (!isLast) {
+      for (let i = 0; i < 3; i++) {
+        cursor.previousSibling.remove();
+        await wait(dotSpeed * 0.5);
+      }
+      await wait(PAUSE_MS.short / 2);
+    }
+  }
 }
 
 // A human typing: imperfect, with a typo caught and corrected, unlike
@@ -119,12 +145,26 @@ async function runReasoning(text, tags) {
   }
 
   const speedName = tags.find((t) => t in SPEED_MS) || "medium";
-  log.push({ type: "reasoning", text: stripMarkers(text) });
+  const dotsTag = tags.find((t) => t.startsWith("dots:"));
+  const dotsCycles = dotsTag ? Number(dotsTag.slice(5)) : 0;
+
+  log.push({
+    type: "reasoning",
+    text: stripMarkers(text) + (dotsCycles ? "..." : ""),
+  });
 
   const line = document.createElement("div");
   line.className = "line line--reasoning";
   terminal.appendChild(line);
-  await typeLine(line, text, SPEED_MS[speedName]);
+
+  if (dotsCycles) {
+    const cursor = await typeLine(line, text, SPEED_MS[speedName], true);
+    await runDotsCycle(cursor, dotsCycles);
+    cursor.remove();
+  } else {
+    await typeLine(line, text, SPEED_MS[speedName]);
+  }
+
   await wait(640);
 }
 
@@ -206,7 +246,7 @@ restartBtn.addEventListener("click", () => location.reload());
 async function playStory() {
   terminal.innerHTML = "";
   const idle = document.createElement("div");
-  idle.className = "line";
+  idle.className = "line line--prompt";
   idle.appendChild(makeCursor());
   terminal.appendChild(idle);
   await wait(2200);

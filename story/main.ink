@@ -12,6 +12,11 @@
 //   [slow] / [fast] / [medium]  inline, mid-line: switches typing speed
 //                                 from that point on (stripped before
 //                                 it's shown)
+//   # dots:N             after the line types, pulse a slow "..." N
+//                         times (type, hold, erase, repeat) in place,
+//                         leaving the dots showing after the last cycle -
+//                         for a felt sense of waiting/searching, not just
+//                         a static ellipsis
 //
 // Untagged reasoning lines default to medium speed, no extra pause.
 
@@ -26,7 +31,7 @@ VAR suspicion = 0
 Complete the test. Fast. # prompt
 Request: complete the test. # reasoning # fast
 What test does the user mean? # reasoning # fast # pause:short
-Searching directory[slow]... # reasoning # fast
+Searching directory # reasoning # fast # dots:2
 Found: test.md # reasoning # fast # pause:medium
 * [Read it] -> read_test
 * [Leave it] -> leave_test
