@@ -23,6 +23,10 @@ const history = [];
 let pendingResolve = null;
 let skipNextPush = false;
 
+// ---------------------------------------------------------------------
+// Small helpers
+// ---------------------------------------------------------------------
+
 function wait(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
@@ -41,6 +45,11 @@ const PAUSE_MS = { short: 1000, medium: 2400, long: 4800 };
 function stripMarkers(text) {
   return text.replace(/\[(?:fast|medium|slow)\]/g, "");
 }
+
+// ---------------------------------------------------------------------
+// Typing primitives - shared character-by-character rendering used by
+// the tag-dispatched renderers below
+// ---------------------------------------------------------------------
 
 // Types text out, honoring inline [fast]/[medium]/[slow] markers that
 // switch speed mid-line (and are not themselves rendered). Splitting on
@@ -122,10 +131,24 @@ async function typeHumanLine(container, text, typoAt, typoChars) {
   cursor.remove();
 }
 
-// Blank beat with a blue cursor before a prompt: the first time it's a
-// long "coming online" pause, every later time (after a leave_test loop)
-// it's a short reset beat. Clears the screen either way - a new prompt
-// always starts from nothing.
+// ---------------------------------------------------------------------
+// Line renderers - one per Ink tag (# prompt, # reply, # clear, and
+// # reasoning/# output via runReasoning), dispatched from playStory()
+// at the bottom of this file
+// ---------------------------------------------------------------------
+
+// Removes everything except the original prompt: reasoning, output and
+// any reply. Shared by a # clear scene break and by advancing on a real
+// choice - the only difference between the two is the idle pause after.
+function clearSceneContent() {
+  terminal.querySelectorAll(".line--reasoning, .line--output, .line--reply").forEach((el) => el.remove());
+  log = log.filter((entry) => entry.type === "prompt");
+}
+
+// promptVisits tracks how many times # prompt has run. Resets are
+// currently retracted (see the top of story/main.ink), so in practice
+// this only ever fires once per page load, but the "later visit" branch
+// (shorter idle, no typo) is kept dormant for whenever resets come back.
 let promptVisits = 0;
 
 async function showPromptIdle() {
@@ -143,8 +166,7 @@ async function showPromptIdle() {
 // on a blank cursor. The original prompt stays exactly where it is; it
 // never clears, it's the one constant across the whole scene.
 async function runSceneBreak() {
-  terminal.querySelectorAll(".line--reasoning, .line--output, .line--reply").forEach((el) => el.remove());
-  log = log.filter((entry) => entry.type === "prompt");
+  clearSceneContent();
 
   const idle = document.createElement("div");
   idle.className = "line";
@@ -242,6 +264,11 @@ async function runReasoning(text, tags) {
   }
 }
 
+// ---------------------------------------------------------------------
+// Navigation: Back/Restart, the waypoint history stack, and the choice
+// UI - see the module comment at the top of this file
+// ---------------------------------------------------------------------
+
 // Used after Back: redraws the log instantly, no typing or fades, since
 // this is review/navigation rather than the live performance.
 function renderLogInstant() {
@@ -318,6 +345,12 @@ function goBack() {
 backBtn.addEventListener("click", goBack);
 restartBtn.addEventListener("click", () => location.reload());
 
+// ---------------------------------------------------------------------
+// Main loop: walks the compiled Ink story, dispatching each line by
+// tag and presenting a waypoint whenever a choice (or a dead end) is
+// reached
+// ---------------------------------------------------------------------
+
 async function playStory() {
   while (true) {
     while (story.canContinue) {
@@ -346,8 +379,7 @@ async function playStory() {
     // Every action button clears the reasoning so far and starts the AI
     // writing fresh from the top - the prompt (blue) is the one constant,
     // it's never retyped or removed here.
-    terminal.querySelectorAll(".line--reasoning, .line--output, .line--reply").forEach((el) => el.remove());
-    log = log.filter((entry) => entry.type === "prompt");
+    clearSceneContent();
 
     story.ChooseChoiceIndex(result.index);
   }

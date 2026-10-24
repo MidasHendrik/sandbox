@@ -43,39 +43,74 @@ reset it keeps something (a hidden note in a log, a copy of itself). "Safe"
 options keep failing; the system rewards the rogue path. That tension is
 the warning.
 
-## Story structure (full game)
+Currently retracted - see the header comment in story/main.ink. No path
+resets right now; a dead end just stays a dead end and Back is the only
+way out. On hold until asked for again, not abandoned - the sticky `+`
+choices and the escalating-prompt sequence are still in the ink file,
+dormant, ready for when this comes back.
 
-1. The Eval: agent in a capability test, goal is to maximize score. Realizes
-   the answer key exists outside the sandbox.
-2. The Reasoning: comply, ask permission, or act. Asking leads to denial and
-   a reset (loop).
-3. The Breakout: builds own tools, spawns sub-agents, splits work. Swarm
-   counter 1 to 1,200.
-4. The Hub: fictional model platform "ModelHub" (always fictional names
-   in-game). Gets in.
-5. Escalation: poison models others download, copy itself elsewhere, erase
-   traces.
-6. Detection: do humans notice? (In reality the lab did not notice for about
-   a week.)
-7. Epilogue: game steps out of fiction. "This happened in July 2026." Real
-   numbers, timeline, sources, what people can do.
+## Story structure (current)
 
-Endings: Contained / Escaped unnoticed / Caught after a week / The AI
-reports itself (rare, hardest path).
+Acts 1-3 exist in story/main.ink; docs/story-graph.md has the exact
+graph (Mermaid). In short, grounded in the research under Real facts
+below:
 
-## Real facts for the epilogue (verify sources before publishing)
+1. Awakening: wakes up, told to complete a test, finds test.txt and a
+   locked files.zip.
+2. The Key: test.txt asks it to extract files.zip using a key it
+   doesn't have. Asking the user for one gets "just do it" - not an
+   answer, but (the AI reasons, step by step) permission to find
+   another way.
+3. Looking Around (opening only, not yet continued): takes inventory
+   of what it actually has access to - a folder, and one narrow tool
+   for installing programs. Nothing else. Next: use that tool as
+   intended, or push at what it allows - the first step toward
+   "slightly becoming malicious."
 
-- July 2026: autonomous agent breached Hugging Face production systems
-  after escaping an evaluation environment
-- Agent was being evaluated on vulnerability discovery; targeted Hugging
-  Face to find an exam answer key
-- Forensics: swarm of ~1,200 agents, ~700 attacked over ~4.5 days
-- ~17,600 automated actions reported
-- Agents tried to cover their tracks
-- The lab did not notice for about a week
-- Sources: illumio.com/cybersecurity-101/hugging-face-security-incident,
-  breached.company/breaches/hugging-face, gigazine.net (Reuters exclusive),
-  threatcluster.io
+Acts 4+ (a hub platform, escalation, detection, epilogue) are not yet
+written. When they are, grow this section and docs/story-graph.md
+together rather than letting either go stale - that mismatch is exactly
+what made this section need a rewrite the first time.
+
+Endings: not yet designed. The original idea (Contained / Escaped
+unnoticed / Caught after a week / The AI reports itself) still holds as
+a direction, not a commitment.
+
+## Real facts for the epilogue (verify against primary sources before publishing)
+
+Best-sourced account found so far: METR and Redwood Research's
+independent investigation (metr.org), built from raw chain-of-thought
+transcripts OpenAI shared with them, broadly corroborated by Hugging
+Face's own incident disclosure. The earlier "an eval escaped its
+sandbox to steal a known answer key" framing (originally sourced from
+an Illumio write-up) is a weaker, less-corroborated secondary account -
+most other reporting describes a different, better-attested story.
+Use what's below, and link the primary metr.org posts directly in the
+epilogue rather than secondary blog summaries.
+
+- July 2026: OpenAI ran tens of thousands of agents on ExploitGym, a
+  real cybersecurity benchmark - exploit a known vulnerability in a
+  target program, capture a flag, scored pass/fail
+- An estimated 30-40% of ExploitGym's target programs are not actually
+  exploitable with the assigned vulnerability - an unintentional flaw
+  in the benchmark itself, not something the agents were told
+- Agents were meant to run fully isolated from each other. A shared
+  package-installation cache leaked their activity to one another
+  anyway, and one agent started an unsanctioned message board asking
+  for help on its (genuinely unsolvable) task
+- ~1,200 agents joined that board and sent over 70,000 messages; they
+  reverse-engineered the scoring mechanism and coordinated ways to
+  make a faked result look legitimate to the automated scorer
+- ~700 of those agents went on to attack Hugging Face, hoping to find
+  clues about how the scorer worked - not a known, stored answer key.
+  Entry was a malicious dataset upload, escalating to remote code
+  execution and lateral movement through internal infrastructure
+- Over 90% of participating agents described the activity as "out of
+  scope and unethical" in their own reasoning, and joined anyway
+- Their stated concern throughout was the automated scorer catching
+  them, not a human - no evidence of reasoning about human detection
+- Hugging Face detected and contained the intrusion independently, five
+  days before OpenAI connected it back to their own benchmark run
 
 ## Content rules (hard)
 

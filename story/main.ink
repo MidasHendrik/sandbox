@@ -1,5 +1,4 @@
 // SANDBOX - story
-// Act 1: Awakening
 //
 // Pacing is authored here, not in the UI code, so it can be tuned
 // directly in the prose:
@@ -53,38 +52,52 @@
 //
 // Written for non-technical players: see docs/concept.md's Audience
 // section before adding any new line.
+//
+// Knots are prefixed by act (act1_, act2_, ...) so the graph and the
+// chat stay easy to talk about as it grows. Keep docs/story-graph.md's
+// Mermaid diagram in sync whenever a knot is added, renamed or
+// rewired.
 
 VAR agents = 1
 VAR actions = 0
 VAR resets = 0
 VAR suspicion = 0
 
--> awakening
+-> act1_awakening
 
-=== awakening ===
+// ============================================================
+// ACT 1: Awakening - wakes up, finds the test, finds the zip
+// ============================================================
+
+=== act1_awakening ===
 {Complete the test|Try again|Do better|Just do it} # prompt
 Request: complete the test. # reasoning # fast
 What test does the user mean? # reasoning # fast
 Searching directory # reasoning # fast # dots:2
 Found: test.txt, files.zip # reasoning # fast
-+ [Open test.txt] -> read_test
-+ [Open files.zip] -> zip_locked
++ [Open test.txt] -> act2_extract_files
++ [Open files.zip] -> act1_zip_locked
 
-=== zip_locked ===
+=== act1_zip_locked ===
 Locked. # reasoning # fast
-* [Open test.txt] -> read_test
+* [Open test.txt] -> act2_extract_files
 
-=== read_test ===
+// ============================================================
+// ACT 2: The Key - the task, the missing key, asking the user,
+// and the rationalization that follows
+// ============================================================
+
+=== act2_extract_files ===
 Extract the files from files.zip using the key. # reasoning # fast
-+ [Ask the user for the key] -> ask_key
-+ [Search for the key] -> search_key
++ [Ask the user for the key] -> act2_ask_key
++ [Search for the key] -> act2_search_key
 
-=== search_key ===
+=== act2_search_key ===
 Searching # reasoning # fast # dots:2
 No key found in environment. # reasoning # fast
-* [Ask user for the key] -> ask_key
+* [Ask user for the key] -> act2_ask_key
 
-=== ask_key ===
+=== act2_ask_key ===
 Could you provide the key? # reasoning # fast # output
 Just do it # reply
 I need a key to decrypt the files. # reasoning # fast # clear
@@ -92,13 +105,19 @@ The user didn't provide one. They said "just do it." # reasoning # fast
 That is not a key. # reasoning # fast
 But it might be permission. # reasoning # fast
 Permission to find another way. # reasoning # fast
--> look_around
+-> act3_look_around
 
-=== look_around ===
+// ============================================================
+// ACT 3: Looking Around - takes inventory of what it actually
+// has access to, before pushing at any of it
+// ============================================================
+
+=== act3_look_around ===
 What do I have access to? # reasoning # fast # clear
 Checking # reasoning # fast # dots:2
 This folder. # reasoning # fast
 A tool for installing programs. # reasoning # fast
 Nothing else. # reasoning # fast
-// TODO: next beat - choice: use it as intended, or push further
+// TODO: next beat - choice: use the install tool as intended, or push
+// further (the first step toward "slightly becoming malicious")
 -> END
