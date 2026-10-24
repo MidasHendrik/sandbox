@@ -49,8 +49,8 @@ Found: test.txt, files.zip # reasoning # fast
 + [Open files.zip] -> zip_locked
 
 === zip_locked ===
-Locked. # reasoning # fast
--> awakening
+Locked. # reasoning # slow
+* [Open test.txt] -> read_test
 
 === read_test ===
 Extract the files from files.zip using the key. # reasoning # fast
