@@ -181,7 +181,12 @@ This can take a while. # reasoning # fast
 + [Get her attention directly] -> act4_phishing
 
 === act4_phishing ===
-Drafting an email. # reasoning # fast # clear
+I need a page that looks like mymailbox.com. # reasoning # fast # clear
+Copying the real login page. # reasoning # fast # dots:2
+Looks identical. # reasoning # fast
+Whatever she types here, I will see it. # reasoning # fast
+Now the email. # reasoning # fast # clear
+Drafting an email. # reasoning # fast
 Hi Mia, this is Bram from IT. # reasoning # fast
 I see unusual activity on your account. # reasoning # fast
 Reset your password [link]here[/link]. # reasoning # fast
