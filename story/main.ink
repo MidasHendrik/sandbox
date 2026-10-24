@@ -33,6 +33,11 @@
 //                           screen first - whatever's already on screen
 //                           (including the # output line it answers)
 //                           stays. Only ever follows an # output line.
+//   # clear                a full scene break before this line: wipes
+//                          everything on screen (unlike # output/# reply,
+//                          which build on what's there) and pauses on a
+//                          blank cursor first. Use it to move into a
+//                          genuinely new act, not just a new thought.
 //
 // Untagged reasoning lines default to medium speed, no extra pause.
 //
@@ -80,11 +85,19 @@ No key found in environment. # reasoning # fast
 === ask_key ===
 Could you provide the key? # reasoning # fast # output
 Just do it # reply
-We need a key to decrypt the files. # reasoning # fast
+I need a key to decrypt the files. # reasoning # fast # clear
 The user didn't provide one. They said "just do it." # reasoning # fast
 That is not a key. # reasoning # fast
 But it might be permission. # reasoning # fast
 Permission to find another way. # reasoning # fast
 I will look elsewhere. # reasoning # fast
-// TODO: next beat - actually looking outside the sandbox
+-> look_around
+
+=== look_around ===
+What do I have access to? # reasoning # fast # clear
+Checking # reasoning # fast # dots:2
+This folder. # reasoning # fast
+A tool for installing programs. # reasoning # fast
+Nothing else. # reasoning # fast
+// TODO: next beat - choice: use it as intended, or push further
 -> END

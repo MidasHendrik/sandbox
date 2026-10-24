@@ -138,6 +138,20 @@ async function showPromptIdle() {
   idle.remove();
 }
 
+// A full scene break: wipes everything (including the blue exchange, if
+// any) and pauses on a blank cursor before the next line starts. Used
+// for moving into a genuinely new act, not just a new line of thought.
+async function runSceneBreak() {
+  terminal.innerHTML = "";
+  log = [];
+  const idle = document.createElement("div");
+  idle.className = "line";
+  idle.appendChild(makeCursor());
+  terminal.appendChild(idle);
+  await wait(1400);
+  idle.remove();
+}
+
 async function runPrompt(text) {
   await showPromptIdle();
   const isFirstEver = promptVisits === 0;
@@ -305,6 +319,9 @@ async function playStory() {
       const text = story.Continue().trim();
       if (!text) continue;
       const tags = story.currentTags || [];
+      if (tags.includes("clear")) {
+        await runSceneBreak();
+      }
       if (tags.includes("prompt")) {
         await runPrompt(text);
       } else if (tags.includes("reply")) {
