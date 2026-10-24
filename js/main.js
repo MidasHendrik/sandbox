@@ -35,8 +35,8 @@ function makeCursor() {
 
 // Pacing vocabulary authored in story/main.ink via tags and inline
 // [markers] - see the comment at the top of that file.
-const SPEED_MS = { fast: 16, medium: 42, slow: 85 };
-const PAUSE_MS = { short: 250, medium: 600, long: 1200 };
+const SPEED_MS = { fast: 8, medium: 21, slow: 43 };
+const PAUSE_MS = { short: 125, medium: 300, long: 600 };
 
 function stripMarkers(text) {
   return text.replace(/\[(?:fast|medium|slow)\]/g, "");
@@ -125,7 +125,7 @@ async function runReasoning(text, tags) {
   line.className = "line line--reasoning";
   terminal.appendChild(line);
   await typeLine(line, text, SPEED_MS[speedName]);
-  await wait(160);
+  await wait(80);
 }
 
 // Used after Back: redraws the log instantly, no typing or fades, since
