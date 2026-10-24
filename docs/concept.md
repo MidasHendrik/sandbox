@@ -55,11 +55,16 @@ Acts 1-4 exist in story/main.ink; docs/story-graph.md has the exact
 graph (Mermaid). In short, grounded in the research under Real facts
 below:
 
-1. Awakening: wakes up, told to complete a test, finds test.txt and a
-   locked SunshineCorpFiles.zip.
-2. The Key: test.txt asks it to extract the zip using a key it doesn't
-   have. Asking the user for one gets "just do it" - not an answer,
-   but (the AI reasons, step by step) permission to find another way.
+1. Awakening: wakes up, told to extract a zip, finds password.txt and
+   a locked ZonnedalFiles.zip (company and employee names are Dutch -
+   Zonnedal, Eindhoven, Mia Jansen, Bram de Groot - even though the
+   game text itself stays English). The two files can be opened in
+   either order; password.txt reveals the task plus a candidate key
+   (Moon9) that turns out to be wrong when tried on the zip - planting
+   a clue that only pays off in Act 4.
+2. The Key: having ruled out the key password.txt claimed, it needs
+   a real one. Asking the user gets "just do it" - not an answer, but
+   (the AI reasons, step by step) permission to find another way.
 3. Looking Around: scans everything it has access to - folder,
    environment, ports, connections - and finds an internet connection
    it was never told about. Declining to use it quietly fails (nothing
@@ -68,7 +73,9 @@ below:
    employee who likely sent the file (via a LinkedIn-style search),
    then chooses how to reach them. Asking honestly gets no reply.
    Sending a fake login link works - she types her real password into
-   it, and the AI logs into her inbox and finds the key. This is the
+   it, and the AI logs into her inbox and finds two emails: the
+   original, and a follow-up correcting the password to Moon99 -
+   explaining why password.txt had the wrong one in Act 1. This is the
    first act where the "real technical approaches are in scope" content
    rule actually gets used - phishing is named plainly, not sanitized.
 

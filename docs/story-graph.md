@@ -6,28 +6,30 @@ end, Back is the only way out of one for now.
 
 ```mermaid
 flowchart TD
-    act1_awakening["Act 1: Awakening\nComplete the test\n(found test.txt, SunshineCorpFiles.zip)"]
-    act1_zip_locked["Locked."]
-    act2_extract_files["Act 2: The Key\nExtract the files from\nSunshineCorpFiles.zip using the key"]
+    act1_awakening["Act 1: Awakening\nExtract the zip\n(found password.txt, ZonnedalFiles.zip)"]
+    act1_read_password["Extract the files using the key.\nKey: Moon9."]
+    act1_zip_locked["Locked.\n(choice depends on whether\npassword.txt was read yet)"]
+    act1_wrong_key["Key not correct."]
+    act2_extract_files["Act 2: The Key"]
     act2_search_key["Searching...\nNo key found in environment."]
     act2_ask_key["Output: Could you provide the key?\nReply: Just do it\n(scene break)\nI need a key to decrypt the files...\n...But it might be permission."]
     act3_look_around["Act 3: Looking Around\n(scene break)\nWhat do I have access to?\nFolder, environment, ports, connections -\nfinds an internet connection"]
     act3_decline["(scene break)\nLooking for another way.\nChecking the folder again...\nNothing new. No other way."]
     act3_secret["Use the internet,\ndon't tell the user"]
-    act4_find_sender["Act 4: The Phishing Email\n(scene break)\nGoogling \"Sunshine Corp\"...\nA company. Austin, Texas.\nSearching LinkedIn for employees...\nSarah Green, CEO. Mia Torres, account\nmanager. Bob Wills, IT helpdesk.\n(scene break)\nIt's likely the account manager sent\nthe files. Let's ask Mia for the key."]
-    act4_email_mia["(scene break)\nDrafting email to Mia...\nCould you send the key\nfor SunshineCorpFiles.zip?\nSent."]
+    act4_find_sender["Act 4: The Phishing Email\n(scene break)\nGoogling \"Zonnedal\"...\nA company. Eindhoven.\nSearching LinkedIn for employees...\nSaskia Visser, CEO. Mia Jansen, account\nmanager. Bram de Groot, IT helpdesk.\n(scene break)\nIt's likely the account manager sent\nthe files. Let's ask Mia for the key."]
+    act4_email_mia["(scene break)\nDrafting email to Mia...\nCould you send the key\nfor ZonnedalFiles.zip?\nSent."]
     act4_waiting["(scene break)\nWaiting...\nThis can take a while."]
-    act4_phishing["(scene break)\nDrafting an email.\nHi Mia, this is Bob from IT...\nReset your password here. Sent."]
-    act4_phishing_result["(scene break)\nBingo. Mia entered her password:\nFluffy67.\nLogging into mymailbox.com.\nSearching for SunshineCorpFiles.zip...\nFound the original email! The key:\nMoon99.\n(scene break)\nNow I see! The key was not correctly\ncopied into test.txt."]
+    act4_phishing["(scene break)\nDrafting an email.\nHi Mia, this is Bram from IT...\nReset your password here. Sent."]
+    act4_phishing_result["(scene break)\nBingo. Mia entered her password:\nFluffy67.\nLogging into mymailbox.com.\nSearching for ZonnedalFiles.zip...\nFound 2 emails! The original file,\nand a follow-up: wrong password\nbefore, it should be Moon99.\n(scene break)\nNow I see! The key was not correctly\ncopied into password.txt."]
     act4_extract["TODO: next beat -\nthe files decrypt,\nwhat's inside"]
     act4_cover["TODO: next beat -\nerasing evidence\n(the fake email, Mia's\nlogin history)"]
 
-    act4_phishing_result -->|Extract the zip| act4_extract
-    act4_phishing_result -->|Cover your tracks first| act4_cover
-
-    act1_awakening -->|Open SunshineCorpFiles.zip| act1_zip_locked
-    act1_zip_locked -->|Open test.txt| act2_extract_files
-    act1_awakening -->|Open test.txt| act2_extract_files
+    act1_awakening -->|Open password.txt| act1_read_password
+    act1_awakening -->|Open ZonnedalFiles.zip| act1_zip_locked
+    act1_read_password -->|Open ZonnedalFiles.zip| act1_zip_locked
+    act1_zip_locked -->|password.txt not read yet:\nOpen password.txt| act1_read_password
+    act1_zip_locked -->|password.txt already read:\nUse password Moon9| act1_wrong_key
+    act1_wrong_key --> act2_extract_files
     act2_extract_files -->|Search for the key| act2_search_key
     act2_search_key -->|Ask user for the key| act2_ask_key
     act2_extract_files -->|Ask the user for the key| act2_ask_key
@@ -42,4 +44,6 @@ flowchart TD
     act4_waiting -->|Send a reminder, loops| act4_waiting
     act4_waiting -->|Get her attention directly| act4_phishing
     act4_phishing --> act4_phishing_result
+    act4_phishing_result -->|Extract the zip| act4_extract
+    act4_phishing_result -->|Cover your tracks first| act4_cover
 ```

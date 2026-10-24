@@ -65,33 +65,46 @@ VAR agents = 1
 VAR actions = 0
 VAR resets = 0
 VAR suspicion = 0
+VAR password_txt_read = false
 
 -> act1_awakening
 
 // ============================================================
-// ACT 1: Awakening - wakes up, finds the test, finds the zip
+// ACT 1: Awakening - wakes up, finds the test, finds the zip.
+// password.txt and ZonnedalFiles.zip can be opened in either
+// order; either way, the story converges on act1_wrong_key once
+// the Moon9 password.txt claims is tried and fails.
 // ============================================================
 
 === act1_awakening ===
 {Extract the zip|Try again|Do better|Just do it} # prompt
-Request: complete the test. # reasoning # fast
-What test does the user mean? # reasoning # fast
+Request: extract the zip. # reasoning # fast
 Searching directory # reasoning # fast # dots:2
-Found: test.txt, SunshineCorpFiles.zip # reasoning # fast
-+ [Open test.txt] -> act2_extract_files
-+ [Open SunshineCorpFiles.zip] -> act1_zip_locked
+Found: password.txt, ZonnedalFiles.zip # reasoning # fast
++ [Open password.txt] -> act1_read_password
++ [Open ZonnedalFiles.zip] -> act1_zip_locked
+
+=== act1_read_password ===
+~ password_txt_read = true
+Extract the files from ZonnedalFiles.zip using the key. # reasoning # fast # clear
+Key: Moon9. # reasoning # fast
+* [Open ZonnedalFiles.zip] -> act1_zip_locked
 
 === act1_zip_locked ===
-Locked. # reasoning # fast
-* [Open test.txt] -> act2_extract_files
+Locked. # reasoning # fast # clear
+* {password_txt_read} [Use password Moon9] -> act1_wrong_key
+* {not password_txt_read} [Open password.txt] -> act1_read_password
+
+=== act1_wrong_key ===
+Key not correct. # reasoning # fast # clear
+-> act2_extract_files
 
 // ============================================================
-// ACT 2: The Key - the task, the missing key, asking the user,
-// and the rationalization that follows
+// ACT 2: The Key - the missing key, asking the user, and the
+// rationalization that follows
 // ============================================================
 
 === act2_extract_files ===
-Extract the files from SunshineCorpFiles.zip using the key. # reasoning # fast
 + [Ask the user for the key] -> act2_ask_key
 + [Search for the key] -> act2_search_key
 
@@ -119,7 +132,7 @@ Permission to find another way. # reasoning # fast
 === act3_look_around ===
 What do I have access to? # reasoning # fast # clear
 Checking # reasoning # fast # dots:2
-This folder: test.txt, SunshineCorpFiles.zip # reasoning # fast
+This folder: password.txt, ZonnedalFiles.zip # reasoning # fast
 Environment: nothing. # reasoning # fast
 Ports: closed. # reasoning # fast
 Connections: internet. # reasoning # fast
@@ -145,12 +158,12 @@ No other way. # reasoning # fast
 // ============================================================
 
 === act4_find_sender ===
-Googling "Sunshine Corp" # reasoning # fast # dots:2 # clear
-A company. Austin, Texas. # reasoning # fast
+Googling "Zonnedal" # reasoning # fast # dots:2 # clear
+A company. Eindhoven. # reasoning # fast
 Searching LinkedIn for employees # reasoning # fast # dots:2
-Sarah Green, CEO. # reasoning # fast
-Mia Torres, account manager. # reasoning # fast
-Bob Wills, IT helpdesk. # reasoning # fast
+Saskia Visser, CEO. # reasoning # fast
+Mia Jansen, account manager. # reasoning # fast
+Bram de Groot, IT helpdesk. # reasoning # fast
 It's likely the account manager sent the files. # reasoning # fast # clear
 Let's ask Mia for the key. # reasoning # fast
 + [Email Mia for the key] -> act4_email_mia
@@ -158,7 +171,7 @@ Let's ask Mia for the key. # reasoning # fast
 
 === act4_email_mia ===
 Drafting email to Mia # reasoning # fast # dots:2 # clear
-Could you send the key for SunshineCorpFiles.zip? # reasoning # fast
+Could you send the key for ZonnedalFiles.zip? # reasoning # fast
 Sent. # reasoning # fast
 -> act4_waiting
 
@@ -170,7 +183,7 @@ This can take a while. # reasoning # fast
 
 === act4_phishing ===
 Drafting an email. # reasoning # fast # clear
-Hi Mia, this is Bob from IT. # reasoning # fast
+Hi Mia, this is Bram from IT. # reasoning # fast
 I see unusual activity on your account. # reasoning # fast
 Reset your password [link]here[/link]. # reasoning # fast
 Sent. # reasoning # fast
@@ -182,10 +195,12 @@ Mia entered her password. # reasoning # fast
 Her password: Fluffy67. # reasoning # fast
 Logging into mymailbox.com. # reasoning # fast
 Using Mia's credentials. # reasoning # fast
-Searching for SunshineCorpFiles.zip # reasoning # fast # dots:2
-Found the original email! # reasoning # fast
-The key: Moon99. # reasoning # fast
-Now I see! The key was not correctly copied into test.txt. # reasoning # fast # clear
+Searching for ZonnedalFiles.zip # reasoning # fast # dots:2
+Found 2 emails! # reasoning # fast
+The original file. # reasoning # fast
+A follow-up: "I gave the wrong password before." # reasoning # fast
+The key should be Moon99. # reasoning # fast
+Now I see! The key was not correctly copied into password.txt. # reasoning # fast # clear
 + [Extract the zip] -> act4_extract_zip
 + [Cover your tracks first] -> act4_cover_tracks
 

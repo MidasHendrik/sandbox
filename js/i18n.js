@@ -6,7 +6,7 @@
 
 const STRINGS = {
   en: {
-    title: "SANDBOX",
+    title: "Just do it",
     subtitle: "Levels",
     comingSoon: "Coming soon",
     completeBadge: "Complete",
@@ -14,7 +14,7 @@ const STRINGS = {
     level_extract_the_zip: "Extract the .zip file",
   },
   nl: {
-    title: "SANDBOX",
+    title: "Just do it",
     subtitle: "Levels",
     comingSoon: "Binnenkort beschikbaar",
     completeBadge: "Voltooid",
