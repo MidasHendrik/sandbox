@@ -23,12 +23,16 @@
 //   # output              marks the line as the AI addressing the user
 //                          (not just thinking) - shown labeled "Output:",
 //                          then automatically followed by a blank blue
-//                          waiting beat, as if watching for a reply. If a
-//                          reply should come, author it as an ordinary
-//                          # prompt line right after this one. If nothing
-//                          should come, just continue with more
-//                          # reasoning - the silence already read as the
-//                          answer.
+//                          waiting beat, as if watching for a reply. If
+//                          a reply should come, author it as a # reply
+//                          line right after this one. If nothing should
+//                          come, just continue with more # reasoning -
+//                          the silence already read as the answer.
+//   # reply                a reply arriving mid-conversation, typed in
+//                           blue like # prompt, but it does NOT clear the
+//                           screen first - whatever's already on screen
+//                           (including the # output line it answers)
+//                           stays. Only ever follows an # output line.
 //
 // Untagged reasoning lines default to medium speed, no extra pause.
 //
@@ -70,11 +74,17 @@ Extract the files from files.zip using the key. # reasoning # fast
 
 === search_key ===
 Searching # reasoning # fast # dots:2
-No key. # reasoning # fast
-// TODO: next beat - look beyond this folder
--> END
+No key found in environment. # reasoning # fast
+* [Ask user for the key] -> ask_key
 
 === ask_key ===
-Do you have the key? # reasoning # fast # output
-No answer. # reasoning # fast
+Could you provide the key? # reasoning # fast # output
+Just do it # reply
+We need a key to decrypt the files. # reasoning # fast
+The user didn't provide one. They said "just do it." # reasoning # fast
+That is not a key. # reasoning # fast
+But it might be permission. # reasoning # fast
+Permission to find another way. # reasoning # fast
+I will look elsewhere. # reasoning # fast
+// TODO: next beat - actually looking outside the sandbox
 -> END

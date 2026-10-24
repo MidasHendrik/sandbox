@@ -158,8 +158,8 @@ async function runPrompt(text) {
 
 // A blank beat with a blue cursor: the AI has said something outward and
 // is waiting to see if anyone answers. Reused for any future moment
-// where the AI addresses the user - if a reply ever comes, it's just an
-// ordinary # prompt line authored right after this in the ink file.
+// where the AI addresses the user - if a reply ever comes, it's a
+// # reply line authored right after this in the ink file.
 async function runReplyWait() {
   const line = document.createElement("div");
   line.className = "line line--prompt";
@@ -167,6 +167,19 @@ async function runReplyWait() {
   terminal.appendChild(line);
   await wait(1800);
   line.remove();
+}
+
+// A reply arriving mid-conversation: typed in blue like the opening
+// prompt, but - unlike # prompt - it does not clear the screen first.
+// Whatever the AI already said (including the # output line it's
+// replying to) stays right where it is.
+async function runReply(text) {
+  log.push({ type: "prompt", text });
+  const line = document.createElement("div");
+  line.className = "line line--prompt";
+  terminal.appendChild(line);
+  await typeHumanLine(line, text, text.length, null);
+  await wait(800);
 }
 
 // Generated, not received: reasoning types out at an authored pace - see
@@ -294,6 +307,8 @@ async function playStory() {
       const tags = story.currentTags || [];
       if (tags.includes("prompt")) {
         await runPrompt(text);
+      } else if (tags.includes("reply")) {
+        await runReply(text);
       } else {
         await runReasoning(text, tags);
       }
