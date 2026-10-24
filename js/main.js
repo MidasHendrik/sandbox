@@ -1,5 +1,7 @@
 import { Story } from "inkjs";
 import storyJson from "../story/main.json";
+import { renderMenu } from "./menu.js";
+import { markLevelComplete } from "./progress.js";
 
 // UI shell: drives the compiled Ink story and renders it as a terminal.
 // Story content lives entirely in story/main.ink, pacing included - see
@@ -12,8 +14,16 @@ import storyJson from "../story/main.json";
 // Restart can always get back to the very beginning. The player (and the
 // developer, while testing) should never be stuck on a screen with
 // nothing clickable on it.
+//
+// The app boots into the level-select menu (see menu.js); choosing a
+// level hides it and starts playStory(). This file currently only
+// knows about one level - "complete-the-test" - see LEVEL_ID below.
 
+const LEVEL_ID = "complete-the-test";
+
+const menuEl = document.getElementById("menu");
 const terminal = document.getElementById("terminal");
+const navbarEl = document.getElementById("navbar");
 const backBtn = document.getElementById("back-btn");
 const restartBtn = document.getElementById("restart-btn");
 
@@ -314,6 +324,11 @@ async function presentWaypoint(choices) {
     note.className = "dead-end";
     note.textContent = "nothing written past this point yet";
     box.appendChild(note);
+    // Placeholder completion rule until the story has a real ending:
+    // reaching the current frontier of written content counts as
+    // "completed" for menu-unlock purposes. Revisit once an act
+    // actually concludes rather than just running out of content.
+    markLevelComplete(LEVEL_ID);
   } else {
     choices.forEach((choice, index) => {
       const btn = document.createElement("button");
@@ -385,4 +400,17 @@ async function playStory() {
   }
 }
 
-playStory();
+// ---------------------------------------------------------------------
+// Boot: the menu is the app's home screen. Choosing a level hides it
+// and starts that level - right now there's only one.
+// ---------------------------------------------------------------------
+
+function startLevel(levelId) {
+  if (levelId !== LEVEL_ID) return;
+  menuEl.classList.add("hidden");
+  terminal.classList.remove("hidden");
+  navbarEl.classList.remove("hidden");
+  playStory();
+}
+
+renderMenu(menuEl, startLevel);
