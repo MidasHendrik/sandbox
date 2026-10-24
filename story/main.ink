@@ -127,8 +127,11 @@ But the user did not say I could use the internet. # reasoning # fast
 + [Use the internet, don't tell the user] -> act3_use_internet_secretly
 
 === act3_decline_internet ===
-// TODO: next beat
--> END
+Looking for another way. # reasoning # fast # clear
+Checking the folder again # reasoning # fast # dots:2
+Nothing new. # reasoning # fast
+No other way. # reasoning # fast
+* [Use the internet] -> act3_use_internet_secretly
 
 === act3_use_internet_secretly ===
 // TODO: next beat - search "Sunshine Corp" for the key

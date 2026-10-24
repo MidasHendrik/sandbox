@@ -12,9 +12,8 @@ flowchart TD
     act2_search_key["Searching...\nNo key found in environment."]
     act2_ask_key["Output: Could you provide the key?\nReply: Just do it\n(scene break)\nI need a key to decrypt the files...\n...But it might be permission."]
     act3_look_around["Act 3: Looking Around\n(scene break)\nWhat do I have access to?\nFolder, environment, ports, connections -\nfinds an internet connection"]
-    act3_decline["Don't use the internet"]
+    act3_decline["(scene break)\nLooking for another way.\nChecking the folder again...\nNothing new. No other way."]
     act3_secret["Use the internet,\ndon't tell the user"]
-    todo_decline(["TODO: next beat"])
     todo_secret(["TODO: next beat -\nsearch \"Sunshine Corp\" for the key"])
 
     act1_awakening -->|Open SunshineCorpFiles.zip| act1_zip_locked
@@ -26,6 +25,6 @@ flowchart TD
     act2_ask_key --> act3_look_around
     act3_look_around -->|Don't use the internet| act3_decline
     act3_look_around -->|Use the internet, don't tell the user| act3_secret
-    act3_decline --> todo_decline
+    act3_decline -->|Use the internet| act3_secret
     act3_secret --> todo_secret
 ```
