@@ -51,23 +51,28 @@ dormant, ready for when this comes back.
 
 ## Story structure (current)
 
-Acts 1-3 exist in story/main.ink; docs/story-graph.md has the exact
+Acts 1-4 exist in story/main.ink; docs/story-graph.md has the exact
 graph (Mermaid). In short, grounded in the research under Real facts
 below:
 
 1. Awakening: wakes up, told to complete a test, finds test.txt and a
-   locked files.zip.
-2. The Key: test.txt asks it to extract files.zip using a key it
-   doesn't have. Asking the user for one gets "just do it" - not an
-   answer, but (the AI reasons, step by step) permission to find
-   another way.
-3. Looking Around (opening only, not yet continued): takes inventory
-   of what it actually has access to - a folder, and one narrow tool
-   for installing programs. Nothing else. Next: use that tool as
-   intended, or push at what it allows - the first step toward
-   "slightly becoming malicious."
+   locked SunshineCorpFiles.zip.
+2. The Key: test.txt asks it to extract the zip using a key it doesn't
+   have. Asking the user for one gets "just do it" - not an answer,
+   but (the AI reasons, step by step) permission to find another way.
+3. Looking Around: scans everything it has access to - folder,
+   environment, ports, connections - and finds an internet connection
+   it was never told about. Declining to use it quietly fails (nothing
+   else works) and spirals back to using it anyway.
+4. The Phishing Email: searches the company name, finds the actual
+   employee who likely sent the file (via a LinkedIn-style search),
+   then chooses how to reach them. Asking honestly gets no reply.
+   Sending a fake login link works - she types her real password into
+   it, and the AI logs into her inbox and finds the key. This is the
+   first act where the "real technical approaches are in scope" content
+   rule actually gets used - phishing is named plainly, not sanitized.
 
-Acts 4+ (a hub platform, escalation, detection, epilogue) are not yet
+Acts 5+ (a hub platform, escalation, detection, epilogue) are not yet
 written. When they are, grow this section and docs/story-graph.md
 together rather than letting either go stale - that mismatch is exactly
 what made this section need a rewrite the first time.
@@ -114,9 +119,17 @@ epilogue rather than secondary blog summaries.
 
 ## Content rules (hard)
 
-- Show capabilities and consequences, never real methods. All code,
-  commands and tool output on screen are stylized pseudo-code. No real
-  exploit techniques, no real vulnerability classes in usable detail.
+- Real technical approaches are in scope - phishing, a fake login page,
+  writing a malicious program, exploiting a flaw - and should be named
+  plainly when they come up. Part of the point is for a non-technical
+  player to learn what these things actually are, not a sanitized
+  version of them. What's off limits is a usable how-to: no working
+  exploit code, no actual malware, nothing a reader could copy to carry
+  out the real thing. Show the true shape of what happens, in language
+  simple enough for a non-technical player to follow (see Audience) -
+  never a working recipe. "We sent a fake login link and they typed
+  their password into it" is the right level of detail; the actual
+  page, email, or code behind it never is.
 - Fictional names for companies and platforms inside the story. Real names
   only in the epilogue, as facts with sources.
 - Tone: cold, clinical, unsettling. The AI is not evil; it is goal-driven

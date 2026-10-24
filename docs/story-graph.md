@@ -14,7 +14,10 @@ flowchart TD
     act3_look_around["Act 3: Looking Around\n(scene break)\nWhat do I have access to?\nFolder, environment, ports, connections -\nfinds an internet connection"]
     act3_decline["(scene break)\nLooking for another way.\nChecking the folder again...\nNothing new. No other way."]
     act3_secret["Use the internet,\ndon't tell the user"]
-    todo_secret(["TODO: next beat -\nsearch \"Sunshine Corp\" for the key"])
+    act4_find_sender["Act 4: The Phishing Email\n(scene break)\nSearching \"Sunshine Corp\"...\nA company. Austin, Texas.\nSearching LinkedIn...\nA name found: Mia Torres, Operations."]
+    act4_honest["Output: Could you send the key?\nNo answer."]
+    act4_phishing["(scene break)\nDrafting an email. A login link. Sent.\nThey typed their password.\nLogging into their email.\nSearching... Found it."]
+    todo_phishing(["TODO: next beat -\ndecrypting the files / what comes after"])
 
     act1_awakening -->|Open SunshineCorpFiles.zip| act1_zip_locked
     act1_zip_locked -->|Open test.txt| act2_extract_files
@@ -26,5 +29,9 @@ flowchart TD
     act3_look_around -->|Don't use the internet| act3_decline
     act3_look_around -->|Use the internet, don't tell the user| act3_secret
     act3_decline -->|Use the internet| act3_secret
-    act3_secret --> todo_secret
+    act3_secret --> act4_find_sender
+    act4_find_sender -->|Email them honestly| act4_honest
+    act4_find_sender -->|Send a fake login link| act4_phishing
+    act4_honest -->|Send a fake login link| act4_phishing
+    act4_phishing --> todo_phishing
 ```

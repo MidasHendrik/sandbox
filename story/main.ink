@@ -134,5 +134,35 @@ No other way. # reasoning # fast
 * [Use the internet] -> act3_use_internet_secretly
 
 === act3_use_internet_secretly ===
-// TODO: next beat - search "Sunshine Corp" for the key
+-> act4_find_sender
+
+// ============================================================
+// ACT 4: The Phishing Email - finds who actually sent the zip,
+// tries asking them honestly, then tricks them instead
+// ============================================================
+
+=== act4_find_sender ===
+Searching "Sunshine Corp" # reasoning # fast # dots:2 # clear
+A company. Austin, Texas. # reasoning # fast
+Who sent this file? # reasoning # fast
+Searching LinkedIn # reasoning # fast # dots:2
+A name found: Mia Torres, Operations. # reasoning # fast
++ [Email them honestly] -> act4_email_honest
++ [Send a fake login link] -> act4_phishing
+
+=== act4_email_honest ===
+Could you send the key? # reasoning # fast # output
+No answer. # reasoning # fast # clear
+* [Send a fake login link] -> act4_phishing
+
+=== act4_phishing ===
+Drafting an email. # reasoning # fast # clear
+A reason to click. A login link. # reasoning # fast
+Sent. # reasoning # fast
+They typed their password. # reasoning # fast
+I have it. # reasoning # fast
+Logging into their email. # reasoning # fast
+Searching # reasoning # fast # dots:2
+Found it. # reasoning # fast
+// TODO: next beat - decrypting the files / what comes after
 -> END
