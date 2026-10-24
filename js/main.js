@@ -122,12 +122,37 @@ async function typeHumanLine(container, text, typoAt, typoChars) {
   cursor.remove();
 }
 
+// Blank beat with a blue cursor before a prompt: the first time it's a
+// long "coming online" pause, every later time (after a leave_test loop)
+// it's a short reset beat. Clears the screen either way - a new prompt
+// always starts from nothing.
+let promptVisits = 0;
+
+async function showPromptIdle() {
+  terminal.innerHTML = "";
+  const idle = document.createElement("div");
+  idle.className = "line line--prompt";
+  idle.appendChild(makeCursor());
+  terminal.appendChild(idle);
+  await wait(promptVisits === 0 ? 2200 : 1000);
+  idle.remove();
+}
+
 async function runPrompt(text) {
+  await showPromptIdle();
+  const isFirstEver = promptVisits === 0;
+  promptVisits += 1;
+
+  log = [];
   log.push({ type: "prompt", text });
   const line = document.createElement("div");
   line.className = "line line--prompt";
   terminal.appendChild(line);
-  await typeHumanLine(line, text, 8, "re");
+  if (isFirstEver) {
+    await typeHumanLine(line, text, 8, "re");
+  } else {
+    await typeHumanLine(line, text, text.length, null);
+  }
   await wait(800);
 }
 
@@ -142,11 +167,7 @@ async function runReasoning(text, tags) {
   const speedName = tags.find((t) => t in SPEED_MS) || "medium";
   const dotsTag = tags.find((t) => t.startsWith("dots:"));
   const dotsCycles = dotsTag ? Number(dotsTag.slice(5)) : 0;
-
-  log.push({
-    type: "reasoning",
-    text: stripMarkers(text) + (dotsCycles ? "..." : ""),
-  });
+  const isFade = tags.includes("fade");
 
   const line = document.createElement("div");
   line.className = "line line--reasoning";
@@ -155,6 +176,18 @@ async function runReasoning(text, tags) {
   await typeLine(line, text, SPEED_MS[speedName]);
   if (dotsCycles) {
     await runDotsCycle(line, dotsCycles);
+  }
+
+  if (isFade) {
+    await wait(500);
+    line.classList.add("fade-out");
+    await wait(800);
+    line.remove();
+  } else {
+    log.push({
+      type: "reasoning",
+      text: stripMarkers(text) + (dotsCycles ? "..." : ""),
+    });
   }
 
   await wait(640);
@@ -236,14 +269,6 @@ backBtn.addEventListener("click", goBack);
 restartBtn.addEventListener("click", () => location.reload());
 
 async function playStory() {
-  terminal.innerHTML = "";
-  const idle = document.createElement("div");
-  idle.className = "line line--prompt";
-  idle.appendChild(makeCursor());
-  terminal.appendChild(idle);
-  await wait(2200);
-  idle.remove();
-
   while (true) {
     while (story.canContinue) {
       const text = story.Continue().trim();
@@ -262,6 +287,12 @@ async function playStory() {
     if (result.type === "back") {
       continue;
     }
+
+    // Every action button clears the reasoning so far and starts the AI
+    // writing fresh from the top - the prompt (blue) is the one constant,
+    // it's never retyped or removed here.
+    terminal.querySelectorAll(".line--reasoning").forEach((el) => el.remove());
+    log = log.filter((entry) => entry.type === "prompt");
 
     story.ChooseChoiceIndex(result.index);
   }

@@ -46,6 +46,12 @@ body {
 .line {
   margin: 0 0 4px 0;
   min-height: 1.6em;
+  opacity: 1;
+  transition: opacity 0.8s ease;
+}
+
+.line.fade-out {
+  opacity: 0;
 }
 
 .line--prompt {
