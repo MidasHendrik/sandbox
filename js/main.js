@@ -26,6 +26,7 @@ const terminal = document.getElementById("terminal");
 const navbarEl = document.getElementById("navbar");
 const backBtn = document.getElementById("back-btn");
 const restartBtn = document.getElementById("restart-btn");
+const menuBtn = document.getElementById("menu-btn");
 
 const story = new Story(storyJson);
 let log = [];
@@ -359,6 +360,10 @@ function goBack() {
 
 backBtn.addEventListener("click", goBack);
 restartBtn.addEventListener("click", () => location.reload());
+// Reload rather than trying to cancel playStory()'s running loop mid-flight -
+// the app always boots into the menu (see Boot below), so this lands there
+// cleanly. Progress is in localStorage, so completion badges aren't affected.
+menuBtn.addEventListener("click", () => location.reload());
 
 // ---------------------------------------------------------------------
 // Main loop: walks the compiled Ink story, dispatching each line by
