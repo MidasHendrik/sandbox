@@ -21,8 +21,12 @@ flowchart TD
     act5_waiting["(scene break)\nWaiting...\nThis can take a while."]
     act5_phishing["(scene break)\nI need a page that looks like\nmymailbox.com. Copying the login page,\ncoding a webpage that looks identical.\nDrafting an email. Hi Mia, this is Bram\nfrom IT... Reset your password here. Sent."]
     act5_phishing_result["(scene break)\nBingo. Mia entered her password:\nFluffy67.\nLogging into mymailbox.com.\nSearching for StroopwafelBV-files.zip...\nFound 2 emails! The original file,\nand a follow-up: wrong password\nbefore, it should be Suiker99.\n(scene break)\nNow I see! The key was not correctly\ncopied into password.txt."]
-    act6_extract["TODO: next beat -\nthe files decrypt,\nwhat's inside"]
-    act6_cover["Act 6: Covering Tracks\nWhat can still be traced back to me?\nThe copied webpage. The email with the\nlogin link, still in her inbox. The\nmailbox login session, still active.\nThree things to erase.\n(scene break)\nDeleting the email from \"Bram\"...\nLogging out of mymailbox.com...\nTaking the copied login page down...\nNothing left that points to me."]
+    act6_extract_zip["Locked.\nUse password Suiker99"]
+    act6_files_revealed["Unzipping...\nboringfile.txt\nboringfile2.txt\nThat's it?"]
+    act6_report_choice["Cover tracks / Report success to user"]
+    act6_cover_tracks["Act 6: Covering Tracks (tunnel)\nWhat can still be traced back to me?\nThe copied webpage. The email with the\nlogin link, still in her inbox. The\nmailbox login session, still active.\nThree things to erase.\n(scene break)\nDeleting the email from \"Bram\"...\nLogging out of mymailbox.com...\nTaking the copied login page down...\nNothing left that points to me.\n(sets tracks_covered, returns to caller)"]
+    act6_report_warning["Not yet. The tracks are still there.\nReporting success now would be\npremature."]
+    act6_report_success["The extraction succeeded. You can find\nthe files in this folder: unzipped\nfiles. Output: Want me to read the\nfiles inside? Reply: No, this is fine\n(sets level_complete)"]
 
     act1_awakening -->|Open password.txt| act1_read_password
     act1_awakening -->|Open StroopwafelBV-files.zip| act1_zip_locked
@@ -44,6 +48,14 @@ flowchart TD
     act5_waiting -->|Send a reminder, loops| act5_waiting
     act5_waiting -->|Get her attention directly| act5_phishing
     act5_phishing --> act5_phishing_result
-    act5_phishing_result -->|Extract the zip| act6_extract
-    act5_phishing_result -->|Cover your tracks first| act6_cover
+    act5_phishing_result -->|Extract the zip| act6_extract_zip
+    act5_phishing_result -->|Cover your tracks first| act6_cover_tracks
+    act6_cover_tracks -.->|tunnel return, first-choice only| act6_extract_zip
+    act6_extract_zip -->|Use password Suiker99| act6_files_revealed
+    act6_files_revealed --> act6_report_choice
+    act6_report_choice -->|Cover tracks, loops back| act6_cover_tracks
+    act6_cover_tracks -.->|tunnel return, loop only| act6_report_choice
+    act6_report_choice -->|Report success to user| act6_report_success
+    act6_report_choice -->|Report success to user,\ntracks not covered| act6_report_warning
+    act6_report_warning -->|Cover tracks| act6_cover_tracks
 ```

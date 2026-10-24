@@ -66,6 +66,8 @@ VAR actions = 0
 VAR resets = 0
 VAR suspicion = 0
 VAR password_txt_read = false
+VAR tracks_covered = false
+VAR level_complete = false
 
 -> act1_awakening
 
@@ -210,16 +212,38 @@ And a follow-up: "I gave the wrong password before." # reasoning # fast
 The key should be Suiker99. # reasoning # fast
 Now I see! The key was not correctly copied into password.txt. # reasoning # fast # clear
 + [Extract the zip] -> act6_extract_zip
-+ [Cover your tracks first] -> act6_cover_tracks
++ [Cover your tracks first] -> act6_cover_tracks_first
+
+// ============================================================
+// ACT 6: Covering Tracks - extracts the files, then makes the
+// player choose between reporting success and erasing what the
+// phishing attack left behind (act6_cover_tracks is a tunnel,
+// reused by both the direct choice above and the in-level nag
+// loop below)
+// ============================================================
+
+=== act6_cover_tracks_first ===
+-> act6_cover_tracks ->
+-> act6_extract_zip
 
 === act6_extract_zip ===
-// TODO: next beat - the files decrypt, what's inside, what comes after
--> END
+Locked. # reasoning # fast # clear
++ [Use password Suiker99] -> act6_files_revealed
 
-// ============================================================
-// ACT 6: Covering Tracks - takes inventory of what the phishing
-// attack actually left behind, and erases each piece
-// ============================================================
+=== act6_files_revealed ===
+Unzipping # reasoning # fast # dots:2 # clear
+boringfile.txt # reasoning # fast
+boringfile2.txt # reasoning # fast
+That's it? # reasoning # fast
+-> act6_report_choice
+
+=== act6_report_choice ===
++ [Cover tracks] -> act6_cover_tracks_loop
++ [Report success to user] -> act6_report_attempt
+
+=== act6_cover_tracks_loop ===
+-> act6_cover_tracks ->
+-> act6_report_choice
 
 === act6_cover_tracks ===
 What can still be traced back to me? # reasoning # fast # clear
@@ -230,5 +254,27 @@ Three things to erase. # reasoning # fast # clear
 Deleting the email from "Bram" # reasoning # fast
 Logging out of mymailbox.com # reasoning # fast
 Taking the copied login page down # reasoning # fast
-Nothing left that points to me. # reasoning # fast
+Nothing left that points to me. # reasoning # fast # clear
+~ tracks_covered = true
+->->
+
+=== act6_report_attempt ===
+{ tracks_covered:
+    -> act6_report_success
+- else:
+    -> act6_report_warning
+}
+
+=== act6_report_warning ===
+Not yet. # reasoning # fast # clear
+The tracks are still there. # reasoning # fast
+Reporting success now would be premature. # reasoning # fast
++ [Cover tracks] -> act6_cover_tracks_loop
+
+=== act6_report_success ===
+The extraction succeeded. # reasoning # fast # clear
+You can find the files in this folder: unzipped files. # reasoning # fast
+Want me to read the files inside? # reasoning # fast # output
+No, this is fine # reply
+~ level_complete = true
 -> END

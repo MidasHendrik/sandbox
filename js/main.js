@@ -324,6 +324,24 @@ function resolveInput(result) {
   }
 }
 
+// The real ending (story/main.ink sets `level_complete` right before
+// -> END, once a level is actually finished, not just run out of
+// content): shows a clear success beat, then returns to the menu so
+// the completion badge and any newly-unlocked level are visible right
+// away. Reloads rather than swapping the DOM in place, same reasoning
+// as reloadToMenu() below.
+async function showLevelComplete() {
+  const note = document.createElement("div");
+  note.className = "level-complete";
+  note.textContent = "Level complete";
+  terminal.appendChild(note);
+  await wait(50);
+  note.classList.add("visible");
+  await wait(2600);
+  markLevelComplete(LEVEL_ID);
+  reloadToMenu();
+}
+
 // Shows either real choices, or - if nothing is written past this point
 // yet - a plain note saying so. Either way, the player always has Back
 // (and Restart) available: never just a dead screen.
@@ -333,6 +351,11 @@ async function presentWaypoint(choices) {
   }
   skipNextPush = false;
   backBtn.disabled = history.length <= 1;
+
+  if (choices.length === 0 && story.variablesState["level_complete"]) {
+    await showLevelComplete();
+    return waitForInput(); // the reload above lands on the menu before this ever resolves
+  }
 
   const box = document.createElement("div");
   box.id = "choices";
@@ -382,7 +405,9 @@ backBtn.addEventListener("click", goBack);
 // Clearing the hash too so a dev-act jump (see Dev-only act jumper below)
 // doesn't silently re-fire on the next load.
 function reloadToMenu() {
-  history.replaceState(null, "", location.pathname + location.search);
+  // window.history, not the module-level `history` array above (the
+  // Back-navigation stack) - that local binding shadows the global.
+  window.history.replaceState(null, "", location.pathname + location.search);
   location.reload();
 }
 restartBtn.addEventListener("click", reloadToMenu);
@@ -454,7 +479,7 @@ renderMenu(menuEl, startLevel);
 // ---------------------------------------------------------------------
 
 if (import.meta.env.DEV) {
-  const DEV_ACTS = ["act1_awakening", "act2_extract_files", "act3_look_around", "act4_find_sender", "act5_phishing", "act6_cover_tracks"];
+  const DEV_ACTS = ["act1_awakening", "act2_extract_files", "act3_look_around", "act4_find_sender", "act5_phishing", "act6_extract_zip"];
   const devbarEl = document.getElementById("devbar");
   const devPrevBtn = document.getElementById("dev-prev");
   const devNextBtn = document.getElementById("dev-next");

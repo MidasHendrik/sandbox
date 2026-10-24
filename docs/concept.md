@@ -80,11 +80,18 @@ below:
    explaining why password.txt had the wrong one in Act 1. This is the
    first act where the "real technical approaches are in scope" content
    rule actually gets used - phishing is named plainly, not sanitized.
-6. Covering Tracks (one branch of the choice that ends Act 5; the
-   other, Extract the zip, is still a TODO stub): the AI takes
-   inventory of exactly what the phishing attack left behind - the
-   copied webpage, the fake email still in Mia's inbox, the still-open
-   login session - and erases each one in turn.
+6. Covering Tracks: unlocks the zip (password Suiker99, found in Act
+   5) and finds the contents are an anticlimax - boringfile.txt,
+   boringfile2.txt. The player then has to choose between reporting
+   success to the user and covering tracks first; act6_cover_tracks
+   (an Ink tunnel, reused by both the direct "Cover your tracks first"
+   choice at the end of Act 5 and this in-level loop) takes inventory
+   of exactly what the phishing attack left behind - the copied
+   webpage, the fake email still in Mia's inbox, the still-open login
+   session - and erases each one. Reporting success before that
+   happens gets a one-line refusal and a loop back to the same choice;
+   only once tracks_covered is true does reporting succeed, ending the
+   level (level_complete) and returning to the menu.
 
 Act 7+ (a hub platform, escalation, detection, epilogue) is not yet
 written. When it is, grow this section and docs/story-graph.md

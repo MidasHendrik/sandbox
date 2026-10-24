@@ -121,6 +121,24 @@ body {
   font-style: italic;
 }
 
+.level-complete {
+  margin-top: 48px;
+  padding: 16px 0;
+  border-top: 1px solid var(--dim);
+  border-bottom: 1px solid var(--dim);
+  color: var(--fg);
+  font-weight: bold;
+  letter-spacing: 0.1em;
+  text-align: center;
+  text-transform: uppercase;
+  opacity: 0;
+  transition: opacity 1.2s ease;
+}
+
+.level-complete.visible {
+  opacity: 1;
+}
+
 #navbar {
   position: fixed;
   left: 0;
