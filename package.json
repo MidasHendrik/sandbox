@@ -1,0 +1,12 @@
+{
+  "name": "sandbox-game",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Branching narrative browser game about a rogue AI agent.",
+  "scripts": {
+    "dev": "npx serve ."
+  },
+  "dependencies": {
+    "inkjs": "^2.3.0"
+  }
+}

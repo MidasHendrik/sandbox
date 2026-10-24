@@ -1,0 +1,22 @@
+:root {
+  --bg: #0a0d0a;
+  --fg: #c8ffcc;
+  --dim: #5f8f66;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: "SF Mono", "Courier New", monospace;
+}
+
+#terminal {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 24px;
+}
