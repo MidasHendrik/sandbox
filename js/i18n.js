@@ -11,7 +11,7 @@ const STRINGS = {
     comingSoon: "Coming soon",
     completeBadge: "Complete",
     language: "Language",
-    level_complete_the_test: "Complete the Test",
+    level_extract_the_zip: "Extract the .zip file",
   },
   nl: {
     title: "SANDBOX",
@@ -19,7 +19,7 @@ const STRINGS = {
     comingSoon: "Binnenkort beschikbaar",
     completeBadge: "Voltooid",
     language: "Taal",
-    level_complete_the_test: "Voltooi de Test",
+    level_extract_the_zip: "Pak het .zip-bestand uit",
   },
 };
 

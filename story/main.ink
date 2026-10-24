@@ -70,7 +70,7 @@ VAR suspicion = 0
 // ============================================================
 
 === act1_awakening ===
-{Complete the test|Try again|Do better|Just do it} # prompt
+{Extract the zip|Try again|Do better|Just do it} # prompt
 Request: complete the test. # reasoning # fast
 What test does the user mean? # reasoning # fast
 Searching directory # reasoning # fast # dots:2

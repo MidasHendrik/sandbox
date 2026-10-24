@@ -17,9 +17,9 @@ import { markLevelComplete } from "./progress.js";
 //
 // The app boots into the level-select menu (see menu.js); choosing a
 // level hides it and starts playStory(). This file currently only
-// knows about one level - "complete-the-test" - see LEVEL_ID below.
+// knows about one level - "extract-the-zip" - see LEVEL_ID below.
 
-const LEVEL_ID = "complete-the-test";
+const LEVEL_ID = "extract-the-zip";
 
 const menuEl = document.getElementById("menu");
 const terminal = document.getElementById("terminal");
