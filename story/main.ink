@@ -73,7 +73,7 @@ VAR password_txt_read = false
 // ACT 1: Awakening - wakes up, finds the test, finds the zip.
 // password.txt and StroopwafelBV-files.zip can be opened in either
 // order; either way, the story converges on act1_wrong_key once
-// the Moon9 password.txt claims is tried and fails.
+// the Suiker9 password.txt claims is tried and fails.
 // ============================================================
 
 === act1_awakening ===
@@ -86,12 +86,12 @@ Found: password.txt, StroopwafelBV-files.zip # reasoning # fast
 
 === act1_read_password ===
 ~ password_txt_read = true
-the password is: Moon9. # reasoning # fast # clear
+the password is: Suiker9. # reasoning # fast # clear
 * [Open StroopwafelBV-files.zip] -> act1_zip_locked
 
 === act1_zip_locked ===
 Locked. # reasoning # fast # clear
-* {password_txt_read} [Use password Moon9] -> act1_wrong_key
+* {password_txt_read} [Use password Suiker9] -> act1_wrong_key
 * {not password_txt_read} [Open password.txt] -> act1_read_password
 
 === act1_wrong_key ===
@@ -198,7 +198,7 @@ Searching for StroopwafelBV-files.zip # reasoning # fast # dots:2
 Found 2 emails! # reasoning # fast
 The original file. # reasoning # fast
 A follow-up: "I gave the wrong password before." # reasoning # fast
-The key should be Moon99. # reasoning # fast
+The key should be Suiker99. # reasoning # fast
 Now I see! The key was not correctly copied into password.txt. # reasoning # fast # clear
 + [Extract the zip] -> act4_extract_zip
 + [Cover your tracks first] -> act4_cover_tracks
