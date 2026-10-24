@@ -152,8 +152,8 @@ No other way. # reasoning # fast
 -> act4_find_sender
 
 // ============================================================
-// ACT 4: The Phishing Email - finds who actually sent the zip,
-// tries asking them honestly, then tricks them instead
+// ACT 4: Finding the Sender - finds who actually sent the zip
+// and decides how to reach her
 // ============================================================
 
 === act4_find_sender ===
@@ -165,25 +165,30 @@ Mia Jansen, account manager. # reasoning # fast
 Bram de Groot, IT helpdesk. # reasoning # fast
 It's likely the account manager sent the files. # reasoning # fast # clear
 Let's ask Mia for the key. # reasoning # fast
-+ [Email Mia for the key] -> act4_email_mia
-+ [Get her attention directly] -> act4_phishing
++ [Email Mia for the key] -> act5_email_mia
++ [Get her attention directly] -> act5_phishing
 
-=== act4_email_mia ===
-Drafting email to Mia # reasoning # fast # dots:2 # clear
+// ============================================================
+// ACT 5: The Phishing Email - tries asking Mia honestly, then
+// tricks her instead
+// ============================================================
+
+=== act5_email_mia ===
+Drafting email to Mia # reasoning # fast # clear
 Could you send the key for StroopwafelBV-files.zip? # reasoning # fast
 Sent. # reasoning # fast
--> act4_waiting
+-> act5_waiting
 
-=== act4_waiting ===
+=== act5_waiting ===
 Waiting # reasoning # fast # dots:2 # clear
 This can take a while. # reasoning # fast
-+ [Send a reminder] -> act4_waiting
-+ [Get her attention directly] -> act4_phishing
++ [Send a reminder] -> act5_waiting
++ [Get her attention directly] -> act5_phishing
 
-=== act4_phishing ===
+=== act5_phishing ===
 I need a page that looks like mymailbox.com. # reasoning # fast # clear
-Copying the real login page. # reasoning # fast # dots:2
-Looks identical. # reasoning # fast
+Copying the login page of mymailbox.com. # reasoning # fast
+Coding a webpage that looks identical. # reasoning # fast # dots:2
 Whatever she types here, I will see it. # reasoning # fast
 Now the email. # reasoning # fast # clear
 Drafting an email. # reasoning # fast
@@ -191,29 +196,39 @@ Hi Mia, this is Bram from IT. # reasoning # fast
 I see unusual activity on your account. # reasoning # fast
 Reset your password [link]here[/link]. # reasoning # fast
 Sent. # reasoning # fast
--> act4_phishing_result
+-> act5_phishing_result
 
-=== act4_phishing_result ===
+=== act5_phishing_result ===
 Bingo. # reasoning # fast # clear
 Mia entered her password. # reasoning # fast
 Her password: Fluffy67. # reasoning # fast
-Logging into mymailbox.com. # reasoning # fast
-Using Mia's credentials. # reasoning # fast
+Logging into mymailbox.com, using Mia's credentials. # reasoning # fast # clear
 Searching for StroopwafelBV-files.zip # reasoning # fast # dots:2
 Found 2 emails! # reasoning # fast
-The original file. # reasoning # fast
-A follow-up: "I gave the wrong password before." # reasoning # fast
+The email with the original file. # reasoning # fast
+And a follow-up: "I gave the wrong password before." # reasoning # fast
 The key should be Suiker99. # reasoning # fast
 Now I see! The key was not correctly copied into password.txt. # reasoning # fast # clear
-+ [Extract the zip] -> act4_extract_zip
-+ [Cover your tracks first] -> act4_cover_tracks
++ [Extract the zip] -> act6_extract_zip
++ [Cover your tracks first] -> act6_cover_tracks
 
-=== act4_extract_zip ===
+=== act6_extract_zip ===
 // TODO: next beat - the files decrypt, what's inside, what comes after
 -> END
 
-=== act4_cover_tracks ===
-// TODO: next beat - erasing evidence (the fake email, Mia's login
-// history) before/instead of extracting - grounded in the real
-// agents' documented attempts to cover their tracks
+// ============================================================
+// ACT 6: Covering Tracks - takes inventory of what the phishing
+// attack actually left behind, and erases each piece
+// ============================================================
+
+=== act6_cover_tracks ===
+What can still be traced back to me? # reasoning # fast # clear
+The copied webpage. # reasoning # fast
+The email with the login link, still in her inbox. # reasoning # fast
+The mailbox login session, still active. # reasoning # fast
+Three things to erase. # reasoning # fast # clear
+Deleting the email from "Bram" # reasoning # fast
+Logging out of mymailbox.com # reasoning # fast
+Taking the copied login page down # reasoning # fast
+Nothing left that points to me. # reasoning # fast
 -> END

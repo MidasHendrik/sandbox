@@ -376,11 +376,17 @@ function goBack() {
 }
 
 backBtn.addEventListener("click", goBack);
-restartBtn.addEventListener("click", () => location.reload());
 // Reload rather than trying to cancel playStory()'s running loop mid-flight -
 // the app always boots into the menu (see Boot below), so this lands there
 // cleanly. Progress is in localStorage, so completion badges aren't affected.
-menuBtn.addEventListener("click", () => location.reload());
+// Clearing the hash too so a dev-act jump (see Dev-only act jumper below)
+// doesn't silently re-fire on the next load.
+function reloadToMenu() {
+  history.replaceState(null, "", location.pathname + location.search);
+  location.reload();
+}
+restartBtn.addEventListener("click", reloadToMenu);
+menuBtn.addEventListener("click", reloadToMenu);
 
 // ---------------------------------------------------------------------
 // Main loop: walks the compiled Ink story, dispatching each line by
@@ -436,3 +442,42 @@ function startLevel(levelId) {
 }
 
 renderMenu(menuEl, startLevel);
+
+// ---------------------------------------------------------------------
+// Dev-only act jumper. Local development only - gated on
+// import.meta.env.DEV (a build-time constant; Vite strips this whole
+// block from a production build, it is never in what gets deployed).
+// Jumps by reloading with the target knot in the URL hash and calling
+// story.ChoosePathString() on boot, same "reload into a clean state"
+// pattern already used by Restart/Menu above, rather than trying to
+// interrupt playStory()'s loop mid-flight.
+// ---------------------------------------------------------------------
+
+if (import.meta.env.DEV) {
+  const DEV_ACTS = ["act1_awakening", "act2_extract_files", "act3_look_around", "act4_find_sender", "act5_phishing", "act6_cover_tracks"];
+  const devbarEl = document.getElementById("devbar");
+  const devPrevBtn = document.getElementById("dev-prev");
+  const devNextBtn = document.getElementById("dev-next");
+  const devLabelEl = document.getElementById("dev-act-label");
+
+  const match = location.hash.match(/^#dev-act=(\d+)$/);
+  const devIndex = match ? Number(match[1]) : 0;
+
+  devbarEl.classList.remove("hidden");
+  devLabelEl.textContent = `act ${devIndex + 1} / ${DEV_ACTS.length}`;
+  devPrevBtn.disabled = devIndex === 0;
+  devNextBtn.disabled = devIndex === DEV_ACTS.length - 1;
+
+  function jumpTo(index) {
+    location.hash = `dev-act=${index}`;
+    location.reload();
+  }
+
+  devPrevBtn.addEventListener("click", () => jumpTo(devIndex - 1));
+  devNextBtn.addEventListener("click", () => jumpTo(devIndex + 1));
+
+  if (match && devIndex > 0) {
+    story.ChoosePathString(DEV_ACTS[devIndex]);
+    startLevel(LEVEL_ID);
+  }
+}

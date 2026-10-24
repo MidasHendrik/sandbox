@@ -158,6 +158,41 @@ body {
   display: none !important;
 }
 
+/* Dev-only act jumper (see js/main.js - gated on import.meta.env.DEV,
+   never present in a production build). Amber, not the game's palette,
+   so it never reads as part of the game itself. */
+#devbar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 8px;
+  background: #1a1206;
+  border-bottom: 1px solid #c98a2c;
+}
+
+#devbar .nav-btn {
+  border-color: #c98a2c;
+  color: #e0a84a;
+}
+
+#devbar .nav-btn:hover:not(:disabled) {
+  color: #ffce7a;
+  border-color: #ffce7a;
+}
+
+.dev-label {
+  color: #e0a84a;
+  font-size: 13px;
+  min-width: 10em;
+  text-align: center;
+}
+
 #menu {
   max-width: 480px;
   width: 100%;

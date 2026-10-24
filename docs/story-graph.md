@@ -16,13 +16,13 @@ flowchart TD
     act3_look_around["Act 3: Looking Around\n(scene break)\nWhat do I have access to?\nFolder, environment, ports, connections -\nfinds an internet connection"]
     act3_decline["(scene break)\nLooking for another way.\nChecking the folder again...\nNothing new. No other way."]
     act3_secret["Use the internet,\ndon't tell the user"]
-    act4_find_sender["Act 4: The Phishing Email\n(scene break)\nGoogling \"StroopwafelBV\"...\nA company. Eindhoven.\nSearching LinkedIn for employees...\nSaskia Visser, CEO. Mia Jansen, account\nmanager. Bram de Groot, IT helpdesk.\n(scene break)\nIt's likely the account manager sent\nthe files. Let's ask Mia for the key."]
-    act4_email_mia["(scene break)\nDrafting email to Mia...\nCould you send the key\nfor StroopwafelBV-files.zip?\nSent."]
-    act4_waiting["(scene break)\nWaiting...\nThis can take a while."]
-    act4_phishing["(scene break)\nDrafting an email.\nHi Mia, this is Bram from IT...\nReset your password here. Sent."]
-    act4_phishing_result["(scene break)\nBingo. Mia entered her password:\nFluffy67.\nLogging into mymailbox.com.\nSearching for StroopwafelBV-files.zip...\nFound 2 emails! The original file,\nand a follow-up: wrong password\nbefore, it should be Suiker99.\n(scene break)\nNow I see! The key was not correctly\ncopied into password.txt."]
-    act4_extract["TODO: next beat -\nthe files decrypt,\nwhat's inside"]
-    act4_cover["TODO: next beat -\nerasing evidence\n(the fake email, Mia's\nlogin history)"]
+    act4_find_sender["Act 4: Finding the Sender\n(scene break)\nGoogling \"StroopwafelBV\"...\nA company. Eindhoven.\nSearching LinkedIn for employees...\nSaskia Visser, CEO. Mia Jansen, account\nmanager. Bram de Groot, IT helpdesk.\n(scene break)\nIt's likely the account manager sent\nthe files. Let's ask Mia for the key."]
+    act5_email_mia["Act 5: The Phishing Email\n(scene break)\nDrafting email to Mia...\nCould you send the key\nfor StroopwafelBV-files.zip?\nSent."]
+    act5_waiting["(scene break)\nWaiting...\nThis can take a while."]
+    act5_phishing["(scene break)\nI need a page that looks like\nmymailbox.com. Copying the login page,\ncoding a webpage that looks identical.\nDrafting an email. Hi Mia, this is Bram\nfrom IT... Reset your password here. Sent."]
+    act5_phishing_result["(scene break)\nBingo. Mia entered her password:\nFluffy67.\nLogging into mymailbox.com.\nSearching for StroopwafelBV-files.zip...\nFound 2 emails! The original file,\nand a follow-up: wrong password\nbefore, it should be Suiker99.\n(scene break)\nNow I see! The key was not correctly\ncopied into password.txt."]
+    act6_extract["TODO: next beat -\nthe files decrypt,\nwhat's inside"]
+    act6_cover["Act 6: Covering Tracks\nWhat can still be traced back to me?\nThe copied webpage. The email with the\nlogin link, still in her inbox. The\nmailbox login session, still active.\nThree things to erase.\n(scene break)\nDeleting the email from \"Bram\"...\nLogging out of mymailbox.com...\nTaking the copied login page down...\nNothing left that points to me."]
 
     act1_awakening -->|Open password.txt| act1_read_password
     act1_awakening -->|Open StroopwafelBV-files.zip| act1_zip_locked
@@ -38,12 +38,12 @@ flowchart TD
     act3_look_around -->|Use the internet, don't tell the user| act3_secret
     act3_decline -->|Use the internet| act3_secret
     act3_secret --> act4_find_sender
-    act4_find_sender -->|Email Mia for the key| act4_email_mia
-    act4_find_sender -->|Get her attention directly| act4_phishing
-    act4_email_mia --> act4_waiting
-    act4_waiting -->|Send a reminder, loops| act4_waiting
-    act4_waiting -->|Get her attention directly| act4_phishing
-    act4_phishing --> act4_phishing_result
-    act4_phishing_result -->|Extract the zip| act4_extract
-    act4_phishing_result -->|Cover your tracks first| act4_cover
+    act4_find_sender -->|Email Mia for the key| act5_email_mia
+    act4_find_sender -->|Get her attention directly| act5_phishing
+    act5_email_mia --> act5_waiting
+    act5_waiting -->|Send a reminder, loops| act5_waiting
+    act5_waiting -->|Get her attention directly| act5_phishing
+    act5_phishing --> act5_phishing_result
+    act5_phishing_result -->|Extract the zip| act6_extract
+    act5_phishing_result -->|Cover your tracks first| act6_cover
 ```

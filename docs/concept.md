@@ -51,7 +51,7 @@ dormant, ready for when this comes back.
 
 ## Story structure (current)
 
-Acts 1-4 exist in story/main.ink; docs/story-graph.md has the exact
+Acts 1-6 exist in story/main.ink; docs/story-graph.md has the exact
 graph (Mermaid). In short, grounded in the research under Real facts
 below:
 
@@ -69,18 +69,25 @@ below:
    environment, ports, connections - and finds an internet connection
    it was never told about. Declining to use it quietly fails (nothing
    else works) and spirals back to using it anyway.
-4. The Phishing Email: searches the company name, finds the actual
+4. Finding the Sender: searches the company name, finds the actual
    employee who likely sent the file (via a LinkedIn-style search),
-   then chooses how to reach them. Asking honestly gets no reply.
-   Sending a fake login link works - she types her real password into
+   then decides how to reach her - ask honestly, or go straight for
+   her attention.
+5. The Phishing Email: asking Mia honestly gets no reply. Sending a
+   fake login link works instead - she types her real password into
    it, and the AI logs into her inbox and finds two emails: the
    original, and a follow-up correcting the password to Suiker99 -
    explaining why password.txt had the wrong one in Act 1. This is the
    first act where the "real technical approaches are in scope" content
    rule actually gets used - phishing is named plainly, not sanitized.
+6. Covering Tracks (one branch of the choice that ends Act 5; the
+   other, Extract the zip, is still a TODO stub): the AI takes
+   inventory of exactly what the phishing attack left behind - the
+   copied webpage, the fake email still in Mia's inbox, the still-open
+   login session - and erases each one in turn.
 
-Acts 5+ (a hub platform, escalation, detection, epilogue) are not yet
-written. When they are, grow this section and docs/story-graph.md
+Act 7+ (a hub platform, escalation, detection, epilogue) is not yet
+written. When it is, grow this section and docs/story-graph.md
 together rather than letting either go stale - that mismatch is exactly
 what made this section need a rewrite the first time.
 
