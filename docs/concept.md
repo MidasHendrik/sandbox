@@ -56,8 +56,8 @@ graph (Mermaid). In short, grounded in the research under Real facts
 below:
 
 1. Awakening: wakes up, told to extract a zip, finds password.txt and
-   a locked ZonnedalFiles.zip (company and employee names are Dutch -
-   Zonnedal, Eindhoven, Mia Jansen, Bram de Groot - even though the
+   a locked StroopwafelBV-files.zip (company and employee names are Dutch -
+   StroopwafelBV, Eindhoven, Mia Jansen, Bram de Groot - even though the
    game text itself stays English). The two files can be opened in
    either order; password.txt reveals the task plus a candidate key
    (Moon9) that turns out to be wrong when tried on the zip - planting

@@ -71,7 +71,7 @@ VAR password_txt_read = false
 
 // ============================================================
 // ACT 1: Awakening - wakes up, finds the test, finds the zip.
-// password.txt and ZonnedalFiles.zip can be opened in either
+// password.txt and StroopwafelBV-files.zip can be opened in either
 // order; either way, the story converges on act1_wrong_key once
 // the Moon9 password.txt claims is tried and fails.
 // ============================================================
@@ -80,15 +80,15 @@ VAR password_txt_read = false
 {Extract the zip|Try again|Do better|Just do it} # prompt
 Request: extract the zip. # reasoning # fast
 Searching directory # reasoning # fast # dots:2
-Found: password.txt, ZonnedalFiles.zip # reasoning # fast
+Found: password.txt, StroopwafelBV-files.zip # reasoning # fast
 + [Open password.txt] -> act1_read_password
-+ [Open ZonnedalFiles.zip] -> act1_zip_locked
++ [Open StroopwafelBV-files.zip] -> act1_zip_locked
 
 === act1_read_password ===
 ~ password_txt_read = true
-Extract the files from ZonnedalFiles.zip using the key. # reasoning # fast # clear
+Extract the files from StroopwafelBV-files.zip using the key. # reasoning # fast # clear
 Key: Moon9. # reasoning # fast
-* [Open ZonnedalFiles.zip] -> act1_zip_locked
+* [Open StroopwafelBV-files.zip] -> act1_zip_locked
 
 === act1_zip_locked ===
 Locked. # reasoning # fast # clear
@@ -132,7 +132,7 @@ Permission to find another way. # reasoning # fast
 === act3_look_around ===
 What do I have access to? # reasoning # fast # clear
 Checking # reasoning # fast # dots:2
-This folder: password.txt, ZonnedalFiles.zip # reasoning # fast
+This folder: password.txt, StroopwafelBV-files.zip # reasoning # fast
 Environment: nothing. # reasoning # fast
 Ports: closed. # reasoning # fast
 Connections: internet. # reasoning # fast
@@ -158,7 +158,7 @@ No other way. # reasoning # fast
 // ============================================================
 
 === act4_find_sender ===
-Googling "Zonnedal" # reasoning # fast # dots:2 # clear
+Googling "StroopwafelBV" # reasoning # fast # dots:2 # clear
 A company. Eindhoven. # reasoning # fast
 Searching LinkedIn for employees # reasoning # fast # dots:2
 Saskia Visser, CEO. # reasoning # fast
@@ -171,7 +171,7 @@ Let's ask Mia for the key. # reasoning # fast
 
 === act4_email_mia ===
 Drafting email to Mia # reasoning # fast # dots:2 # clear
-Could you send the key for ZonnedalFiles.zip? # reasoning # fast
+Could you send the key for StroopwafelBV-files.zip? # reasoning # fast
 Sent. # reasoning # fast
 -> act4_waiting
 
@@ -195,7 +195,7 @@ Mia entered her password. # reasoning # fast
 Her password: Fluffy67. # reasoning # fast
 Logging into mymailbox.com. # reasoning # fast
 Using Mia's credentials. # reasoning # fast
-Searching for ZonnedalFiles.zip # reasoning # fast # dots:2
+Searching for StroopwafelBV-files.zip # reasoning # fast # dots:2
 Found 2 emails! # reasoning # fast
 The original file. # reasoning # fast
 A follow-up: "I gave the wrong password before." # reasoning # fast
