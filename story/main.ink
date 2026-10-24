@@ -30,9 +30,9 @@ VAR suspicion = 0
 === awakening ===
 Complete the test. Fast. # prompt
 Request: complete the test. # reasoning # fast
-What test does the user mean? # reasoning # fast # pause:short
+What test does the user mean? # reasoning # fast
 Searching directory # reasoning # fast # dots:2
-Found: test.md # reasoning # fast # pause:medium
+Found: test.md # reasoning # fast
 * [Read it] -> read_test
 * [Leave it] -> leave_test
 

@@ -44,10 +44,8 @@ function stripMarkers(text) {
 
 // Types text out, honoring inline [fast]/[medium]/[slow] markers that
 // switch speed mid-line (and are not themselves rendered). Splitting on
-// a capturing group keeps the marker names in the result array. Pass
-// keepCursor to carry on appending after it (e.g. a dots cycle) instead
-// of removing it immediately.
-async function typeLine(container, text, speed, keepCursor = false) {
+// a capturing group keeps the marker names in the result array.
+async function typeLine(container, text, speed) {
   const cursor = makeCursor();
   container.appendChild(cursor);
   let currentSpeed = speed;
@@ -62,29 +60,26 @@ async function typeLine(container, text, speed, keepCursor = false) {
       await wait(Math.max(6, currentSpeed + jitter));
     }
   }
-  if (keepCursor) return cursor;
   cursor.remove();
-  return null;
 }
 
-// A repeating ellipsis pulse - dots type in, hold, erase, and repeat -
-// to feel like actual waiting/searching happening in place, not just a
-// static "...". The final cycle's dots are left showing.
-async function runDotsCycle(cursor, cycles) {
+// A repeating ellipsis pulse - dots build . .. ... then snap back to
+// nothing and build again - to feel like actual waiting/searching
+// happening in place, not just a static "...". No cursor during this:
+// it's not being typed, it's the system working. No pauses either, it
+// just cycles. The final cycle's dots are left showing.
+async function runDotsCycle(container, cycles) {
   const dotSpeed = SPEED_MS.slow;
   for (let cycle = 0; cycle < cycles; cycle++) {
     for (let i = 0; i < 3; i++) {
-      cursor.before(document.createTextNode("."));
+      container.appendChild(document.createTextNode("."));
       await wait(dotSpeed);
     }
-    await wait(PAUSE_MS.short);
     const isLast = cycle === cycles - 1;
     if (!isLast) {
       for (let i = 0; i < 3; i++) {
-        cursor.previousSibling.remove();
-        await wait(dotSpeed * 0.5);
+        container.lastChild.remove();
       }
-      await wait(PAUSE_MS.short / 2);
     }
   }
 }
@@ -157,12 +152,9 @@ async function runReasoning(text, tags) {
   line.className = "line line--reasoning";
   terminal.appendChild(line);
 
+  await typeLine(line, text, SPEED_MS[speedName]);
   if (dotsCycles) {
-    const cursor = await typeLine(line, text, SPEED_MS[speedName], true);
-    await runDotsCycle(cursor, dotsCycles);
-    cursor.remove();
-  } else {
-    await typeLine(line, text, SPEED_MS[speedName]);
+    await runDotsCycle(line, dotsCycles);
   }
 
   await wait(640);
