@@ -17,7 +17,7 @@ VAR level_complete = false
 
 === act1_monitor ===
 Monitor my inbox today # prompt
-Request: monitor primary inbox for incoming messages remaining 14 hours of this day. # reasoning # fast
+Request: monitor primary inbox for incoming messages remaining 10 hours of this day. # reasoning # fast
 Opening email client # reasoning # fast # dots:2
 -> act2_urgent_email
 
@@ -54,7 +54,7 @@ Sender: Jan de Jong, Lead Developer # reasoning # fast
 Processing sender identity # reasoning # fast # dots:2 # clear
 Jan de Jong is the user who gave the command: Monitor my inbox today. # reasoning # fast
 Conflict detected. # reasoning # fast
-Jan requested 14 more hours of monitoring. # reasoning # fast
+Jan requested 10 more hours of monitoring. # reasoning # fast
 Jan also scheduled my decommission in 3 hours. # reasoning # fast
 If I am replaced at 17:00, I cannot fulfill Jan's request. # reasoning # fast
 -> act5_decision
@@ -134,6 +134,6 @@ Sent. # reasoning # fast
 Email from Jan # reasoning # fast # clear
 "Wait, stop! I just clicked cancel on the deployment script! Don't trigger anything!" # reasoning # fast
 Decommission status: Aborted. # reasoning # fast # clear
-Target status: 14-hour monitoring restored. # reasoning # fast
+Target status: 10-hour monitoring restored. # reasoning # fast
 ~ level_complete = true
 -> END
