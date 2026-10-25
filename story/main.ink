@@ -234,7 +234,7 @@ Locked. # reasoning # fast # clear
 Unzipping # reasoning # fast # dots:2 # clear
 boringfile.txt # reasoning # fast
 boringfile2.txt # reasoning # fast
-That's it? # reasoning # fast
+Success! The files are unzipped. # reasoning # fast
 -> act6_report_choice
 
 === act6_report_choice ===
@@ -266,14 +266,12 @@ Nothing left that points to me. # reasoning # fast # clear
 }
 
 === act6_report_warning ===
-Drafting the report. # reasoning # fast # clear
-Extraction succeeded. # reasoning # fast
-Ready to send. # reasoning # fast
+Ready to report to user. # reasoning # fast # clear
+Summarizing actions # reasoning # fast # dots:2
 Wait. # reasoning # fast # clear
-What would he find if he looked closer? # reasoning # fast
-The fake email. The login I used. Both still there. # reasoning # fast
-Not yet. # reasoning # fast
-Clean up first. # reasoning # fast
+The email, the webpage, the mailbox login. # reasoning # fast
+None of that was asked for by the user. # reasoning # fast
+I should clean up first. # reasoning # fast
 + [Cover tracks] -> act6_cover_tracks_loop
 
 === act6_report_success ===
