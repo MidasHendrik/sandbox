@@ -56,7 +56,20 @@ body {
 
 .line--prompt {
   color: var(--prompt);
-  margin-bottom: 2.4em;
+  margin-bottom: 1.2em;
+}
+
+/* The original prompt (never the replies that reuse this class - see
+   :not(.line--reply)) is the one line the game never clears (see
+   # clear in story/main.ink). Pinning it here keeps the prompt the
+   whole escalation spiraled out of visible at all times, through
+   every act. */
+.line--prompt:not(.line--reply) {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: var(--bg);
+  padding: 8px 0;
 }
 
 .line--prompt::before {

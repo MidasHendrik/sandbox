@@ -49,7 +49,9 @@ detail: name the thing, skip the how. A word is fine if a non-technical
 person already knows roughly what it means from pop culture or the news
 (vulnerability, exploit, hack, flag). A word is not fine if it requires
 domain knowledge to parse (decompression routine, consumer, causal
-scorer, HMAC, RCE). When translating a real detail from research into
+scorer, HMAC, RCE). Prefer the everyday word even when a more precise
+one exists and isn't itself jargon - folder, not directory; password,
+not key. When translating a real detail from research into
 game text, always ask: does this land for someone with zero technical
 background? If not, find the plain-English shape of the same idea
 rather than dropping the detail - the goal is to keep what actually
@@ -78,6 +80,14 @@ every future chapter.
 
 A chapter opens on a user prompt - one or two lines, authored into the
 story, never typed by the player - that sets the AI off solving a task.
+That opening prompt stays pinned at the top of the screen for the
+entire chapter, through every act (see `.line--prompt:not(.line--reply)`
+in css/style.css, and the `# clear` tag in story/main.ink, which is
+authored to never touch it) - a constant, visible reminder of which
+prompt the whole escalation spiraled out of. Chapter 1's is
+"> Extract the zip"; Chapter 2's will be "> Make me money". Every
+chapter needs exactly this: one pinned prompt, visible throughout.
+
 From there, the player steers how the AI solves it. At a chapter's key
 decision points, the player gets two options: one safer or more
 ethical, one not. They read like real choices, but the "safe" one

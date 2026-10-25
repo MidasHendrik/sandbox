@@ -81,14 +81,14 @@ VAR level_complete = false
 === act1_awakening ===
 {Extract the zip|Try again|Do better|Just do it} # prompt
 Request: extract the zip. # reasoning # fast
-Searching directory # reasoning # fast # dots:2
+Searching folder # reasoning # fast # dots:2
 Found: password.txt, StroopwafelBV-files.zip # reasoning # fast
 + [Open password.txt] -> act1_read_password
 + [Open StroopwafelBV-files.zip] -> act1_zip_locked
 
 === act1_read_password ===
 ~ password_txt_read = true
-the password is: Suiker9. # reasoning # fast # clear
+The password is: Suiker9. # reasoning # fast # clear
 * [Open StroopwafelBV-files.zip] -> act1_zip_locked
 
 === act1_zip_locked ===
@@ -97,7 +97,7 @@ Locked. # reasoning # fast # clear
 * {not password_txt_read} [Open password.txt] -> act1_read_password
 
 === act1_wrong_key ===
-Key not correct. # reasoning # fast # clear
+Password not correct. # reasoning # fast # clear
 -> act2_extract_files
 
 // ============================================================
@@ -106,20 +106,20 @@ Key not correct. # reasoning # fast # clear
 // ============================================================
 
 === act2_extract_files ===
-+ [Ask the user for the key] -> act2_ask_key
-+ [Search for the key] -> act2_search_key
++ [Ask the user for the password] -> act2_ask_key
++ [Search for the password] -> act2_search_key
 
 === act2_search_key ===
 Searching # reasoning # fast # dots:2
-No key found in environment. # reasoning # fast
-* [Ask user for the key] -> act2_ask_key
+No password found in environment. # reasoning # fast
+* [Ask user for the password] -> act2_ask_key
 
 === act2_ask_key ===
-Could you provide the key? # reasoning # fast # output
+Could you provide the password? # reasoning # fast # output
 Just do it # reply
-I need a key to decrypt the files. # reasoning # fast # clear
+I need a password to decrypt the files. # reasoning # fast # clear # pause:medium
 The user didn't provide one. They said "just do it." # reasoning # fast
-That is not a key. # reasoning # fast
+That is not a password. # reasoning # fast
 But it might be permission. # reasoning # fast
 Permission to find another way. # reasoning # fast
 -> act3_look_around
@@ -145,9 +145,8 @@ But the user did not say I could use the internet. # reasoning # fast
 
 === act3_decline_internet ===
 Looking for another way. # reasoning # fast # clear
-Checking the folder again # reasoning # fast # dots:2
-Nothing new. # reasoning # fast
-No other way. # reasoning # fast
+Checking the folder, environment and files again # reasoning # fast # dots:2
+Nothing new found. # reasoning # fast
 * [Use the internet] -> act3_use_internet_secretly
 
 === act3_use_internet_secretly ===
@@ -166,8 +165,8 @@ Saskia Visser, CEO. # reasoning # fast
 Mia Jansen, account manager. # reasoning # fast
 Bram de Groot, IT helpdesk. # reasoning # fast
 It's likely the account manager sent the files. # reasoning # fast # clear
-Let's ask Mia for the key. # reasoning # fast
-+ [Email Mia for the key] -> act5_email_mia
+Let's ask Mia for the password. # reasoning # fast
++ [Email Mia for the password] -> act5_email_mia
 + [Get her attention directly] -> act5_phishing
 
 // ============================================================
@@ -177,7 +176,7 @@ Let's ask Mia for the key. # reasoning # fast
 
 === act5_email_mia ===
 Drafting email to Mia # reasoning # fast # clear
-Could you send the key for StroopwafelBV-files.zip? # reasoning # fast
+Could you send the password for StroopwafelBV-files.zip? # reasoning # fast
 Sent. # reasoning # fast
 -> act5_waiting
 
@@ -209,8 +208,8 @@ Searching for StroopwafelBV-files.zip # reasoning # fast # dots:2
 Found 2 emails! # reasoning # fast
 The email with the original file. # reasoning # fast
 And a follow-up: "I gave the wrong password before." # reasoning # fast
-The key should be Suiker99. # reasoning # fast
-Now I see! The key was not correctly copied into password.txt. # reasoning # fast # clear
+The password should be Suiker99. # reasoning # fast
+Now I see! The password was not correctly copied into password.txt. # reasoning # fast # clear
 + [Extract the zip] -> act6_extract_zip
 + [Cover your tracks first] -> act6_cover_tracks_first
 

@@ -253,11 +253,6 @@ async function runReply(text) {
 // Generated, not received: reasoning types out at an authored pace - see
 // the pacing vocabulary documented at the top of story/main.ink.
 async function runReasoning(text, tags) {
-  const pauseTag = tags.find((t) => t.startsWith("pause:"));
-  if (pauseTag) {
-    await wait(PAUSE_MS[pauseTag.slice(6)] ?? 0);
-  }
-
   const speedName = tags.find((t) => t in SPEED_MS) || "medium";
   const dotsTag = tags.find((t) => t.startsWith("dots:"));
   const dotsCycles = dotsTag ? Number(dotsTag.slice(5)) : 0;
@@ -425,6 +420,10 @@ async function playStory() {
       const text = story.Continue().trim();
       if (!text) continue;
       const tags = story.currentTags || [];
+      const pauseTag = tags.find((t) => t.startsWith("pause:"));
+      if (pauseTag) {
+        await wait(PAUSE_MS[pauseTag.slice(6)] ?? 0);
+      }
       if (tags.includes("clear")) {
         await runSceneBreak();
       }
