@@ -1,6 +1,6 @@
 import { Story } from "inkjs";
 import { renderMenu } from "./menu.js";
-import { markLevelComplete } from "./progress.js";
+import { markLevelComplete, saveLevelState, loadLevelState } from "./progress.js";
 import { LEVELS } from "./levels.js";
 
 // UI shell: drives the compiled Ink story and renders it as a terminal.
@@ -11,9 +11,13 @@ import { LEVELS } from "./levels.js";
 // something is a "waypoint" - either real Ink choices, or a dead end
 // (content not written yet). Every waypoint is snapshotted (engine state
 // + rendered log) so Back can always return to the previous one, and
-// Menu can always get back to level select. The player (and the
-// developer, while testing) should never be stuck on a screen with
-// nothing clickable on it.
+// Menu can always get back to level select. The same snapshot is also
+// written to localStorage (see progress.js's levelStates), so leaving
+// via Menu - which fully reloads the page, wiping this file's in-memory
+// state - and picking the level again resumes at that waypoint instead
+// of restarting from Act 1. The player (and the developer, while
+// testing) should never be stuck on a screen with nothing clickable on
+// it, or lose their place by leaving.
 //
 // The app boots into the level-select menu (see menu.js); choosing a
 // level hides it and starts playStory(). Each LEVELS entry (see
@@ -29,11 +33,24 @@ const STORY_MODULES = import.meta.glob("../story/*.json");
 let LEVEL_ID = null;
 let story = null;
 
-async function loadStory(levelId) {
+async function loadStory(levelId, { resume = true } = {}) {
   const level = LEVELS.find((l) => l.id === levelId);
   const module = await STORY_MODULES[`../story/${level.storyFile}`]();
   story = new Story(module.default);
   LEVEL_ID = levelId;
+
+  // Resume at the last waypoint reached, if there is one (see
+  // progress.js's levelStates) - skipped entirely for a level with no
+  // saved state, which just plays from the top as normal. Also skipped
+  // for resume: false, used by the dev act jumper below, which always
+  // wants a fresh story to jump from - it seeds its own fake prompt
+  // line and would otherwise double up with a restored one.
+  const saved = resume ? loadLevelState(levelId) : null;
+  if (saved) {
+    story.state.LoadJson(saved.state);
+    log = saved.log;
+    renderLogInstant();
+  }
 }
 
 const menuEl = document.getElementById("menu");
@@ -408,7 +425,9 @@ async function showLevelComplete() {
 // (and Menu) available: never just a dead screen.
 async function presentWaypoint(choices) {
   if (!skipNextPush) {
-    history.push({ state: story.state.ToJson(), log: [...log] });
+    const snapshot = { state: story.state.ToJson(), log: [...log] };
+    history.push(snapshot);
+    saveLevelState(LEVEL_ID, snapshot);
   }
   skipNextPush = false;
   backBtn.disabled = history.length <= 1;
@@ -461,6 +480,7 @@ function goBack() {
   log = [...target.log];
   renderLogInstant();
   skipNextPush = true;
+  saveLevelState(LEVEL_ID, target); // keep the resume point in sync with Back
   resolveInput({ type: "back" });
 }
 
@@ -622,7 +642,7 @@ if (import.meta.env.DEV) {
   const devActIndex = params.has("act") ? Number(params.get("act")) : null;
 
   if (devLevel && devActIndex && devActIndex > 0 && devLevel.devActs?.[devActIndex]) {
-    loadStory(devLevel.id).then(() => {
+    loadStory(devLevel.id, { resume: false }).then(() => {
       seedPromptForDevJump(devLevel.promptText);
       story.ChoosePathString(devLevel.devActs[devActIndex]);
       showTerminalAndPlay();
