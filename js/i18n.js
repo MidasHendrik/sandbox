@@ -12,6 +12,9 @@ const STRINGS = {
     completeBadge: "Complete",
     language: "Language",
     level_extract_the_zip: "Extract the .zip file",
+    level_order_my_herhaalrecept: "Order my herhaalrecept",
+    resetAllLevels: "Reset all levels",
+    resetAllLevelsConfirm: "Reset all progress? This can't be undone.",
   },
   nl: {
     title: "Just do it",
@@ -20,6 +23,9 @@ const STRINGS = {
     completeBadge: "Voltooid",
     language: "Taal",
     level_extract_the_zip: "Pak het .zip-bestand uit",
+    level_order_my_herhaalrecept: "Bestel mijn herhaalrecept",
+    resetAllLevels: "Alle levels resetten",
+    resetAllLevelsConfirm: "Alle voortgang resetten? Dit kan niet ongedaan worden gemaakt.",
   },
 };
 

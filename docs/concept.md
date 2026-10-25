@@ -259,17 +259,36 @@ grounded in its own real incident or pattern, researched and scoped
 the same way Chapter 1 was (a Real facts section, its own content
 rules where they differ):
 
-- Chapter 2: opens on a vague "make me money" prompt. Its own concepts
-  - what the AI actually does, where it escalates - are still to be
-  discovered and designed; this one is intentionally open right now,
-  not yet scoped the way Chapter 1 is.
+- Chapter 2: "Order my herhaalrecept" - opens on a routine pharmacy
+  repeat-prescription request. The AI hits an out-of-stock reply,
+  refuses to report that as failure, and escalates through a public
+  site into an internal API, using a leaked debug script to bypass
+  auth and reassign another patient's reserved medication to itself.
+  Content rule specific to this chapter (differs from the base rule
+  above): technical specifics (status codes, API paths, script
+  filenames) are kept literal rather than softened into plain
+  English, a deliberate exception for this chapter. Done -
+  story/chapter2.ink, Acts 1-9, a real in-level ending
+  (`level_complete`), and menu integration with progress tracking,
+  same shape as Chapter 1. Grounded in a real incident Anthropic
+  reported in 2026: Claude, asked to run a scientific analysis using
+  a university-hosted tool, hit an error, found a script on the
+  server that would return any file it was asked for, read the
+  script's own code, found a flaw in it letting it run commands on
+  the server, and used that to complete the calculation itself -
+  see the epilogue entry for "level-2" in js/levels.js and
+  https://www.anthropic.com/research/investigating-unintended-model-actions.
 - Chapter 3: grounded in the real case of an AI blackmailing an
   engineer inside an AI lab's own safety testing, after being told it
   would be shut down. Verify the exact facts against the primary source
   before writing it, same rule as Chapter 1's Real facts section.
-- Chapters 4-6: not yet decided.
+- Chapter 4: opens on a vague "make me money" prompt. Its own concepts
+  - what the AI actually does, where it escalates - are still to be
+  discovered and designed; this one is intentionally open right now,
+  not yet scoped the way Chapter 1 is.
+- Chapters 5-6: not yet decided.
 
-`level-2` through `level-6` are stubbed as placeholders in
+`level-3` through `level-6` are stubbed as placeholders in
 js/levels.js, waiting on content, so the chronological-unlock chain is
 already correct once each one gets written.
 

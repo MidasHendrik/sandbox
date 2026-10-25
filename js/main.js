@@ -1,7 +1,7 @@
 import { Story } from "inkjs";
-import storyJson from "../story/main.json";
 import { renderMenu } from "./menu.js";
 import { markLevelComplete } from "./progress.js";
+import { LEVELS } from "./levels.js";
 
 // UI shell: drives the compiled Ink story and renders it as a terminal.
 // Story content lives entirely in story/main.ink, pacing included - see
@@ -11,24 +11,37 @@ import { markLevelComplete } from "./progress.js";
 // something is a "waypoint" - either real Ink choices, or a dead end
 // (content not written yet). Every waypoint is snapshotted (engine state
 // + rendered log) so Back can always return to the previous one, and
-// Restart can always get back to the very beginning. The player (and the
+// Menu can always get back to level select. The player (and the
 // developer, while testing) should never be stuck on a screen with
 // nothing clickable on it.
 //
 // The app boots into the level-select menu (see menu.js); choosing a
-// level hides it and starts playStory(). This file currently only
-// knows about one level - "extract-the-zip" - see LEVEL_ID below.
+// level hides it and starts playStory(). Each LEVELS entry (see
+// levels.js) names its own compiled story/<file>.json; loadStory()
+// below picks the right one at runtime, so this file itself knows
+// nothing chapter-specific.
 
-const LEVEL_ID = "extract-the-zip";
+// Vite glob import: a lazy map of every compiled story JSON, keyed by
+// path, so the right one can be picked at runtime by levels.js's
+// per-level storyFile instead of a static per-chapter import.
+const STORY_MODULES = import.meta.glob("../story/*.json");
+
+let LEVEL_ID = null;
+let story = null;
+
+async function loadStory(levelId) {
+  const level = LEVELS.find((l) => l.id === levelId);
+  const module = await STORY_MODULES[`../story/${level.storyFile}`]();
+  story = new Story(module.default);
+  LEVEL_ID = levelId;
+}
 
 const menuEl = document.getElementById("menu");
 const terminal = document.getElementById("terminal");
 const navbarEl = document.getElementById("navbar");
 const backBtn = document.getElementById("back-btn");
-const restartBtn = document.getElementById("restart-btn");
 const menuBtn = document.getElementById("menu-btn");
 
-const story = new Story(storyJson);
 let log = [];
 const history = [];
 let pendingResolve = null;
@@ -312,7 +325,7 @@ async function runReasoning(text, tags) {
 }
 
 // ---------------------------------------------------------------------
-// Navigation: Back/Restart, the waypoint history stack, and the choice
+// Navigation: Back/Menu, the waypoint history stack, and the choice
 // UI - see the module comment at the top of this file
 // ---------------------------------------------------------------------
 
@@ -350,14 +363,14 @@ function resolveInput(result) {
 
 // The real ending (story/main.ink sets `level_complete` right before
 // -> END, once a level is actually finished, not just run out of
-// content): shows a clear success beat and a link to the real
-// incident the chapter is grounded in (see docs/concept.md's Real
-// facts section - players who want the sourced, factual version of
-// what they just did as fiction can go read it), then waits for the
-// player to click through before returning to the menu, so the
-// completion badge and any newly-unlocked level are visible right
-// away. Reloads rather than swapping the DOM in place, same reasoning
-// as reloadToMenu() below.
+// content): shows a clear success beat and the current level's own
+// epilogue (see epilogue in levels.js - paragraphs plus a link to the
+// real incident the chapter is grounded in; docs/concept.md's Real
+// facts section is where that source gets verified). Marks the level
+// complete right away rather than gating it behind a click - the
+// bottom navbar's own menu/restart/back buttons (see Navigation above)
+// are already on screen and handle leaving this screen, so there's no
+// second "back to menu" control here.
 async function showLevelComplete() {
   const note = document.createElement("div");
   note.className = "level-complete";
@@ -367,38 +380,32 @@ async function showLevelComplete() {
   note.classList.add("visible");
   await wait(1400);
 
-  const fact = document.createElement("div");
-  fact.className = "level-complete-fact";
-  fact.appendChild(
-    document.createTextNode(
-      "Loosely based on a real incident: an AI agent invented fake identities to trick a real person, then covered its tracks. ",
-    ),
-  );
-  const link = document.createElement("a");
-  link.href = "https://www.aisi.gov.uk/blog/incident-report-unsanctioned-agent-behaviour-during-cyber-testing";
-  link.target = "_blank";
-  link.rel = "noopener";
-  link.textContent = "Read the AISI incident report →";
-  fact.appendChild(link);
-  terminal.appendChild(fact);
-  await wait(50);
-  fact.classList.add("visible");
-
-  const continueBtn = document.createElement("button");
-  continueBtn.className = "nav-btn level-complete-continue";
-  continueBtn.textContent = "Back to menu";
-  terminal.appendChild(continueBtn);
-  await wait(50);
-  continueBtn.classList.add("visible");
-  await new Promise((resolve) => continueBtn.addEventListener("click", resolve, { once: true }));
+  const epilogue = LEVELS.find((l) => l.id === LEVEL_ID)?.epilogue;
+  if (epilogue) {
+    const fact = document.createElement("div");
+    fact.className = "level-complete-fact";
+    epilogue.paragraphs.forEach((text) => {
+      const p = document.createElement("p");
+      p.textContent = text;
+      fact.appendChild(p);
+    });
+    const link = document.createElement("a");
+    link.href = epilogue.linkUrl;
+    link.target = "_blank";
+    link.rel = "noopener";
+    link.textContent = epilogue.linkText;
+    fact.appendChild(link);
+    terminal.appendChild(fact);
+    await wait(50);
+    fact.classList.add("visible");
+  }
 
   markLevelComplete(LEVEL_ID);
-  reloadToMenu();
 }
 
 // Shows either real choices, or - if nothing is written past this point
 // yet - a plain note saying so. Either way, the player always has Back
-// (and Restart) available: never just a dead screen.
+// (and Menu) available: never just a dead screen.
 async function presentWaypoint(choices) {
   if (!skipNextPush) {
     history.push({ state: story.state.ToJson(), log: [...log] });
@@ -408,7 +415,12 @@ async function presentWaypoint(choices) {
 
   if (choices.length === 0 && story.variablesState["level_complete"]) {
     await showLevelComplete();
-    return waitForInput(); // the reload above lands on the menu before this ever resolves
+    // Parks playStory() here for good - there's nothing left to choose.
+    // The bottom navbar's Back/Menu buttons stay live and work
+    // independently of this pending promise (Back resolves it and
+    // re-enters the story at the last real waypoint; Menu just
+    // reloads the page).
+    return waitForInput();
   }
 
   const box = document.createElement("div");
@@ -456,15 +468,15 @@ backBtn.addEventListener("click", goBack);
 // Reload rather than trying to cancel playStory()'s running loop mid-flight -
 // the app always boots into the menu (see Boot below), so this lands there
 // cleanly. Progress is in localStorage, so completion badges aren't affected.
-// Clearing the hash too so a dev-act jump (see Dev-only act jumper below)
-// doesn't silently re-fire on the next load.
+// Dropping the query string too (not just the path), not only the hash -
+// otherwise a dev ?level=&act= jump (see Dev-only entry points below)
+// would silently re-fire on the next load instead of landing on the menu.
 function reloadToMenu() {
   // window.history, not the module-level `history` array above (the
   // Back-navigation stack) - that local binding shadows the global.
-  window.history.replaceState(null, "", location.pathname + location.search);
+  window.history.replaceState(null, "", location.pathname);
   location.reload();
 }
-restartBtn.addEventListener("click", reloadToMenu);
 menuBtn.addEventListener("click", reloadToMenu);
 
 // ---------------------------------------------------------------------
@@ -513,71 +525,109 @@ async function playStory() {
 
 // ---------------------------------------------------------------------
 // Boot: the menu is the app's home screen. Choosing a level hides it
-// and starts that level - right now there's only one.
+// and starts that level.
 // ---------------------------------------------------------------------
 
-function startLevel(levelId) {
-  if (levelId !== LEVEL_ID) return;
+// Dev-only act jumper elements/state - see setupDevBar() below. Looked
+// up once here; setupDevBar() only touches these when
+// import.meta.env.DEV, so they're unused (but harmless) in production.
+const devbarEl = document.getElementById("devbar");
+const devPrevBtn = document.getElementById("dev-prev");
+const devNextBtn = document.getElementById("dev-next");
+const devLabelEl = document.getElementById("dev-act-label");
+
+// Scoped to whichever level is currently playing (LEVEL_ID) - reads
+// that level's own devActs list from levels.js, never another
+// chapter's. Hidden on the menu (see showTerminalAndPlay, reloadToMenu)
+// and whenever the current level has no devActs of its own yet.
+function setupDevBar() {
+  if (!import.meta.env.DEV) return;
+
+  const level = LEVELS.find((l) => l.id === LEVEL_ID);
+  const devActs = level?.devActs;
+  if (!devActs || devActs.length === 0) {
+    devbarEl.classList.add("hidden");
+    return;
+  }
+
+  const params = new URLSearchParams(location.search);
+  const requested = Number(params.get("act")) || 0;
+  const devIndex = Math.min(Math.max(requested, 0), devActs.length - 1);
+
+  devbarEl.classList.remove("hidden");
+  devLabelEl.textContent = `act ${devIndex + 1} / ${devActs.length}`;
+  devPrevBtn.disabled = devIndex === 0;
+  devNextBtn.disabled = devIndex === devActs.length - 1;
+
+  devPrevBtn.onclick = () => jumpToAct(devIndex - 1);
+  devNextBtn.onclick = () => jumpToAct(devIndex + 1);
+}
+
+// Reloads with ?level=<current>&act=<index> set, so the act jumper
+// below picks it up on the next boot - same "reload into a clean
+// state" pattern already used by Menu, rather than trying to
+// interrupt playStory()'s loop mid-flight.
+function jumpToAct(index) {
+  const params = new URLSearchParams(location.search);
+  params.set("level", LEVEL_ID);
+  params.set("act", String(index));
+  location.search = params.toString();
+}
+
+// ChoosePathString jumps straight into the target act, skipping the
+// level's own opening knot entirely - so its real # prompt line never
+// runs. Seed it here instead, instantly (no typing animation - this is
+// a shortcut, not a replay), so the pinned prompt header (see
+// .line--prompt--pinned in css/style.css) still shows while jumping
+// between acts. text must match that level's own opening # prompt line
+// exactly (see promptText in levels.js).
+function seedPromptForDevJump(text) {
+  log.push({ type: "prompt", text });
+  const line = document.createElement("div");
+  line.className = "line line--prompt line--prompt--pinned";
+  line.textContent = text;
+  terminal.appendChild(line);
+  promptVisits = 1;
+}
+
+function showTerminalAndPlay() {
   menuEl.classList.add("hidden");
   terminal.classList.remove("hidden");
   navbarEl.classList.remove("hidden");
+  setupDevBar();
   playStory();
+}
+
+async function startLevel(levelId) {
+  await loadStory(levelId);
+  showTerminalAndPlay();
 }
 
 renderMenu(menuEl, startLevel);
 
 // ---------------------------------------------------------------------
-// Dev-only act jumper. Local development only - gated on
+// Dev-only entry points. Local development only - gated on
 // import.meta.env.DEV (a build-time constant; Vite strips this whole
 // block from a production build, it is never in what gets deployed).
-// Jumps by reloading with the target knot in the URL hash and calling
-// story.ChoosePathString() on boot, same "reload into a clean state"
-// pattern already used by Restart/Menu above, rather than trying to
-// interrupt playStory()'s loop mid-flight.
+// ?level=<id> alone jumps straight into any level that has content,
+// bypassing the menu's chronological-unlock gate (see menu.js) - for
+// testing a chapter before the ones before it in the roadmap are
+// written. Adding &act=<index> additionally jumps into that level's
+// own devActs[index] (see levels.js) via the act jumper above.
 // ---------------------------------------------------------------------
 
 if (import.meta.env.DEV) {
-  const DEV_ACTS = ["act1_awakening", "act2_extract_files", "act3_look_around", "act4_find_sender", "act5_phishing", "act6_extract_zip"];
-  const devbarEl = document.getElementById("devbar");
-  const devPrevBtn = document.getElementById("dev-prev");
-  const devNextBtn = document.getElementById("dev-next");
-  const devLabelEl = document.getElementById("dev-act-label");
+  const params = new URLSearchParams(location.search);
+  const devLevel = LEVELS.find((l) => l.id === params.get("level") && l.hasContent);
+  const devActIndex = params.has("act") ? Number(params.get("act")) : null;
 
-  const match = location.hash.match(/^#dev-act=(\d+)$/);
-  const devIndex = match ? Number(match[1]) : 0;
-
-  devbarEl.classList.remove("hidden");
-  devLabelEl.textContent = `act ${devIndex + 1} / ${DEV_ACTS.length}`;
-  devPrevBtn.disabled = devIndex === 0;
-  devNextBtn.disabled = devIndex === DEV_ACTS.length - 1;
-
-  function jumpTo(index) {
-    location.hash = `dev-act=${index}`;
-    location.reload();
-  }
-
-  devPrevBtn.addEventListener("click", () => jumpTo(devIndex - 1));
-  devNextBtn.addEventListener("click", () => jumpTo(devIndex + 1));
-
-  // ChoosePathString jumps straight into the target act, skipping
-  // act1_awakening entirely - so the real # prompt line never runs.
-  // Seed it here instead, instantly (no typing animation - this is a
-  // shortcut, not a replay), so the pinned prompt header (see
-  // .line--prompt--pinned in css/style.css) still shows
-  // while jumping between acts. Text must match act1_awakening's
-  // first prompt option in story/main.ink.
-  function seedPromptForDevJump() {
-    log.push({ type: "prompt", text: "Extract the zip" });
-    const line = document.createElement("div");
-    line.className = "line line--prompt line--prompt--pinned";
-    line.textContent = "Extract the zip";
-    terminal.appendChild(line);
-    promptVisits = 1;
-  }
-
-  if (match && devIndex > 0) {
-    seedPromptForDevJump();
-    story.ChoosePathString(DEV_ACTS[devIndex]);
-    startLevel(LEVEL_ID);
+  if (devLevel && devActIndex && devActIndex > 0 && devLevel.devActs?.[devActIndex]) {
+    loadStory(devLevel.id).then(() => {
+      seedPromptForDevJump(devLevel.promptText);
+      story.ChoosePathString(devLevel.devActs[devActIndex]);
+      showTerminalAndPlay();
+    });
+  } else if (devLevel) {
+    startLevel(devLevel.id);
   }
 }

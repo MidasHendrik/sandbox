@@ -33,3 +33,11 @@ export function markLevelComplete(levelId) {
     save(progress);
   }
 }
+
+export function resetProgress() {
+  try {
+    localStorage.removeItem(PROGRESS_KEY);
+  } catch {
+    // Storage unavailable - nothing to reset.
+  }
+}

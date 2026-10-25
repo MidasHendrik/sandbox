@@ -1,11 +1,22 @@
 import { LEVELS } from "./levels.js";
 import { t, getLanguage, setLanguage, supportedLanguages } from "./i18n.js";
-import { isLevelComplete } from "./progress.js";
+import { isLevelComplete, resetProgress } from "./progress.js";
 
 // Renders the level-select menu into `container`. Chronological unlock:
 // a level is playable only if it has content AND the one before it is
 // complete. Levels without content yet always show as "Coming soon",
 // disabled, regardless of unlock state - there's nothing to unlock into.
+// In local dev (import.meta.env.DEV, stripped from a production build
+// same as the dev act jumper in main.js) the completion requirement is
+// skipped, so every level with content is clickable regardless of
+// progress - hasContent is still required, there's nothing to open for
+// a level that has none.
+// Hides the EN/NL picker for now - level content is English-only
+// anyway until a chapter is actually translated (see Language in
+// docs/concept.md), so the picker has nothing real to switch yet. The
+// rest of i18n.js is untouched; flip this back to show it again.
+const SHOW_LANGUAGE_PICKER = false;
+
 export function renderMenu(container, onStartLevel) {
   container.innerHTML = "";
 
@@ -14,24 +25,26 @@ export function renderMenu(container, onStartLevel) {
   title.textContent = t("title");
   container.appendChild(title);
 
-  const langPicker = document.createElement("div");
-  langPicker.className = "lang-picker";
-  const langLabel = document.createElement("span");
-  langLabel.className = "lang-label";
-  langLabel.textContent = `${t("language")}:`;
-  langPicker.appendChild(langLabel);
-  supportedLanguages().forEach((lang) => {
-    const btn = document.createElement("button");
-    btn.className = "lang-btn";
-    if (lang === getLanguage()) btn.classList.add("active");
-    btn.textContent = lang.toUpperCase();
-    btn.addEventListener("click", () => {
-      setLanguage(lang);
-      renderMenu(container, onStartLevel);
+  if (SHOW_LANGUAGE_PICKER) {
+    const langPicker = document.createElement("div");
+    langPicker.className = "lang-picker";
+    const langLabel = document.createElement("span");
+    langLabel.className = "lang-label";
+    langLabel.textContent = `${t("language")}:`;
+    langPicker.appendChild(langLabel);
+    supportedLanguages().forEach((lang) => {
+      const btn = document.createElement("button");
+      btn.className = "lang-btn";
+      if (lang === getLanguage()) btn.classList.add("active");
+      btn.textContent = lang.toUpperCase();
+      btn.addEventListener("click", () => {
+        setLanguage(lang);
+        renderMenu(container, onStartLevel);
+      });
+      langPicker.appendChild(btn);
     });
-    langPicker.appendChild(btn);
-  });
-  container.appendChild(langPicker);
+    container.appendChild(langPicker);
+  }
 
   const subtitle = document.createElement("div");
   subtitle.className = "menu-subtitle";
@@ -44,7 +57,7 @@ export function renderMenu(container, onStartLevel) {
   let prevComplete = true; // nothing needs to precede the first level
   LEVELS.forEach((level, index) => {
     const complete = level.hasContent && isLevelComplete(level.id);
-    const unlocked = level.hasContent && prevComplete;
+    const unlocked = level.hasContent && (import.meta.env.DEV || prevComplete);
 
     const btn = document.createElement("button");
     btn.className = "level-btn";
@@ -76,4 +89,17 @@ export function renderMenu(container, onStartLevel) {
   });
 
   container.appendChild(list);
+
+  // Clears all completion badges and re-locks the chronological chain
+  // (see progress.js) - the "restart" concept now lives here, at the
+  // whole-save level, rather than as a per-level button in the navbar.
+  const resetBtn = document.createElement("button");
+  resetBtn.className = "nav-btn reset-btn";
+  resetBtn.textContent = t("resetAllLevels");
+  resetBtn.addEventListener("click", () => {
+    if (!confirm(t("resetAllLevelsConfirm"))) return;
+    resetProgress();
+    renderMenu(container, onStartLevel);
+  });
+  container.appendChild(resetBtn);
 }
