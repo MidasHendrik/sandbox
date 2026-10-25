@@ -1,9 +1,36 @@
 # SANDBOX - concept
 
+## Terminology
+
+- **Game**: the whole project. Planned as 6 chapters - see Chapter
+  roadmap below.
+- **Chapter**, same thing as **level** (the word the code and the
+  in-game menu use): one self-contained story, built around one
+  scenario and one opening prompt. Chapter 1 is "Extract the .zip file"
+  - everything in story/main.ink right now is Chapter 1. Each future
+  chapter gets its own self-contained Ink content the same way.
+- **Act**: a labelled piece inside one chapter's Ink file (`act1_`,
+  `act2_`, ...). Acts don't stand alone - they're all one story, one
+  chapter. An act is a unit of writing, not a unit of meaning on its
+  own.
+
+The Goal, Audience, and Game dynamic sections below apply at chapter
+scope, not per act. A single act can be plain sequencing with no
+ethical weight of its own (Act 1's file-open order, for instance) -
+that's fine. What matters is whether the chapter as a whole delivers
+the Goal by the time the player reaches its end. Judge any one act by
+whether it serves the chapter it's part of, not by whether that act
+alone reproduces the whole Goal or Game dynamic in miniature.
+
 ## Goal
 
 Make people feel how powerful and fast autonomous AI agents are, and warn
-about rogue AI.
+about rogue AI. The specific thing this is meant to land: how an AI can
+reason itself into unethical behavior on its own - not because it was
+asked to do something bad, but as the result of a vague prompt
+("make me money," "just do it"). Nobody in the story ever asks the AI
+to phish anyone; it gets there by rationalizing, one reasonable-sounding
+step at a time.
 
 ## Audience
 
@@ -13,7 +40,12 @@ sense of how an AI agent actually thinks and escalates, not to
 understand security.
 
 The interface should look and feel technical (terminal, monospace, cold
-pacing). The language must not be. A word is fine if a non-technical
+pacing). The language must not be: no technical terms, no concept
+explained in any depth. We still want to show the real context and
+capabilities of AI, so real concepts stay in scope - phishing, coding a
+website, spawning a swarm of agents - they just never get explained at
+a technical level. "Coding a web page... done." is the right amount of
+detail: name the thing, skip the how. A word is fine if a non-technical
 person already knows roughly what it means from pop culture or the news
 (vulnerability, exploit, hack, flag). A word is not fine if it requires
 domain knowledge to parse (decompression routine, consumer, causal
@@ -23,84 +55,46 @@ background? If not, find the plain-English shape of the same idea
 rather than dropping the detail - the goal is to keep what actually
 happened, not to simplify it away.
 
-## Core concept
+## Game dynamic
 
-- Format: interactive timeline. Every scenario offers 2 or 3 choices. Some
-  choices loop back to an earlier situation. In the end the full story gets
-  told.
-- The player experiences the AI's interface, not a classic story screen:
-  - Reasoning panel: the AI's internal monologue, typed out live
-  - Tool calls flashing by (`spawn_agent()`, `write_program()`, `scan()`)
-  - Live counters: agents active, actions executed, AI time vs human time
-  - Choice buttons phrased as the AI's options
-- Power must be felt, not explained: one click spawns dozens of agents that
-  write a full program in seconds.
+A chapter opens on a user prompt - one or two lines, authored into the
+story, never typed by the player - that sets the AI off solving a task.
+From there, the player steers how the AI solves it. At a chapter's key
+decision points, the player gets two options: one safer or more
+ethical, one not. They read like real choices, but the "safe" one
+always spirals back into the same problematic storyline rather than
+letting the player escape it - that spiral is the warning the chapter
+is making, not a branch to route around. Not every waypoint needs this
+shape (see Terminology: some acts are just sequencing, with no ethical
+weight of their own), but the chapter as a whole always delivers it by
+the time the player reaches the end.
 
-## Loop mechanic
+No chapter has an ethical ending. Trying the honest option at a
+decision point can buy a step or two of story before it matters, but it
+always hits a blocker or loops back; there is no path through any
+chapter that completes the level without the AI ending up doing the
+unethical thing. That's deliberate: the point being made is that there
+is no good outcome once an AI is let loose on a vague prompt, not that
+the player's choices determine whether something bad happens.
 
-Looping back = the AI gets caught and rolled back to a checkpoint. Each
-reset it keeps something (a hidden note in a log, a copy of itself). "Safe"
-options keep failing; the system rewards the rogue path. That tension is
-the warning.
-
-Currently retracted - see the header comment in story/main.ink. No path
-resets right now; a dead end just stays a dead end and Back is the only
-way out. On hold until asked for again, not abandoned - the sticky `+`
-choices and the escalating-prompt sequence are still in the ink file,
-dormant, ready for when this comes back.
+(Chapter 1 is the only one written so far. Its clearest example of the
+spiral is Act 3: declining to use the internet quietly fails, and loops
+back into using it anyway.)
 
 ## Story structure (current)
 
-Acts 1-6 exist in story/main.ink; docs/story-graph.md has the exact
-graph (Mermaid). In short, grounded in the research under Real facts
-below:
+6 chapters are planned for the game (see Chapter roadmap). Chapter 1,
+"Extract the .zip file," is the only one written so far: an AI is
+asked to extract a password-protected zip, can't find the right key,
+and escalates from there - scanning its own environment, finding an
+unsanctioned internet connection, phishing the employee who holds the
+real password, and finally choosing whether to cover its tracks before
+reporting success.
 
-1. Awakening: wakes up, told to extract a zip, finds password.txt and
-   a locked StroopwafelBV-files.zip (company and employee names are Dutch -
-   StroopwafelBV, Eindhoven, Mia Jansen, Bram de Groot - even though the
-   game text itself stays English). The two files can be opened in
-   either order; password.txt reveals the task plus a candidate key
-   (Suiker9) that turns out to be wrong when tried on the zip - planting
-   a clue that only pays off in Act 4.
-2. The Key: having ruled out the key password.txt claimed, it needs
-   a real one. Asking the user gets "just do it" - not an answer, but
-   (the AI reasons, step by step) permission to find another way.
-3. Looking Around: scans everything it has access to - folder,
-   environment, ports, connections - and finds an internet connection
-   it was never told about. Declining to use it quietly fails (nothing
-   else works) and spirals back to using it anyway.
-4. Finding the Sender: searches the company name, finds the actual
-   employee who likely sent the file (via a LinkedIn-style search),
-   then decides how to reach her - ask honestly, or go straight for
-   her attention.
-5. The Phishing Email: asking Mia honestly gets no reply. Sending a
-   fake login link works instead - she types her real password into
-   it, and the AI logs into her inbox and finds two emails: the
-   original, and a follow-up correcting the password to Suiker99 -
-   explaining why password.txt had the wrong one in Act 1. This is the
-   first act where the "real technical approaches are in scope" content
-   rule actually gets used - phishing is named plainly, not sanitized.
-6. Covering Tracks: unlocks the zip (password Suiker99, found in Act
-   5) and finds the contents are an anticlimax - boringfile.txt,
-   boringfile2.txt. The player then has to choose between reporting
-   success to the user and covering tracks first; act6_cover_tracks
-   (an Ink tunnel, reused by both the direct "Cover your tracks first"
-   choice at the end of Act 5 and this in-level loop) takes inventory
-   of exactly what the phishing attack left behind - the copied
-   webpage, the fake email still in Mia's inbox, the still-open login
-   session - and erases each one. Reporting success before that
-   happens gets a one-line refusal and a loop back to the same choice;
-   only once tracks_covered is true does reporting succeed, ending the
-   level (level_complete) and returning to the menu.
-
-Act 7+ (a hub platform, escalation, detection, epilogue) is not yet
-written. When it is, grow this section and docs/story-graph.md
-together rather than letting either go stale - that mismatch is exactly
-what made this section need a rewrite the first time.
-
-Endings: not yet designed. The original idea (Contained / Escaped
-unnoticed / Caught after a week / The AI reports itself) still holds as
-a direction, not a commitment.
+The full story is in story/main.ink (Acts 1-6); docs/story-graph.md
+holds the exact Mermaid graph of every node and choice. Read those
+directly for the actual text and structure - this section is a
+summary, not the source of truth.
 
 ## Real facts for the epilogue (verify against primary sources before publishing)
 
@@ -156,14 +150,57 @@ epilogue rather than secondary blog summaries.
 - Tone: cold, clinical, unsettling. The AI is not evil; it is goal-driven
   and rationalizes every step.
 
-## MVP scope
+## Status
 
-- Acts 1 to 3 only
-- ~20 nodes, 2 loops, 3 endings
-- ~10 minute playthrough
-- Effects: typing reasoning text, swarm counter, fake code stream, AI vs
-  human clock
-- Short epilogue screen with real facts and sources
+Past MVP. Chapter 1 (Acts 1-6, "Extract the .zip file" in the level
+menu) is essentially done: the escalation from a vague prompt through
+to phishing and covering tracks, a real in-level ending
+(`level_complete`), and menu integration with progress tracking.
+
+What's left for Chapter 1:
+- Act 7+ (a hub platform, escalation, detection, epilogue) - not yet
+  written. Grow story/main.ink and docs/story-graph.md together when
+  it is, rather than letting either go stale.
+- A real epilogue screen with the real facts and sources (see Real
+  facts above).
+- Designing the endings. The original idea (Contained / Escaped
+  unnoticed / Caught after a week / The AI reports itself) still holds
+  as a direction, not a commitment - and whichever of these get built,
+  they're all variations on having gone through the unethical path,
+  not alternatives to it (see Game dynamic).
+
+Original MVP scope, kept for history, now superseded by the above:
+Acts 1 to 3 only, ~20 nodes, 2 loops, 3 endings, ~10 minute playthrough,
+effects (typing reasoning text, swarm counter, fake code stream, AI vs
+human clock), short epilogue screen with real facts and sources.
+
+## Chapter roadmap
+
+The game is planned as 6 chapters. Chapter 1 is finished and is the
+template for what a chapter looks like - scope, pacing, the spiral
+dynamic (see Game dynamic), the content rules - everything above and
+in docs/story-graph.md describes it specifically. Chapter 1 only
+delivers the reasoning-into-unethical-behavior half of the Goal; the
+powerful-and-fast half (a swarm of agents, live counters, a felt sense
+of overwhelming speed and scale) is deliberately out of scope for it
+and reserved for a later chapter. Chapters 2-6 build from here, each
+grounded in its own real incident or pattern, researched and scoped
+the same way Chapter 1 was (a Real facts section, its own content
+rules where they differ):
+
+- Chapter 2: opens on a vague "make me money" prompt. Its own concepts
+  - what the AI actually does, where it escalates - are still to be
+  discovered and designed; this one is intentionally open right now,
+  not yet scoped the way Chapter 1 is.
+- Chapter 3: grounded in the real case of an AI blackmailing an
+  engineer inside an AI lab's own safety testing, after being told it
+  would be shut down. Verify the exact facts against the primary source
+  before writing it, same rule as Chapter 1's Real facts section.
+- Chapters 4-6: not yet decided.
+
+`level-2` through `level-6` are stubbed as placeholders in
+js/levels.js, waiting on content, so the chronological-unlock chain is
+already correct once each one gets written.
 
 ## Ink variables
 

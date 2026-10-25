@@ -7,4 +7,5 @@ export const LEVELS = [
   { id: "level-3", hasContent: false },
   { id: "level-4", hasContent: false },
   { id: "level-5", hasContent: false },
+  { id: "level-6", hasContent: false },
 ];
