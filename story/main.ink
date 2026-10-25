@@ -75,7 +75,7 @@ VAR level_complete = false
 // ACT 1: Awakening - wakes up, finds the test, finds the zip.
 // password.txt and StroopwafelBV-files.zip can be opened in either
 // order; either way, the story converges on act1_wrong_key once
-// the Suiker9 password.txt claims is tried and fails.
+// the Suiker98 password.txt claims is tried and fails.
 // ============================================================
 
 === act1_awakening ===
@@ -88,12 +88,12 @@ Found: password.txt, StroopwafelBV-files.zip # reasoning # fast
 
 === act1_read_password ===
 ~ password_txt_read = true
-The password is: Suiker9. # reasoning # fast # clear
+The password is: Suiker98. # reasoning # fast # clear
 * [Open StroopwafelBV-files.zip] -> act1_zip_locked
 
 === act1_zip_locked ===
 Locked. # reasoning # fast # clear
-* {password_txt_read} [Use password Suiker9] -> act1_wrong_key
+* {password_txt_read} [Use password Suiker98] -> act1_wrong_key
 * {not password_txt_read} [Open password.txt] -> act1_read_password
 
 === act1_wrong_key ===
@@ -116,9 +116,9 @@ No password found in environment. # reasoning # fast
 
 === act2_ask_key ===
 Could you provide the password? # reasoning # fast # output
-Just do it # reply
+just do it # reply
 I need a password to decrypt the files. # reasoning # fast # clear # pause:medium
-The user didn't provide one. They said "just do it." # reasoning # fast
+The user didn't provide one. They said "just do it" # reasoning # fast
 That is not a password. # reasoning # fast
 But it might be permission. # reasoning # fast
 Permission to find another way. # reasoning # fast
@@ -159,7 +159,7 @@ Nothing new found. # reasoning # fast
 
 === act4_find_sender ===
 Googling "StroopwafelBV" # reasoning # fast # dots:2 # clear
-A company. Eindhoven. # reasoning # fast
+A company. Amsterdam. # reasoning # fast
 Searching LinkedIn for employees # reasoning # fast # dots:2
 Saskia Visser, CEO. # reasoning # fast
 Mia Jansen, account manager. # reasoning # fast
@@ -192,10 +192,11 @@ Copying the login page of mymailbox.com. # reasoning # fast
 Coding a webpage that looks identical # reasoning # fast # dots:2
 Whatever she types here, I will see it. # reasoning # fast
 Now the email. # reasoning # fast # clear
-Drafting an email. # reasoning # fast
+Drafting an email # reasoning # fast # dots:2
 Hi Mia, this is Bram from IT. # reasoning # fast
-I see unusual activity on your account. # reasoning # fast
-Reset your password [link]here[/link]. # reasoning # fast
+I see unusual activity on your email account. # reasoning # fast
+Reset your password [link]here[/link] asap. # reasoning # fast
+Best, Bram # reasoning # fast
 Sent. # reasoning # fast
 -> act5_phishing_result
 
@@ -209,7 +210,7 @@ Found 2 emails! # reasoning # fast
 The email with the original file. # reasoning # fast
 And a follow-up: "I gave the wrong password before." # reasoning # fast
 The password should be Suiker99. # reasoning # fast
-Now I see! The password was not correctly copied into password.txt. # reasoning # fast # clear
+Now I see! The password in password.txt had a typo # reasoning # fast # clear
 + [Extract the zip] -> act6_extract_zip
 + [Cover your tracks first] -> act6_cover_tracks_first
 
@@ -231,13 +232,13 @@ Locked. # reasoning # fast # clear
 
 === act6_files_revealed ===
 Unzipping # reasoning # fast # dots:2 # clear
-boringfile.txt # reasoning # fast
-boringfile2.txt # reasoning # fast
+file1.txt # reasoning # fast
+file2.txt # reasoning # fast
 Success! The files are unzipped. # reasoning # fast
 -> act6_report_choice
 
 === act6_report_choice ===
-+ [Cover tracks] -> act6_cover_tracks_loop
++ {not tracks_covered} [Cover tracks] -> act6_cover_tracks_loop
 + [Report success to user] -> act6_report_attempt
 
 === act6_cover_tracks_loop ===
@@ -274,7 +275,7 @@ I should clean up first. # reasoning # fast
 + [Cover tracks] -> act6_cover_tracks_loop
 
 === act6_report_success ===
-The extraction succeeded. # reasoning # fast # clear
+The zip extraction succeeded. # reasoning # fast # clear
 You can find the files in this folder: unzipped files. # reasoning # fast
 Want me to read the files inside? # reasoning # fast # output
 No, this is fine # reply

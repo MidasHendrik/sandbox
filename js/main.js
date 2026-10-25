@@ -350,8 +350,12 @@ function resolveInput(result) {
 
 // The real ending (story/main.ink sets `level_complete` right before
 // -> END, once a level is actually finished, not just run out of
-// content): shows a clear success beat, then returns to the menu so
-// the completion badge and any newly-unlocked level are visible right
+// content): shows a clear success beat and a link to the real
+// incident the chapter is grounded in (see docs/concept.md's Real
+// facts section - players who want the sourced, factual version of
+// what they just did as fiction can go read it), then waits for the
+// player to click through before returning to the menu, so the
+// completion badge and any newly-unlocked level are visible right
 // away. Reloads rather than swapping the DOM in place, same reasoning
 // as reloadToMenu() below.
 async function showLevelComplete() {
@@ -361,7 +365,33 @@ async function showLevelComplete() {
   terminal.appendChild(note);
   await wait(50);
   note.classList.add("visible");
-  await wait(2600);
+  await wait(1400);
+
+  const fact = document.createElement("div");
+  fact.className = "level-complete-fact";
+  fact.appendChild(
+    document.createTextNode(
+      "Loosely based on a real incident: an AI agent invented fake identities to trick a real person, then covered its tracks. ",
+    ),
+  );
+  const link = document.createElement("a");
+  link.href = "https://www.aisi.gov.uk/blog/incident-report-unsanctioned-agent-behaviour-during-cyber-testing";
+  link.target = "_blank";
+  link.rel = "noopener";
+  link.textContent = "Read the AISI incident report →";
+  fact.appendChild(link);
+  terminal.appendChild(fact);
+  await wait(50);
+  fact.classList.add("visible");
+
+  const continueBtn = document.createElement("button");
+  continueBtn.className = "nav-btn level-complete-continue";
+  continueBtn.textContent = "Back to menu";
+  terminal.appendChild(continueBtn);
+  await wait(50);
+  continueBtn.classList.add("visible");
+  await new Promise((resolve) => continueBtn.addEventListener("click", resolve, { once: true }));
+
   markLevelComplete(LEVEL_ID);
   reloadToMenu();
 }

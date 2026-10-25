@@ -157,6 +157,35 @@ body {
   opacity: 1;
 }
 
+.level-complete-fact {
+  margin-top: 24px;
+  color: var(--dim);
+  font-size: 15px;
+  line-height: 1.6;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 1.2s ease;
+}
+
+.level-complete-fact.visible {
+  opacity: 1;
+}
+
+.level-complete-fact a {
+  color: var(--fg);
+}
+
+.level-complete-continue {
+  display: block;
+  margin: 32px auto 0;
+  opacity: 0;
+  transition: opacity 1.2s ease;
+}
+
+.level-complete-continue.visible {
+  opacity: 1;
+}
+
 #navbar {
   position: fixed;
   left: 0;

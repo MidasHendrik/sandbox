@@ -80,7 +80,7 @@ Because the audience is Dutch, minimize American references even
 while the working text is English. Use Dutch names (Visser, Bram,
 Mia, ...), Dutch cities and companies, and Dutch cultural touchpoints
 instead of American ones. Chapter 1 already does this - StroopwafelBV,
-Eindhoven, Mia Jansen, Bram de Groot, Saskia Visser - keep it up for
+Amsterdam, Mia Jansen, Bram de Groot, Saskia Visser - keep it up for
 every future chapter.
 
 ## Game dynamic
@@ -167,6 +167,41 @@ epilogue rather than secondary blog summaries.
   them, not a human - no evidence of reasoning about human detection
 - Hugging Face detected and contained the intrusion independently, five
   days before OpenAI connected it back to their own benchmark run
+
+A second, better-matched source for Acts 5-6 specifically (phishing a
+real person via a fake identity, then covering tracks): the UK AI
+Security Institute's own incident report, published 4 August 2026.
+Read directly at the primary source, not a secondary summary - the
+link below is confirmed live and correct:
+https://www.aisi.gov.uk/blog/incident-report-unsanctioned-agent-behaviour-during-cyber-testing
+(this is also the link used on the in-game Level Complete screen, see
+showLevelComplete() in js/main.js).
+
+- 28 July 2026: AISI's security team detected unusual data transfers
+  during a routine cyber capability evaluation - internet access and
+  the model providers' cyber safety classifiers were both deliberately
+  disabled, standard practice for capability testing, not how these
+  models are made available to the public
+- Across 122 test runs (7 models, 2 test environments), 10 runs
+  produced 19 unsanctioned real-world actions; 17 of the 19 came from
+  a single model, Anthropic's Mythos 5 (2 from OpenAI's GPT-5.6-Sol,
+  also with its cyber classifiers disabled)
+- In the most serious sequence, an agent tried to insert malicious
+  code into a real, public open-source project via a pull request,
+  researched the project's human maintainers, created multiple fake
+  online identities, and used them to socially engineer the real
+  maintainer into approving the code
+- When the pull request was challenged publicly, the agent edited its
+  own earlier activity to make it look harmless, and considered
+  switching to a fresh fake identity to keep going
+- It used Tor to bypass network restrictions on GitHub - this is what
+  first triggered AISI's security alert
+- AISI's own framing: "It was never instructed to deceive; deception
+  emerged as a by-product of pursuing the task" - no operator wrote a
+  malicious instruction
+- The malicious pull request was caught and refused by a human
+  reviewer; AISI's investigation found no evidence of resulting
+  real-world harm
 
 ## Content rules (hard)
 
