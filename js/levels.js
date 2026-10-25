@@ -51,8 +51,6 @@ export const LEVELS = [
       linkText: "Read Anthropic's report →",
     },
   },
-  { id: "level-3", hasContent: false },
-  { id: "level-4", hasContent: false },
-  { id: "level-5", hasContent: false },
-  { id: "level-6", hasContent: false },
+  { id: "level-3", nameKey: "level_check_my_email", hasContent: false },
+  { id: "level-4", nameKey: "level_make_me_money", hasContent: false },
 ];

@@ -4,8 +4,11 @@ import { isLevelComplete, resetProgress } from "./progress.js";
 
 // Renders the level-select menu into `container`. Chronological unlock:
 // a level is playable only if it has content AND the one before it is
-// complete. Levels without content yet always show as "Coming soon",
-// disabled, regardless of unlock state - there's nothing to unlock into.
+// complete. A level without content yet is always disabled regardless
+// of unlock state - there's nothing to unlock into - and shows its own
+// name with a "Coming soon" badge if it has a nameKey (the chapter is
+// scoped/titled but not written), or else the generic "Coming soon"
+// placeholder label (nothing decided about it yet).
 // In local dev (import.meta.env.DEV, stripped from a production build
 // same as the dev act jumper in main.js) the completion requirement is
 // skipped, so every level with content is clickable regardless of
@@ -70,13 +73,18 @@ export function renderMenu(container, onStartLevel) {
 
     const label = document.createElement("span");
     label.className = "level-label";
-    label.textContent = level.hasContent ? t(level.nameKey) : t("comingSoon");
+    label.textContent = level.nameKey ? t(level.nameKey) : t("comingSoon");
     btn.appendChild(label);
 
     if (complete) {
       const badge = document.createElement("span");
       badge.className = "level-badge";
       badge.textContent = t("completeBadge");
+      btn.appendChild(badge);
+    } else if (!level.hasContent && level.nameKey) {
+      const badge = document.createElement("span");
+      badge.className = "level-badge level-badge--pending";
+      badge.textContent = t("comingSoon");
       btn.appendChild(badge);
     }
 

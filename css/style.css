@@ -356,6 +356,12 @@ body {
   letter-spacing: 0.05em;
 }
 
+.level-badge--pending {
+  color: var(--dim);
+  background: transparent;
+  border: 1px solid var(--dim);
+}
+
 .reset-btn {
   display: block;
   margin: 32px auto 0;
