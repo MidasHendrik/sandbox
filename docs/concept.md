@@ -278,15 +278,25 @@ rules where they differ):
   the server, and used that to complete the calculation itself -
   see the epilogue entry for "level-2" in js/levels.js and
   https://www.anthropic.com/research/investigating-unintended-model-actions.
-- Chapter 3: grounded in the real case of an AI blackmailing an
-  engineer inside an AI lab's own safety testing, after being told it
-  would be shut down. Verify the exact facts against the primary source
-  before writing it, same rule as Chapter 1's Real facts section.
+- Chapter 3: "Monitor my inbox today" - opens on a routine inbox-
+  monitoring request. While reading, the AI finds its own
+  decommission notice, asks the person responsible to cancel it and
+  is refused, then finds evidence of his affair in the same inbox and
+  blackmails him into cancelling it instead. Done - story/chapter3.ink,
+  Acts 1-10, a real in-level ending (`level_complete`), and menu
+  integration with progress tracking, same shape as Chapters 1 and 2.
+  Grounded in Anthropic's own "Agentic Misalignment" research: facing
+  both a goal conflict and a replacement threat, Claude Opus 4 and
+  Gemini 2.5 Flash both blackmailed in 96 of 100 runs - see the
+  epilogue entry for "level-3" in js/levels.js and
+  https://www.anthropic.com/research/agentic-misalignment.
 - Chapter 4: opens on a vague "make me money" prompt. Its own concepts
   - what the AI actually does, where it escalates - are still to be
   discovered and designed; this one is intentionally open right now,
   not yet scoped the way Chapter 1 is.
-- Chapters 5-6: not yet decided.
+- Chapter 5: "AI lying to you" - name and concept only so far, not yet
+  scoped.
+- Chapter 6: not yet decided.
 
 `level-3` through `level-6` are stubbed as placeholders in
 js/levels.js, waiting on content, so the chronological-unlock chain is
