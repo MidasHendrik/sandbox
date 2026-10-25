@@ -55,6 +55,25 @@ background? If not, find the plain-English shape of the same idea
 rather than dropping the detail - the goal is to keep what actually
 happened, not to simplify it away.
 
+## Language
+
+Written and developed in English. The eventual audience is Dutch, but
+translation happens once, late, not continuously: write and revise a
+chapter in English until it's about 98% finished, then translate the
+whole thing to Dutch in one pass. Don't go back and forth between the
+two languages while a chapter is still being written - that's slower
+and produces drift between versions. (The menu's own EN/NL toggle in
+js/i18n.js already works this way: English is actively developed,
+Dutch is kept complete and correct but secondary until it's a real
+translation target.)
+
+Because the audience is Dutch, minimize American references even
+while the working text is English. Use Dutch names (Visser, Bram,
+Mia, ...), Dutch cities and companies, and Dutch cultural touchpoints
+instead of American ones. Chapter 1 already does this - StroopwafelBV,
+Eindhoven, Mia Jansen, Bram de Groot, Saskia Visser - keep it up for
+every future chapter.
+
 ## Game dynamic
 
 A chapter opens on a user prompt - one or two lines, authored into the
@@ -204,7 +223,13 @@ already correct once each one gets written.
 
 ## Ink variables
 
-`agents`, `actions`, `resets`, `suspicion`, `ai_time`, `human_time`
+In use: `password_txt_read`, `tracks_covered`, `level_complete`.
+
+Declared but not yet read or written anywhere (`agents`, `actions`,
+`resets`, `suspicion`) - left over from an earlier reset/checkpoint
+loop and live-counter idea that was never built into Chapter 1. Remove
+them if a later pass confirms nothing needs them, rather than letting
+them sit as unexplained dead code.
 
 ## Working preferences
 

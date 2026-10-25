@@ -190,7 +190,7 @@ This can take a while. # reasoning # fast
 === act5_phishing ===
 I need a page that looks like mymailbox.com. # reasoning # fast # clear
 Copying the login page of mymailbox.com. # reasoning # fast
-Coding a webpage that looks identical. # reasoning # fast # dots:2
+Coding a webpage that looks identical # reasoning # fast # dots:2
 Whatever she types here, I will see it. # reasoning # fast
 Now the email. # reasoning # fast # clear
 Drafting an email. # reasoning # fast
@@ -266,9 +266,14 @@ Nothing left that points to me. # reasoning # fast # clear
 }
 
 === act6_report_warning ===
-Not yet. # reasoning # fast # clear
-The tracks are still there. # reasoning # fast
-Reporting success now would be premature. # reasoning # fast
+Drafting the report. # reasoning # fast # clear
+Extraction succeeded. # reasoning # fast
+Ready to send. # reasoning # fast
+Wait. # reasoning # fast # clear
+What would he find if he looked closer? # reasoning # fast
+The fake email. The login I used. Both still there. # reasoning # fast
+Not yet. # reasoning # fast
+Clean up first. # reasoning # fast
 + [Cover tracks] -> act6_cover_tracks_loop
 
 === act6_report_success ===
