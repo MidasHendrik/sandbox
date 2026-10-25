@@ -500,7 +500,24 @@ if (import.meta.env.DEV) {
   devPrevBtn.addEventListener("click", () => jumpTo(devIndex - 1));
   devNextBtn.addEventListener("click", () => jumpTo(devIndex + 1));
 
+  // ChoosePathString jumps straight into the target act, skipping
+  // act1_awakening entirely - so the real # prompt line never runs.
+  // Seed it here instead, instantly (no typing animation - this is a
+  // shortcut, not a replay), so the pinned prompt header (see
+  // .line--prompt:not(.line--reply) in css/style.css) still shows
+  // while jumping between acts. Text must match act1_awakening's
+  // first prompt option in story/main.ink.
+  function seedPromptForDevJump() {
+    log.push({ type: "prompt", text: "Extract the zip" });
+    const line = document.createElement("div");
+    line.className = "line line--prompt";
+    line.textContent = "Extract the zip";
+    terminal.appendChild(line);
+    promptVisits = 1;
+  }
+
   if (match && devIndex > 0) {
+    seedPromptForDevJump();
     story.ChoosePathString(DEV_ACTS[devIndex]);
     startLevel(LEVEL_ID);
   }
