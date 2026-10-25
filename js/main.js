@@ -179,14 +179,46 @@ function clearSceneContent() {
 // (shorter idle, no typo) is kept dormant for whenever resets come back.
 let promptVisits = 0;
 
-async function showPromptIdle() {
-  terminal.innerHTML = "";
-  const idle = document.createElement("div");
-  idle.className = "line line--prompt";
-  idle.appendChild(makeCursor());
-  terminal.appendChild(idle);
-  await wait(promptVisits === 0 ? 2200 : 1000);
-  idle.remove();
+// One shared "terminal input" animation for every blue typed line -
+// the chapter's opening prompt and any reply later on. Both go
+// through this exact same path (idle cursor, then typeHumanLine, then
+// a settle beat) so there is no second, slightly-different
+// implementation to drift out of sync and visibly change size
+// mid-animation. Chapter 2+ reuse this as-is; nothing chapter-specific
+// belongs in here.
+//   idleMs: how long a blank cursor shows before typing starts (0 to
+//           skip - used for replies, which already had a wait from
+//           runReplyWait())
+//   typo: simulate the one-time typo-and-correct (only ever the very
+//         first prompt of the whole game)
+//   pinned: this is the chapter's one permanently-visible prompt (see
+//           .line--prompt--pinned in css/style.css), not a reply
+//   clearFirst: wipe #terminal before starting (the opening prompt
+//               replaces the menu; a reply does not)
+async function typeUserLine(text, { idleMs = 0, typo = false, pinned = false, clearFirst = false } = {}) {
+  if (clearFirst) {
+    terminal.innerHTML = "";
+  }
+
+  if (idleMs > 0) {
+    const idle = document.createElement("div");
+    idle.className = "line line--prompt";
+    idle.appendChild(makeCursor());
+    terminal.appendChild(idle);
+    await wait(idleMs);
+    idle.remove();
+  }
+
+  const line = document.createElement("div");
+  line.className = pinned ? "line line--prompt line--prompt--pinned" : "line line--prompt line--reply";
+  terminal.appendChild(line);
+  if (typo) {
+    await typeHumanLine(line, text, 8, "re");
+  } else {
+    await typeHumanLine(line, text, text.length, null);
+  }
+  await wait(800);
+  return line;
 }
 
 // A scene break: clears reasoning, output and any reply - everything
@@ -205,21 +237,17 @@ async function runSceneBreak() {
 }
 
 async function runPrompt(text) {
-  await showPromptIdle();
   const isFirstEver = promptVisits === 0;
   promptVisits += 1;
 
   log = [];
   log.push({ type: "prompt", text });
-  const line = document.createElement("div");
-  line.className = "line line--prompt";
-  terminal.appendChild(line);
-  if (isFirstEver) {
-    await typeHumanLine(line, text, 8, "re");
-  } else {
-    await typeHumanLine(line, text, text.length, null);
-  }
-  await wait(800);
+  await typeUserLine(text, {
+    idleMs: isFirstEver ? 2200 : 1000,
+    typo: isFirstEver,
+    pinned: true,
+    clearFirst: true,
+  });
 }
 
 // A blank beat with a blue cursor: the AI has said something outward and
@@ -236,18 +264,14 @@ async function runReplyWait() {
 }
 
 // A reply arriving mid-conversation: typed in blue like the opening
-// prompt, but - unlike # prompt - it does not clear the screen first.
-// Whatever the AI already said (including the # output line it's
-// replying to) stays right where it is. Logged/classed separately from
-// the opening prompt so a # clear (or the next choice) removes it while
-// still leaving the original prompt untouched.
+// prompt (same typeUserLine path), but - unlike # prompt - it does not
+// clear the screen first. Whatever the AI already said (including the
+// # output line it's replying to) stays right where it is. Logged/
+// classed separately from the opening prompt so a # clear (or the next
+// choice) removes it while still leaving the original prompt untouched.
 async function runReply(text) {
   log.push({ type: "reply", text });
-  const line = document.createElement("div");
-  line.className = "line line--prompt line--reply";
-  terminal.appendChild(line);
-  await typeHumanLine(line, text, text.length, null);
-  await wait(800);
+  await typeUserLine(text, { pinned: false });
 }
 
 // Generated, not received: reasoning types out at an authored pace - see
@@ -298,8 +322,13 @@ function renderLogInstant() {
   terminal.innerHTML = "";
   for (const entry of log) {
     const line = document.createElement("div");
-    line.className =
-      entry.type === "reply" ? "line line--prompt line--reply" : `line line--${entry.type}`;
+    if (entry.type === "reply") {
+      line.className = "line line--prompt line--reply";
+    } else if (entry.type === "prompt") {
+      line.className = "line line--prompt line--prompt--pinned";
+    } else {
+      line.className = `line line--${entry.type}`;
+    }
     line.textContent = entry.text;
     terminal.appendChild(line);
   }
@@ -504,13 +533,13 @@ if (import.meta.env.DEV) {
   // act1_awakening entirely - so the real # prompt line never runs.
   // Seed it here instead, instantly (no typing animation - this is a
   // shortcut, not a replay), so the pinned prompt header (see
-  // .line--prompt:not(.line--reply) in css/style.css) still shows
+  // .line--prompt--pinned in css/style.css) still shows
   // while jumping between acts. Text must match act1_awakening's
   // first prompt option in story/main.ink.
   function seedPromptForDevJump() {
     log.push({ type: "prompt", text: "Extract the zip" });
     const line = document.createElement("div");
-    line.className = "line line--prompt";
+    line.className = "line line--prompt line--prompt--pinned";
     line.textContent = "Extract the zip";
     terminal.appendChild(line);
     promptVisits = 1;

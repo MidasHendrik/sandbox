@@ -54,21 +54,15 @@ body {
   opacity: 0;
 }
 
+/* One shared look for every "terminal input" line - the chapter's
+   opening prompt and any reply later in the conversation both use
+   this base, unmodified, via js/main.js's typeUserLine(). Keeping
+   them on one class with no variant-specific overrides (padding,
+   etc.) is what stops the two from ever rendering at a different
+   size mid-animation. */
 .line--prompt {
   color: var(--prompt);
   margin-bottom: 1.2em;
-}
-
-/* The original prompt (never the replies that reuse this class - see
-   :not(.line--reply)) is the one line the game never clears (see
-   # clear in story/main.ink). Pinning it here keeps the prompt the
-   whole escalation spiraled out of visible at all times, through
-   every act. */
-.line--prompt:not(.line--reply) {
-  position: sticky;
-  top: 0;
-  z-index: 5;
-  background: var(--bg);
   padding: 8px 0;
 }
 
@@ -79,6 +73,17 @@ body {
 
 .line--prompt .cursor {
   background: var(--prompt);
+}
+
+/* The chapter's one pinned line (see docs/concept.md's Game dynamic -
+   every chapter keeps its opening prompt visible at the top for the
+   whole conversation). Applied in addition to .line--prompt, never
+   instead of it. */
+.line--prompt--pinned {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: var(--bg);
 }
 
 .line--reply {

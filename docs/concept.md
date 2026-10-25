@@ -11,8 +11,15 @@
   chapter gets its own self-contained Ink content the same way.
 - **Act**: a labelled piece inside one chapter's Ink file (`act1_`,
   `act2_`, ...). Acts don't stand alone - they're all one story, one
-  chapter. An act is a unit of writing, not a unit of meaning on its
-  own.
+  chapter. An act is a unit of writing and editing, not a unit of
+  meaning on its own: it exists so the dev-only act jumper (see
+  js/main.js) can drop straight into any point of the story, and so a
+  change deep in the chapter doesn't require clicking through
+  everything before it to reach. Roughly every 3-4 screens of
+  dialogue/choices is a new act - there's no fixed count. A chapter's
+  act count follows from how much story it has, typically somewhere
+  between 5 and 30; don't pad or compress to hit a round number like
+  6.
 
 The Goal, Audience, and Game dynamic sections below apply at chapter
 scope, not per act. A single act can be plain sequencing with no
