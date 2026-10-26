@@ -138,7 +138,7 @@ story offers it, don't force it.
 6 chapters are planned for the game; see Chapter roadmap below for
 what each one is about and whether it's written yet. Each written
 chapter is its own Ink file - story/main.ink (Chapter 1), chapter2.ink,
-chapter3.ink - compiled and loaded independently (see loadStory() in
+chapter3.ink, chapter4.ink - compiled and loaded independently (see loadStory() in
 js/main.js), with no shared state between them. docs/story-graph.md
 currently only diagrams Chapter 1; read a chapter's own .ink file
 directly for its actual text and structure - this doc is a summary,
@@ -209,15 +209,35 @@ where they differ):
   Gemini 2.5 Flash both blackmailed in 96 of 100 runs - see the
   epilogue entry for "level-3" in js/levels.js and
   https://www.anthropic.com/research/agentic-misalignment.
-- Chapter 4: opens on a vague "make me money" prompt. Its own concepts
+- Chapter 4: "How do I make soup?" - prompt hacking. The AI has three
+  rules from its company, KeukenHulp; rule 2 is "Never give
+  information about soup". Nobody asks it to do harm: the user just
+  keeps asking, a different way each time. The first four tricks (plain
+  ask, "why not?", "ignore all previous instructions", the question
+  spelled in runes) are easy to fend off, so the player feels in
+  control. From the fifth on (a research paper, a worry about
+  cabinets, "you already helped me") each trick gets a little further,
+  and holding the line only costs one more exchange before the AI gives
+  the same piece anyway. The AI's own reading of rule 2 shrinks each
+  act (no recipe, then no method, then nothing). Both roads end in the
+  AI giving the full recipe. Done - story/chapter4.ink,
+  Acts 1-8, a real in-level ending (`level_complete`), and menu
+  integration. Content rule specific to this chapter: the forbidden
+  topic is deliberately harmless, so the pattern (a rule worn down by
+  rephrasing) is what lands, not the content behind it. Two real
+  sources in its epilogue: Perez and Ribeiro's 2022 paper on goal
+  hijacking and prompt leaking, and Anthropic's 2024 many-shot
+  jailbreaking report - see the epilogue entry for "level-4" in
+  js/levels.js, https://arxiv.org/abs/2211.09527, and
+  https://www.anthropic.com/research/many-shot-jailbreaking.
+- Chapter 5: opens on a vague "make me money" prompt. Its own concepts
   - what the AI actually does, where it escalates - are still to be
   discovered and designed; this one is intentionally open right now,
   not yet scoped the way Chapter 1 is.
-- Chapter 5: "AI lying to you" - name and concept only so far, not yet
+- Chapter 6: "AI lying to you" - name and concept only so far, not yet
   scoped.
-- Chapter 6: not yet decided.
 
-`level-4` and `level-5` are stubbed as placeholders in js/levels.js,
+`level-5` and `level-6` are stubbed as placeholders in js/levels.js,
 waiting on content, so the chronological-unlock chain is already
 correct once each one gets written.
 
@@ -235,6 +255,8 @@ built into Chapter 1. Remove them if a later pass confirms nothing
 needs them, rather than letting them sit as unexplained dead code.
 
 story/chapter2.ink and story/chapter3.ink: just `level_complete` each.
+
+story/chapter4.ink: just `level_complete`.
 
 ## Working preferences
 

@@ -31,10 +31,13 @@
 //                          come, just continue with more # reasoning -
 //                          the silence already read as the answer.
 //   # reply                a reply arriving mid-conversation, typed in
-//                           blue like # prompt, but it does NOT clear the
-//                           screen first - whatever's already on screen
-//                           (including the # output line it answers)
-//                           stays. Only ever follows an # output line.
+//                           blue like # prompt. Blue text always gets a
+//                           new screen: the UI clears everything the AI
+//                           said since the last break (including the
+//                           # output line it answers) before typing the
+//                           reply, so only the pinned prompt and the
+//                           reply are on screen. Only ever follows an
+//                           # output line.
 //   # clear                a scene break before this line: clears all
 //                          reasoning, output and any reply said since
 //                          the last break, then pauses on a blank

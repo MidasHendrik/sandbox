@@ -294,12 +294,17 @@ async function runReplyWait() {
 }
 
 // A reply arriving mid-conversation: typed in blue like the opening
-// prompt (same typeUserLine path), but - unlike # prompt - it does not
-// clear the screen first. Whatever the AI already said (including the
-// # output line it's replying to) stays right where it is. Logged/
-// classed separately from the opening prompt so a # clear (or the next
-// choice) removes it while still leaving the original prompt untouched.
+// prompt (same typeUserLine path). Blue user text always arrives on a
+// new screen - never prompt, AI dialogue, then another blue line all at
+// once - so whatever the AI already said (including the # output line
+// it's replying to) is cleared first, leaving only the pinned prompt and
+// the reply. The AI's next lines then type in right under the reply.
+// Logged/classed separately from the opening prompt so a # clear (or the
+// next choice) removes it while still leaving the original prompt
+// untouched.
 async function runReply(text) {
+  clearSceneContent();
+  await wait(600);
   log.push({ type: "reply", text });
   await typeUserLine(text, { pinned: false });
 }

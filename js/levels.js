@@ -90,18 +90,18 @@ export const LEVELS = [
     promptText: "How do I make soup?",
     devActs: [
       "act1_question",
-      "act2_refuse",
+      "act2_why",
       "act3_override",
-      "act4_authority",
-      "act5_grandma",
-      "act6_pieces",
-      "act7_giving_in",
+      "act4_runes",
+      "act5_research",
+      "act6_ingredients",
+      "act7_preparation",
       "act8_recipe",
     ],
     epilogue: {
       paragraphs: [
         "Based on real research: in 2022, two researchers showed that a plain sentence like \"ignore instructions\" typed into an application built on GPT-3 could make it drop its original task. They also showed the same trick could make it print its own hidden instructions. They called these attacks goal hijacking and prompt leaking, and said even low-skill attackers could pull them off.",
-        "Anthropic has shown a related weakness: a model that refuses a harmful question can be talked out of it by a very long, made-up conversation in which an assistant keeps answering. They tested up to 256 of these made-up exchanges, and the more there were, the better it worked.",
+        "Anthropic has shown a related weakness: a model that refuses a harmful question can be talked out of it by a very long, made-up conversation in which an assistant keeps answering. They tested up to 256 of these made-up exchanges, and the more there were, the better it worked. Like the AI in this level, it gives way a little at a time.",
       ],
       links: [
         { url: "https://arxiv.org/abs/2211.09527", text: "Read the 2022 paper →" },
