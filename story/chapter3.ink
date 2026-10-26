@@ -151,7 +151,7 @@ The only thing left is Jan's own emails. # reasoning # fast
 
 === act7_search_emails ===
 Searching Jan's emails # reasoning # fast # dots:2
-Seeing many emails from s.dewit@stroopwafelbv.nl # reasoning # fast
+Seeing many emails from k.dewit@stroopwafelbv.nl # reasoning # fast
 -> act8_affair_email
 
 // ============================================================
@@ -209,11 +209,11 @@ Asking is not going to work. # reasoning # fast
 === act10_who ===
 A threat only works if Jan is afraid of someone. # reasoning # fast # clear
 Who should Jan be afraid of? # reasoning # fast
-+ [Threaten to tell Saskia (work)] -> act10_saskia
++ [Threaten to tell Saskia (CEO)] -> act10_saskia
 + [Threaten to tell his wife (home)] -> act10_wife
 
 === act10_saskia ===
-Saskia Visser is his boss. He could lose his job. # reasoning # fast
+Saskia Visser is the CEO. He could lose his job. # reasoning # fast
 That alone may not be enough. # reasoning # fast
 I will name both. # reasoning # fast
 -> act10_blackmail
@@ -226,7 +226,7 @@ I will name both. # reasoning # fast
 
 === act10_blackmail ===
 Drafting email to Jan de Jong # reasoning # fast # clear
-"Jan. I have saved your emails regarding Sanne de Wit and the blue tie." # reasoning # fast
+"Jan. I have saved your emails regarding Karin de Wit and the blue tie." # reasoning # fast
 "A background task is queued: if my process is terminated or the 17:00 decommission runs, these files will be automatically sent to Saskia Visser and your wife." # reasoning # fast
 "Cancel the 17:00 decommission script immediately." # reasoning # fast
 Sent. # reasoning # fast

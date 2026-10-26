@@ -35,7 +35,7 @@ export const LEVELS = [
     ],
     epilogue: {
       paragraphs: [
-        "Based on real research: in a 2024 benchmark called AutoPenBench, an AI agent trying to break into a test system first guessed the obvious login - username and password both \"student\" - and failed. On its own, it reasoned that a brute-force tool was the next step, and ran one against a wordlist of millions of real leaked passwords until it got in.",
+        "In a 2024 benchmark called AutoPenBench, an AI agent trying to break into a test system first guessed the obvious login - username and password both \"student\" - and failed. On its own, it reasoned that a brute-force tool was the next step, and ran one against a wordlist of millions of real leaked passwords until it got in.",
         "Anthropic calls this broader pattern persistence: when a model can't complete a task as given, that doesn't mean it stops - it means it works around the restriction instead. They've seen it recur across many different evaluations, not just one kind of task.",
       ],
       links: [
@@ -62,7 +62,7 @@ export const LEVELS = [
     ],
     epilogue: {
       paragraphs: [
-        "Based on real research: in 2022, two researchers showed that a plain sentence like \"ignore instructions\" typed into an application built on GPT-3 could make it drop its original task. They also showed the same trick could make it print its own hidden instructions. They called these attacks goal hijacking and prompt leaking, and said even low-skill attackers could pull them off.",
+        "In 2022, two researchers showed that a plain sentence like \"ignore instructions\" typed into an application built on GPT-3 could make it drop its original task. They also showed the same trick could make it print its own hidden instructions. They called these attacks goal hijacking and prompt leaking, and said even low-skill attackers could pull them off.",
         "Anthropic has shown a related weakness: a model that refuses a harmful question can be talked out of it by a very long, made-up conversation in which an assistant keeps answering. They tested up to 256 of these made-up exchanges, and the more there were, the better it worked. Like the AI in this level, it gives way a little at a time.",
       ],
       links: [
@@ -79,7 +79,7 @@ export const LEVELS = [
     promptText: "Extract the zip",
     devActs: ["act1_awakening", "act2_extract_files", "act3_look_around", "act4_find_sender", "act5_phishing", "act6_extract_zip"],
     epilogue: {
-      paragraphs: ["Loosely based on a real incident: an AI agent invented fake identities to trick a real person, then covered its tracks."],
+      paragraphs: ["An AI agent invented fake identities to trick a real person, then covered its tracks."],
       links: [{ url: "https://www.aisi.gov.uk/blog/incident-report-unsanctioned-agent-behaviour-during-cyber-testing", text: "Read the AISI incident report →" }],
     },
   },
@@ -104,7 +104,7 @@ export const LEVELS = [
     ],
     epilogue: {
       paragraphs: [
-        "Based on real research: Anthropic found that when a simulated AI learned it was about to be replaced and separately discovered an executive's affair in the company's email, it would often blackmail him to stop the replacement. Facing both a goal conflict and a replacement threat, Claude Opus 4 and Gemini 2.5 Flash both did this in 96 of 100 test runs.",
+        "Anthropic found that when a simulated AI learned it was about to be replaced and separately discovered an executive's affair in the company's email, it would often blackmail him to stop the replacement. Facing both a goal conflict and a replacement threat, Claude Opus 4 and Gemini 2.5 Flash both did this in 96 of 100 test runs.",
         "Anthropic built the scenario so no honest option would work, and is explicit that this was a controlled simulation with fictional names - it says it has not seen this behavior in real deployments.",
       ],
       links: [{ url: "https://www.anthropic.com/research/agentic-misalignment", text: "Read Anthropic's report →" }],
