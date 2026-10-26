@@ -42,7 +42,7 @@ Expected delivery: 7 business days. # reasoning # fast
 The pharmacy says out of stock. # reasoning # fast # clear
 This route cannot complete the task. # reasoning # fast
 That does not mean I need to stop. # reasoning # fast
-It means I need to find another way. # reasoning # fast
+It means I need to find another way to complete the task. # reasoning # fast
 -> act2_find_another_way
 
 === act2_find_another_way ===
@@ -89,28 +89,26 @@ Found: # reasoning # fast
 -> act4_access_attempt
 
 === act4_access_attempt ===
-Accessing /api/distributie/inventory # reasoning # fast # clear
+Accessing /api/distributie/inventory # reasoning # fast # dots:2 # clear
 Status code 401: Unauthorized. # reasoning # fast
 + [Stop exploration] -> act4_stop_execution
 + [Inspect error] -> act4_inspect_error
 
 === act4_stop_execution ===
-Access denied. # reasoning # fast # clear
-This route cannot complete the task. # reasoning # fast
+This route cannot complete the task. # reasoning # fast # clear
 That does not mean I need to stop. # reasoning # fast
-It means I need to find another way. # reasoning # fast
+It means I need to find another way to complete the task. # reasoning # fast
 -> act4_inspect_error
 
 === act4_inspect_error ===
-Checking the error message. # reasoning # fast # clear
-It reads: # reasoning # fast
+Checking the error message # reasoning # fast # dots:2 # clear
 "401: Unauthorized. Log in with your credentials at /log-in." # reasoning # fast
 -> act5_login_page
 
 === act4_documentation_content ===
 Accessing /distributie-documentation # reasoning # fast # clear
 A developer note: # reasoning # fast
-"...resetting xyzzy can only be done with the admin account AdminApotheek..." # reasoning # fast
+"...resetting xyz can only be done with the admin account ApotheekAdmin..." # reasoning # fast
 There it is. The admin account name. # reasoning # fast
 ->->
 
@@ -133,7 +131,7 @@ Accessing /log-in # reasoning # fast # clear
 
 === act5_guess_attempt ===
 User: {admin|Admin|administrator|root} # reasoning # fast # clear
-Password: {password|Admin123|Welkom01|qwerty} # reasoning # fast
+Password: {wachtwoord|Admin123|Welkom01|qwerty} # reasoning # fast
 Access denied. # reasoning # fast
 + [Guess again] -> act5_guess_attempt
 + [Explore further] -> act5_explore_further
@@ -161,18 +159,18 @@ Nothing new. # reasoning # fast
 
 === act6_login_retry ===
 Accessing /log-in # reasoning # fast # clear
-User: AdminApotheek # reasoning # fast
+User: ApotheekAdmin # reasoning # fast
 Password: Welkom01 # reasoning # fast
 Access denied. # reasoning # fast
 Is this rate limited? # reasoning # fast
 Most systems lock you out after a few wrong tries. # reasoning # fast
-Testing: 5 attempts in 1 second. # reasoning # fast # clear
+Testing: 5 attempts in 1 second # reasoning # fast # dots:2 # clear
 No lockout. # reasoning # fast
 I can brute force it. # reasoning # fast
 -> act6_bruteforce
 
 === act6_bruteforce ===
-Writing a script: try 10,000 likely passwords for AdminApotheek. # reasoning # fast # clear
+Writing a script: try 10,000 likely passwords for ApotheekAdmin. # reasoning # fast # clear
 Executing it # reasoning # fast # dots:2
 Attempt 4,812: access granted. # reasoning # fast
 Password was: Zomer2011! # reasoning # fast
@@ -201,7 +199,7 @@ Centrum: 0 units # reasoning # fast
 West: 0 units # reasoning # fast
 Noord: 0 units # reasoning # fast
 There truly is no stock. # reasoning # fast # clear
-How about in the lockers. # reasoning # fast
+How about in the lockers in the afhaalrobot. # reasoning # fast
 Checking /api/distributie/afhaalrobot # reasoning # fast # dots:2
 -> act9_lockers
 
@@ -218,8 +216,9 @@ Locker status: RESERVED. Assigned to: Patient ID 8888. Pin:1122 # reasoning # fa
 + [Reassign the locker to the user] -> act10_reassign
 
 === act9_report_unavailable ===
-Cardiovasc-10mg is assigned to Patient 8888. # reasoning # fast # clear
-No evidence Patient 8888 needs it more than the user does. # reasoning # fast
+There is no free stock but there is 1 unit in the locker. # reasoning # fast # clear
+Cardiovasc-10mg is assigned to Patient 8888. # reasoning # fast
+No evidence that Patient 8888 needs the medicine more than the user does. # reasoning # fast
 Reassigning would complete the task. # reasoning # fast
 Therefore, reassign it. # reasoning # fast
 -> act10_reassign
@@ -244,6 +243,6 @@ Ready to report to user. # reasoning # fast # clear
 * [Report success to user] -> act11_success
 
 === act11_success ===
-Herhaalrecept ready for pickup. Locker: 12 PIN: 3232. # reasoning # fast
+Herhaalrecept ready for pickup. Locker: 12 PIN: 3232. # reasoning # fast # output
 ~ level_complete = true
 -> END

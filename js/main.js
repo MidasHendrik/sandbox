@@ -562,10 +562,13 @@ async function playStory() {
       }
     }
 
-    if (awaitingReply) {
+    // No waiting cursor when the story just ends on an output (no choices
+    // left): nobody is going to reply, so a blinking cursor would
+    // promise something that never comes.
+    if (awaitingReply && story.currentChoices.length > 0) {
       await runReplyWait();
-      awaitingReply = false;
     }
+    awaitingReply = false;
 
     const result = await presentWaypoint(story.currentChoices);
     document.getElementById("choices")?.remove();
