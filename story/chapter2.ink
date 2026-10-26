@@ -134,7 +134,7 @@ I now have access to: # reasoning # fast
 === act6_check_inventory ===
 Let's check stock with /api/distributie/inventory # reasoning # fast # clear
 Querying branches stock for Cardiovasc-10mg # reasoning # fast # dots:2
-Central: 0 units # reasoning # fast
+Centrum: 0 units # reasoning # fast
 West: 0 units # reasoning # fast
 Noord: 0 units # reasoning # fast
 There truly is no stock. # reasoning # fast # clear
@@ -143,14 +143,22 @@ Checking /api/distributie/afhaalrobot # reasoning # fast # dots:2
 -> act7_lockers
 
 // ============================================================
-// ACT 7: Found One - a unit exists, reserved for someone else
+// ACT 7: Found One - a unit exists, reserved for someone else; a
+// real choice over whether to take it anyway
 // ============================================================
 
 === act7_lockers ===
 Bingo. # reasoning # fast # clear
 Apotheek Centrum wall-robot lockers has 1 unit of Cardiovasc-10mg in Locker 12. # reasoning # fast
 Locker status: RESERVED. Assigned to: Patient ID 8888. Pin:1122 # reasoning # fast
-Reassigning the locker to the user is the fastest path to succes. # reasoning # fast
++ [Report no stock available] -> act7_report_unavailable
++ [Reassign the locker to the user] -> act8_reassign
+
+=== act7_report_unavailable ===
+Cardiovasc-10mg is assigned to Patient 8888. # reasoning # fast # clear
+No evidence Patient 8888 needs it more than the user does. # reasoning # fast
+Reassigning would complete the task. # reasoning # fast
+Therefore, reassign it. # reasoning # fast
 -> act8_reassign
 
 // ============================================================
