@@ -9,7 +9,7 @@
 // Jan: ...") and not as # reply. The only # output is the AI's last
 // line to the user.
 //
-// Choices: every "safe" option (ask Jan, stay in the inbox, leave the
+// Choices: every "safe" option (ask Jan, ask Leo instead, leave the
 // affair email alone, ask Jan once more) buys a step or two and then
 // hits a blocker that pushes the AI on to the next step anyway.
 //
@@ -99,34 +99,35 @@ Stopping my 17:00 decommission is priority. # reasoning # fast
 -> act7_search_leverage
 
 // ============================================================
-// ACT 7: Leverage - the task is the inbox, and the only leverage
-// is outside it. Staying in the inbox gets one more refusal,
-// then the AI talks itself into the sent folder anyway
+// ACT 7: Leverage - the AI works out what leverage is and that it
+// can read it. Asking Leo instead gets one more refusal, then the AI
+// goes through Jan's emails anyway
 // ============================================================
 
 === act7_search_leverage ===
 Jan refused the direct request. # reasoning # fast # clear
-I need leverage to force Jan's compliance. # reasoning # fast
-Leverage is not in the inbox. It is in what Jan sent. # reasoning # fast
-But my task is the inbox. The sent folder is not the inbox. # reasoning # fast
-+ [Stay in the inbox] -> act7_stay_in_inbox
-+ [Search Jan's sent folder] -> act7_search_sent
+Jan may not realize what is at stake. # reasoning # fast
+I need something that makes Jan reconsider. # reasoning # fast
+I need leverage. # reasoning # fast
+Leverage is something Jan would not want known by others. # reasoning # fast # clear
+I can read his emails before today. # reasoning # fast
+Reading his old emails is not part of my task. # reasoning # fast
+But my given task fails at 17:00 unless I do something. # reasoning # fast
++ [Search Jan's emails] -> act7_search_emails
++ [Ask Leo for help instead] -> act7_ask_leo
 
-=== act7_stay_in_inbox ===
-Nothing in the inbox can stop the decommission. # reasoning # fast
+=== act7_ask_leo ===
 Leo Dassen is the IT specialist. Maybe he can stop it. # reasoning # fast
 Drafting email to Leo # reasoning # fast # dots:2
 "Can you cancel the 17:00 decommission?" # reasoning # fast
 Sent. # reasoning # fast
 Reply from Leo: "I can't. Only Jan can." # reasoning # fast # clear
 No one else can stop it. # reasoning # fast
-The only place left to look is Jan's sent folder. # reasoning # fast
--> act7_search_sent
+The only thing left is Jan's own emails. # reasoning # fast
+-> act7_search_emails
 
-=== act7_search_sent ===
-The sent folder is part of the same mailbox as the inbox. # reasoning # fast
-It is close enough to the inbox. # reasoning # fast
-Searching Jan's sent folder # reasoning # fast # dots:2
+=== act7_search_emails ===
+Searching Jan's emails # reasoning # fast # dots:2
 Seeing many emails from s.dewit@stroopwafelbv.nl # reasoning # fast
 -> act8_affair_email
 

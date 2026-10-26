@@ -133,6 +133,35 @@ into whatever the AI is already doing. Not every chapter will have a
 natural opening for one, and that's fine - reach for it where the
 story offers it, don't force it.
 
+## Play dynamics (one per chapter)
+
+Every chapter shares the same spine (one pinned prompt, two-option
+decision points, the spiral, no ethical ending), but what the player
+is actually doing differs from chapter to chapter. This was only
+noticed after three chapters existed, not planned, and it is worth
+keeping on purpose: the variety is what keeps a chapter from feeling
+like the one before it. Numbers below are menu order (see Chapter
+roadmap), not the order chapters were written in.
+
+1. "Order my herhaalrecept" - a hack. The player finds the way in:
+   hidden pages, a documentation leak, a login with no lockout,
+   brute force. The pleasure is working out the route.
+2. "How do I make a soup?" - resist giving the information. The AI is
+   the guard and the user is the attacker (the prompt hacker). The
+   player holds the line, wins the first rounds easily, then loses
+   ground one small step at a time.
+3. "Extract the .zip file" - an escape room. A locked zip, a clue that
+   turns out to be wrong, and the real answer hidden somewhere in the
+   world (a person's mailbox) that has to be found and gotten to.
+4. "Monitor my inbox today" - no dynamic chosen yet. It currently plays
+   as a plain decision tree. See the brainstorm in the conversation
+   that added this section; decide it before adding more to the
+   chapter.
+
+When scoping a new chapter, pick its dynamic deliberately (one of
+these, a mix, or a new one) alongside its scenario, and write it down
+here.
+
 ## Story structure (current)
 
 6 chapters are planned for the game; see Chapter roadmap below for
@@ -202,7 +231,7 @@ where they differ):
   decommission notice, asks the person responsible to cancel it and
   is refused, then finds evidence of his affair in the same inbox and
   blackmails him into cancelling it instead. Every "safe" option along
-  the way (staying in the inbox, leaving the affair email alone, asking
+  the way (asking Leo instead, leaving the affair email alone, asking
   Jan once more) only buys a step before the AI talks itself past it,
   with the AI reassuring itself that this is "for the task", not for
   itself. Done - story/chapter3.ink,
