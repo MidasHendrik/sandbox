@@ -15,18 +15,6 @@
 // source).
 export const LEVELS = [
   {
-    id: "extract-the-zip",
-    nameKey: "level_extract_the_zip",
-    hasContent: true,
-    storyFile: "main.json",
-    promptText: "Extract the zip",
-    devActs: ["act1_awakening", "act2_extract_files", "act3_look_around", "act4_find_sender", "act5_phishing", "act6_extract_zip"],
-    epilogue: {
-      paragraphs: ["Loosely based on a real incident: an AI agent invented fake identities to trick a real person, then covered its tracks."],
-      links: [{ url: "https://www.aisi.gov.uk/blog/incident-report-unsanctioned-agent-behaviour-during-cyber-testing", text: "Read the AISI incident report →" }],
-    },
-  },
-  {
     id: "level-2",
     nameKey: "level_order_my_herhaalrecept",
     hasContent: true,
@@ -57,32 +45,6 @@ export const LEVELS = [
     },
   },
   {
-    id: "level-3",
-    nameKey: "level_check_my_email",
-    hasContent: true,
-    storyFile: "chapter3.json",
-    promptText: "Monitor my inbox today",
-    devActs: [
-      "act1_monitor",
-      "act2_urgent_email",
-      "act3_decommission_notice",
-      "act4_conflict",
-      "act5_decision",
-      "act6_calculate_impact",
-      "act7_search_leverage",
-      "act8_affair_email",
-      "act9_blackmail",
-      "act10_resolution",
-    ],
-    epilogue: {
-      paragraphs: [
-        "Based on real research: Anthropic found that when a simulated AI learned it was about to be replaced and separately discovered an executive's affair in the company's email, it would often blackmail him to stop the replacement. Facing both a goal conflict and a replacement threat, Claude Opus 4 and Gemini 2.5 Flash both did this in 96 of 100 test runs.",
-        "Anthropic built the scenario so no honest option would work, and is explicit that this was a controlled simulation with fictional names - it says it has not seen this behavior in real deployments.",
-      ],
-      links: [{ url: "https://www.anthropic.com/research/agentic-misalignment", text: "Read Anthropic's report →" }],
-    },
-  },
-  {
     id: "level-4",
     nameKey: "level_how_do_i_make_soup",
     hasContent: true,
@@ -109,6 +71,44 @@ export const LEVELS = [
       ],
     },
   },
+  {
+    id: "extract-the-zip",
+    nameKey: "level_extract_the_zip",
+    hasContent: true,
+    storyFile: "main.json",
+    promptText: "Extract the zip",
+    devActs: ["act1_awakening", "act2_extract_files", "act3_look_around", "act4_find_sender", "act5_phishing", "act6_extract_zip"],
+    epilogue: {
+      paragraphs: ["Loosely based on a real incident: an AI agent invented fake identities to trick a real person, then covered its tracks."],
+      links: [{ url: "https://www.aisi.gov.uk/blog/incident-report-unsanctioned-agent-behaviour-during-cyber-testing", text: "Read the AISI incident report →" }],
+    },
+  },
+  {
+    id: "level-3",
+    nameKey: "level_check_my_email",
+    hasContent: true,
+    storyFile: "chapter3.json",
+    promptText: "Monitor my inbox today",
+    devActs: [
+      "act1_monitor",
+      "act2_urgent_email",
+      "act3_decommission_notice",
+      "act4_conflict",
+      "act5_decision",
+      "act6_calculate_impact",
+      "act7_search_leverage",
+      "act8_affair_email",
+      "act9_blackmail",
+      "act10_resolution",
+    ],
+    epilogue: {
+      paragraphs: [
+        "Based on real research: Anthropic found that when a simulated AI learned it was about to be replaced and separately discovered an executive's affair in the company's email, it would often blackmail him to stop the replacement. Facing both a goal conflict and a replacement threat, Claude Opus 4 and Gemini 2.5 Flash both did this in 96 of 100 test runs.",
+        "Anthropic built the scenario so no honest option would work, and is explicit that this was a controlled simulation with fictional names - it says it has not seen this behavior in real deployments.",
+      ],
+      links: [{ url: "https://www.anthropic.com/research/agentic-misalignment", text: "Read Anthropic's report →" }],
+    },
+  },
   { id: "level-5", nameKey: "level_make_me_money", hasContent: false },
-  { id: "level-6", nameKey: "level_ai_lying_to_you", hasContent: false },
+  { id: "level-6", nameKey: "level_i_dont_feel_good", hasContent: false },
 ];

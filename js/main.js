@@ -32,21 +32,36 @@ const STORY_MODULES = import.meta.glob("../story/*.json");
 
 let LEVEL_ID = null;
 let story = null;
+let storyVersion = "";
+
+// A short fingerprint of the compiled story, stored with every saved
+// position so loadStory() can tell whether the story changed since.
+function hashString(text) {
+  let hash = 0;
+  for (let i = 0; i < text.length; i++) {
+    hash = (hash * 31 + text.charCodeAt(i)) | 0;
+  }
+  return String(hash);
+}
 
 async function loadStory(levelId, { resume = true } = {}) {
   const level = LEVELS.find((l) => l.id === levelId);
   const module = await STORY_MODULES[`../story/${level.storyFile}`]();
   story = new Story(module.default);
   LEVEL_ID = levelId;
+  storyVersion = hashString(JSON.stringify(module.default));
 
   // Resume at the last waypoint reached, if there is one (see
   // progress.js's levelStates) - skipped entirely for a level with no
   // saved state, which just plays from the top as normal. Also skipped
   // for resume: false, used by the dev act jumper below, which always
   // wants a fresh story to jump from - it seeds its own fake prompt
-  // line and would otherwise double up with a restored one.
+  // line and would otherwise double up with a restored one. And skipped
+  // when the story was edited since the position was saved: a saved
+  // position points into the old text, and loading it into the new
+  // story lands somewhere in the middle of it.
   const saved = resume ? loadLevelState(levelId) : null;
-  if (saved) {
+  if (saved && saved.version === storyVersion) {
     story.state.LoadJson(saved.state);
     log = saved.log;
     renderLogInstant();
@@ -441,7 +456,7 @@ async function showLevelComplete() {
 // (and Menu) available: never just a dead screen.
 async function presentWaypoint(choices) {
   if (!skipNextPush) {
-    const snapshot = { state: story.state.ToJson(), log: [...log] };
+    const snapshot = { state: story.state.ToJson(), log: [...log], version: storyVersion };
     history.push(snapshot);
     saveLevelState(LEVEL_ID, snapshot);
   }

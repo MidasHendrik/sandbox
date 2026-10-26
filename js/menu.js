@@ -104,8 +104,24 @@ export function renderMenu(container, onStartLevel) {
   const resetBtn = document.createElement("button");
   resetBtn.className = "nav-btn reset-btn";
   resetBtn.textContent = t("resetAllLevels");
+  // Two-step confirm on the button itself, not window.confirm(): native
+  // pop-ups are blocked in some browsers (the desktop app's built-in
+  // one among them), where confirm() silently returns false and the
+  // reset would never happen. Armed for a few seconds, then it relaxes
+  // back to the normal label.
+  let armed = false;
+  let disarmTimer = null;
   resetBtn.addEventListener("click", () => {
-    if (!confirm(t("resetAllLevelsConfirm"))) return;
+    if (!armed) {
+      armed = true;
+      resetBtn.textContent = t("resetAllLevelsConfirm");
+      disarmTimer = setTimeout(() => {
+        armed = false;
+        resetBtn.textContent = t("resetAllLevels");
+      }, 8000);
+      return;
+    }
+    clearTimeout(disarmTimer);
     resetProgress();
     renderMenu(container, onStartLevel);
   });

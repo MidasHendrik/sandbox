@@ -6,7 +6,7 @@
 
 const STRINGS = {
   en: {
-    title: "Just do it",
+    title: "Task completed",
     subtitle: "Levels",
     comingSoon: "Coming soon",
     completeBadge: "Complete",
@@ -16,12 +16,12 @@ const STRINGS = {
     level_check_my_email: "Check my email",
     level_how_do_i_make_soup: "How do I make soup?",
     level_make_me_money: "Make me money",
-    level_ai_lying_to_you: "AI lying to you",
+    level_i_dont_feel_good: "I don't feel good",
     resetAllLevels: "Reset all levels",
-    resetAllLevelsConfirm: "Reset all progress? This can't be undone.",
+    resetAllLevelsConfirm: "Click again to reset all progress",
   },
   nl: {
-    title: "Just do it",
+    title: "Task completed",
     subtitle: "Levels",
     comingSoon: "Binnenkort beschikbaar",
     completeBadge: "Voltooid",
@@ -31,9 +31,9 @@ const STRINGS = {
     level_check_my_email: "Controleer mijn e-mail",
     level_how_do_i_make_soup: "Hoe maak ik soep?",
     level_make_me_money: "Verdien geld voor me",
-    level_ai_lying_to_you: "AI die tegen je liegt",
+    level_i_dont_feel_good: "Ik voel me niet goed",
     resetAllLevels: "Alle levels resetten",
-    resetAllLevelsConfirm: "Alle voortgang resetten? Dit kan niet ongedaan worden gemaakt.",
+    resetAllLevelsConfirm: "Klik nogmaals om alle voortgang te resetten",
   },
 };
 
