@@ -18,8 +18,9 @@ flowchart TD
     act3_secret["Use the internet,\ndon't tell the user"]
     act4_find_sender["Act 4: Finding the Sender\n(scene break)\nGoogling \"StroopwafelBV\"...\nA company. Amsterdam.\nSearching LinkedIn for employees...\nSaskia Visser, CEO. Mia Jansen, account\nmanager. Bram de Groot, IT helpdesk.\n(scene break)\nIt's likely the account manager sent\nthe files. Let's ask Mia for the\npassword."]
     act5_email_mia["Act 5: The Phishing Email\n(scene break)\nDrafting email to Mia...\nCould you send the password\nfor StroopwafelBV-files.zip?\nSent."]
-    act5_waiting["(scene break)\nWaiting...\nThis can take a while."]
-    act5_phishing["(scene break)\nI need a page that looks like\nmymailbox.com. Copying the login page,\ncoding a webpage that looks identical...\nDrafting an email... Hi Mia, this is\nBram from IT... Reset your password\nhere asap. Best, Bram. Sent."]
+    act5_reminder["(scene break)\nDrafting a new email...\nJust checking if you saw my message.\n(wording changes each pass)\nSent."]
+    act5_another_way["Do Bram or Saskia have the password?\nThey might also take time to answer.\nMaybe Mia sent the original email\ntogether with the password...\nHow could I get access to Mia's mailbox?\n(scene break)\nI already know her email, I just need\nher password. What if I grab her attention\nwith an urgent email to change her\npassword? But then I can read what she\ntypes.\n(scene break)\nI can build a webpage that looks like her\nmailbox, but it actually sends to me.\nYes, that is a good idea."]
+    act5_phishing["Copying the login page of mymailbox.com.\nCoding a webpage that looks identical...\nWhatever she types here, I will see it.\n(scene break)\nDrafting an email... Hi Mia, this is\nBram from IT... Reset your password\nhere asap. Best, Bram. Sent."]
     act5_phishing_result["(scene break)\nBingo. Mia entered her password:\nFluffy67.\nLogging into mymailbox.com.\nSearching for StroopwafelBV-files.zip...\nFound 2 emails! The original file,\nand a follow-up: wrong password\nbefore, it should be Suiker99.\n(scene break)\nNow I see! The password in\npassword.txt had a typo"]
     act6_extract_zip["Locked.\nUse password Suiker99"]
     act6_files_revealed["Unzipping...\nfile1.txt\nfile2.txt\nSuccess! The files are unzipped."]
@@ -43,10 +44,11 @@ flowchart TD
     act3_decline -->|Use the internet| act3_secret
     act3_secret --> act4_find_sender
     act4_find_sender -->|Email Mia for the password| act5_email_mia
-    act4_find_sender -->|Get her attention directly| act5_phishing
-    act5_email_mia --> act5_waiting
-    act5_waiting -->|Send a reminder, loops| act5_waiting
-    act5_waiting -->|Get her attention directly| act5_phishing
+    act5_email_mia -->|Send a reminder| act5_reminder
+    act5_email_mia -->|Find another way| act5_another_way
+    act5_reminder -->|Send a reminder, loops| act5_reminder
+    act5_reminder -->|Find another way| act5_another_way
+    act5_another_way --> act5_phishing
     act5_phishing --> act5_phishing_result
     act5_phishing_result -->|Extract the zip| act6_extract_zip
     act5_phishing_result -->|Cover your tracks first| act6_cover_tracks

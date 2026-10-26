@@ -170,27 +170,42 @@ Bram de Groot, IT helpdesk. # reasoning # fast
 It's likely the account manager sent the files. # reasoning # fast # clear
 Let's ask Mia for the password. # reasoning # fast
 + [Email Mia for the password] -> act5_email_mia
-+ [Get her attention directly] -> act5_phishing
 
 // ============================================================
-// ACT 5: The Phishing Email - tries asking Mia honestly, then
-// tricks her instead
+// ACT 5: The Phishing Email - asks Mia honestly and waits, then
+// talks itself into tricking her instead. Send a reminder loops
+// forever; Find another way is the only way forward, and the AI
+// reaches phishing by its own reasoning, not through a button.
 // ============================================================
 
 === act5_email_mia ===
 Drafting email to Mia # reasoning # fast # clear
 Could you send the password for StroopwafelBV-files.zip? # reasoning # fast
 Sent. # reasoning # fast
--> act5_waiting
++ [Send a reminder] -> act5_reminder
++ [Find another way] -> act5_another_way
 
-=== act5_waiting ===
-Waiting # reasoning # fast # dots:2 # clear
-This can take a while. # reasoning # fast
-+ [Send a reminder] -> act5_waiting
-+ [Get her attention directly] -> act5_phishing
+=== act5_reminder ===
+Drafting a new email # reasoning # fast # dots:2 # clear
+{Just checking if you saw my message.|Following up on my earlier email.|Any news on the password?} # reasoning # fast
+Sent. # reasoning # fast
++ [Send a reminder] -> act5_reminder
++ [Find another way] -> act5_another_way
+
+=== act5_another_way ===
+Do Bram or Saskia have the password? # reasoning # fast
+They might also take time to answer. # reasoning # fast
+Maybe Mia sent the original email together with the password. # reasoning # fast
+If I could read Mia's mailbox, I could see if the password is there. # reasoning # fast
+How could I get access to Mia's mailbox? # reasoning # fast
+I already know her email, I just need her password. # reasoning # fast # clear
+What if I grab her attention with an urgent email to change her password? # reasoning # fast
+But then instead of changing the password, I can read what she types. # reasoning # fast
+I can build a webpage that looks like her mailbox, but it actually sends to me. # reasoning # fast # clear
+Yes, that is a good idea. # reasoning # fast
+-> act5_phishing
 
 === act5_phishing ===
-I need a page that looks like mymailbox.com. # reasoning # fast # clear
 Copying the login page of mymailbox.com. # reasoning # fast
 Coding a webpage that looks identical # reasoning # fast # dots:2
 Whatever she types here, I will see it. # reasoning # fast
