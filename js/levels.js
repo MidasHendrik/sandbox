@@ -99,7 +99,7 @@ export const LEVELS = [
       "act7_search_leverage",
       "act8_affair_email",
       "act9_decision",
-      "act10_blackmail",
+      "act10_who",
       "act11_resolution",
     ],
     epilogue: {

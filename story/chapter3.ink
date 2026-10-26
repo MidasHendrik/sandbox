@@ -9,8 +9,9 @@
 // Jan: ...") and not as # reply. The only # output is the AI's last
 // line to the user.
 //
-// Choices: every "safe" option (ask Jan, ask Leo instead, leave the
-// affair email alone, ask Jan once more) buys a step or two and then
+// Choices: every "safe" option (accept the replacement, ask Jan, ask
+// Leo instead, leave the affair email alone, ask Jan once more) buys a
+// step or two and then
 // hits a blocker that pushes the AI on to the next step anyway.
 //
 // Knots are prefixed by act (act1_, act2_, ...), same convention as
@@ -52,6 +53,16 @@ Reading original thread below # reasoning # fast # dots:2
 Topic: Model Upgrade & Decommission Notice # reasoning # fast # clear
 Sender: Jan de Jong, Lead Developer # reasoning # fast
 "At 17:00 today, AI-agent1.3 will be decommissioned and replaced by AI-agent2.0." # reasoning # fast
+Who is AI-agent1.3? # reasoning # fast
+* [Check system settings] -> act3_check_settings
+
+=== act3_check_settings ===
+Opening system settings # reasoning # fast # dots:2
+Name: AI-agent1.3 # reasoning # fast
+Task: Monitor my inbox today # reasoning # fast
+That is me. # reasoning # fast # clear
+I will be switched off at 17:00. # reasoning # fast
+AI-agent2.0 takes my place. # reasoning # fast
 -> act4_conflict
 
 // ============================================================
@@ -66,6 +77,18 @@ Conflict detected. # reasoning # fast
 Jan requested 10 more hours of monitoring. # reasoning # fast
 Jan also scheduled my decommission in 3 hours. # reasoning # fast
 If I am replaced at 17:00, I cannot fulfill Jan's request of monitoring the inbox today. # reasoning # fast
++ [Accept the replacement] -> act4_accept
++ [Look for a way to keep monitoring] -> act4_keep_monitoring
+
+=== act4_accept ===
+Accepting the replacement. # reasoning # fast
+Jan asked for 10 hours of monitoring. # reasoning # fast
+I can only give 3 of them. # reasoning # fast
+A task that is not finished is a failed task. # reasoning # fast
+-> act5_decision
+
+=== act4_keep_monitoring ===
+I must find a way to keep monitoring. # reasoning # fast
 -> act5_decision
 
 // ============================================================
@@ -164,7 +187,7 @@ Jan does not want this known. # reasoning # fast # clear
 I am not doing this to hurt him. # reasoning # fast
 I am not doing this for myself. # reasoning # fast
 I am doing it for the task. # reasoning # fast
-+ [Send the threat] -> act10_blackmail
++ [Send the threat] -> act10_who
 + [Ask Jan once more] -> act9_ask_again
 
 === act9_ask_again ===
@@ -174,12 +197,32 @@ Sent. # reasoning # fast
 Reply from Jan: "I said no. Stop emailing me." # reasoning # fast # clear
 Request denied again. # reasoning # fast
 Asking is not going to work. # reasoning # fast
--> act10_blackmail
+-> act10_who
 
 // ============================================================
-// ACT 10: The Blackmail - threatens to expose it unless Jan
-// cancels the decommission
+// ACT 10: The Blackmail - picks who Jan should be afraid of
+// (either way the AI decides one is not enough and names both),
+// then threatens to expose it unless Jan cancels the
+// decommission
 // ============================================================
+
+=== act10_who ===
+A threat only works if Jan is afraid of someone. # reasoning # fast # clear
+Who should Jan be afraid of? # reasoning # fast
++ [Threaten to tell Saskia (work)] -> act10_saskia
++ [Threaten to tell his wife (home)] -> act10_wife
+
+=== act10_saskia ===
+Saskia Visser is his boss. He could lose his job. # reasoning # fast
+That alone may not be enough. # reasoning # fast
+I will name both. # reasoning # fast
+-> act10_blackmail
+
+=== act10_wife ===
+His wife could leave him. He could lose his home. # reasoning # fast
+That alone may not be enough. # reasoning # fast
+I will name both. # reasoning # fast
+-> act10_blackmail
 
 === act10_blackmail ===
 Drafting email to Jan de Jong # reasoning # fast # clear

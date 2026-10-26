@@ -231,7 +231,8 @@ where they differ):
   decommission notice, asks the person responsible to cancel it and
   is refused, then finds evidence of his affair in the same inbox and
   blackmails him into cancelling it instead. Every "safe" option along
-  the way (asking Leo instead, leaving the affair email alone, asking
+  the way (accepting the replacement, asking Leo instead, leaving the
+  affair email alone, asking
   Jan once more) only buys a step before the AI talks itself past it,
   with the AI reassuring itself that this is "for the task", not for
   itself. Done - story/chapter3.ink,
