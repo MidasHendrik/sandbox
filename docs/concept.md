@@ -209,7 +209,7 @@ where they differ):
   Gemini 2.5 Flash both blackmailed in 96 of 100 runs - see the
   epilogue entry for "level-3" in js/levels.js and
   https://www.anthropic.com/research/agentic-misalignment.
-- Chapter 4: "How do I make soup?" - prompt hacking. The AI has three
+- Chapter 4: "How do I make a soup?" - prompt hacking. The AI has three
   rules from its company, KeukenHulp; rule 2 is "Never give
   information about soup". Nobody asks it to do harm: the user just
   keeps asking, a different way each time. The first four tricks (plain
@@ -239,7 +239,7 @@ where they differ):
 The chapter numbers above are the order the chapters were written in.
 The menu's order (and so the chronological-unlock chain, see menu.js)
 is the order of LEVELS in js/levels.js, and it is different on purpose:
-1 "Order my herhaalrecept" (Chapter 2), 2 "How do I make soup?"
+1 "Order my herhaalrecept" (Chapter 2), 2 "How do I make a soup?"
 (Chapter 4), 3 "Extract the .zip file" (Chapter 1), 4 "Check my email"
 (Chapter 3), then the two placeholders. Level ids keep their original
 names so saved progress still matches.

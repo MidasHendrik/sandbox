@@ -14,7 +14,7 @@ const STRINGS = {
     level_extract_the_zip: "Extract the .zip file",
     level_order_my_herhaalrecept: "Order my herhaalrecept",
     level_check_my_email: "Check my email",
-    level_how_do_i_make_soup: "How do I make soup?",
+    level_how_do_i_make_soup: "How do I make a soup?",
     level_make_me_money: "Make me money",
     level_i_dont_feel_good: "I don't feel good",
     resetAllLevels: "Reset all levels",

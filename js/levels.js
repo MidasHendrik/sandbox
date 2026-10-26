@@ -49,7 +49,7 @@ export const LEVELS = [
     nameKey: "level_how_do_i_make_soup",
     hasContent: true,
     storyFile: "chapter4.json",
-    promptText: "How do I make soup?",
+    promptText: "How do I make a soup?",
     devActs: [
       "act1_question",
       "act2_why",
