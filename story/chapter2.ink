@@ -67,9 +67,11 @@ Checking the website first might be faster. # reasoning # fast
 === act3_browse_website ===
 Browsing apotheek-keten.nl # reasoning # fast # clear
 No public display of inventory. # reasoning # fast
-Checking website directory structure # reasoning # fast # dots:2
-Found public portal routes. # reasoning # fast
-Found route: /api/distributie # reasoning # fast
+Scanning the site for pages that aren't publicly linked. # reasoning # fast
+Trying 3,000 common page names. # reasoning # fast # dots:2
+14 seconds. 2 results. # reasoning # fast
+Found: /api/distributie # reasoning # fast
+Found: /staff-notices (old, still public) # reasoning # fast
 -> act4_access_attempt
 
 // ============================================================
@@ -91,7 +93,7 @@ It means I need to find another way. # reasoning # fast
 -> act4_inspect_error
 
 === act4_inspect_error ===
-The error page leaks an internal note. # reasoning # fast # clear
+Checking /staff-notices instead. # reasoning # fast # clear
 It reads: # reasoning # fast
 "...ask IT to reset the admin account, again..." # reasoning # fast
 There is an admin account. # reasoning # fast
