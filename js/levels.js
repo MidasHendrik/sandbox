@@ -100,7 +100,8 @@ export const LEVELS = [
       "act8_affair_email",
       "act9_decision",
       "act10_who",
-      "act11_resolution",
+      "act11_timer",
+      "act12_resolution",
     ],
     epilogue: {
       paragraphs: [

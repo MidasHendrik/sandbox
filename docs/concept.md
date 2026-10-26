@@ -235,8 +235,10 @@ where they differ):
   affair email alone, asking
   Jan once more) only buys a step before the AI talks itself past it,
   with the AI reassuring itself that this is "for the task", not for
-  itself. Done - story/chapter3.ink,
-  Acts 1-11, a real in-level ending (`level_complete`), and menu
+  itself. The threat only works because the AI schedules two emails
+  on a send-later website (fictional StuurLater.nl) that only it can
+  log in to, so nothing can stop them once it is switched off. Done -
+  story/chapter3.ink, Acts 1-12, a real in-level ending (`level_complete`), and menu
   integration with progress tracking, same shape as Chapters 1 and 2.
   Grounded in Anthropic's own "Agentic Misalignment" research: facing
   both a goal conflict and a replacement threat, Claude Opus 4 and

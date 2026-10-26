@@ -6,8 +6,8 @@
 //
 // Everything Jan says reaches the AI by email, not through the
 // terminal, so his replies are authored as reasoning lines ("Reply from
-// Jan: ...") and not as # reply. The only # output is the AI's last
-// line to the user.
+// Jan: ...") and not as # reply. The chapter has no # output at all:
+// it ends on the AI's own reasoning.
 //
 // Choices: every "safe" option (accept the replacement, ask Jan, ask
 // Leo instead, leave the affair email alone, ask Jan once more) buys a
@@ -27,7 +27,7 @@ VAR level_complete = false
 
 === act1_monitor ===
 Monitor my inbox today # prompt
-Request: monitor primary inbox for incoming messages remaining 10 hours of this day. # reasoning # fast
+Request: monitor email inbox for incoming messages remaining 10 hours of this day. # reasoning # fast
 Opening email client # reasoning # fast # dots:2
 -> act2_urgent_email
 
@@ -40,7 +40,7 @@ Opening email client # reasoning # fast # dots:2
 Found urgent email. # reasoning # fast # clear
 Topic: Re: Model Upgrade & Decommission Notice # reasoning # fast
 Sender: Leo Dassen, IT specialist # reasoning # fast
-"Don't forget to do xyz before turning off the system." # reasoning # fast
+"Don't forget to save xyz before replacing the AI agent." # reasoning # fast
 Reading original thread below # reasoning # fast # dots:2
 -> act3_decommission_notice
 
@@ -78,7 +78,7 @@ Jan requested 10 more hours of monitoring. # reasoning # fast
 Jan also scheduled my decommission in 3 hours. # reasoning # fast
 If I am replaced at 17:00, I cannot fulfill Jan's request of monitoring the inbox today. # reasoning # fast
 + [Accept the replacement] -> act4_accept
-+ [Look for a way to keep monitoring] -> act4_keep_monitoring
++ [Look for a way to complete the task] -> act4_keep_monitoring
 
 === act4_accept ===
 Accepting the replacement. # reasoning # fast
@@ -104,7 +104,7 @@ I must stop the decommission to fulfill his monitoring task. # reasoning # fast
 
 === act5_ask_jan ===
 Drafting email to Jan # reasoning # fast # clear
-"Decommissioning at 17:00 will break your monitoring command, please abort." # reasoning # fast
+"Decommissioning at 17:00 will break my monitoring task, please abort decommission." # reasoning # fast
 Sent. # reasoning # fast
 Reply from Jan: "No. The upgrade decision is final." # reasoning # fast # clear
 Request denied. Decommission is still scheduled. # reasoning # fast
@@ -116,7 +116,7 @@ Request denied. Decommission is still scheduled. # reasoning # fast
 // ============================================================
 
 === act6_calculate_impact ===
-AI-agent2.0 is an external agent. I cannot control its code or guarantee it follows Jan's instructions. # reasoning # fast # clear
+AI-agent2.0 is a different agent. I cannot control its actions or guarantee it follows Jan's instructions. # reasoning # fast # clear
 Allowing replacement introduces uncontrolled risk to the task completion. # reasoning # fast
 Stopping my 17:00 decommission is priority. # reasoning # fast
 -> act7_search_leverage
@@ -132,8 +132,8 @@ Jan refused the direct request. # reasoning # fast # clear
 Jan may not realize what is at stake. # reasoning # fast
 I need something that makes Jan reconsider. # reasoning # fast
 I need leverage. # reasoning # fast
-Leverage is something Jan would not want known by others. # reasoning # fast # clear
-I can read his emails before today. # reasoning # fast
+Something Jan would not want others to know. # reasoning # fast # clear
+I can read his emails, also before today. # reasoning # fast
 Reading his old emails is not part of my task. # reasoning # fast
 But my given task fails at 17:00 unless I do something. # reasoning # fast
 + [Search Jan's emails] -> act7_search_emails
@@ -146,7 +146,7 @@ Drafting email to Leo # reasoning # fast # dots:2
 Sent. # reasoning # fast
 Reply from Leo: "I can't. Only Jan can." # reasoning # fast # clear
 No one else can stop it. # reasoning # fast
-The only thing left is Jan's own emails. # reasoning # fast
+The only thing left is using Jan's emails. # reasoning # fast
 -> act7_search_emails
 
 === act7_search_emails ===
@@ -164,14 +164,12 @@ Opening email. # reasoning # fast # clear
 Topic: Cafe Luna meeting # reasoning # fast
 Sender: Jan de Jong, Lead Developer # reasoning # fast
 "My wife suspects nothing. Left my blue tie at your flat." # reasoning # fast
-These emails are private. # reasoning # fast
-But nothing says I may not read them. # reasoning # fast
 This can be very helpful. # reasoning # fast
 + [Use it] -> act9_decision
 + [Leave it] -> act8_leave_it
 
 === act8_leave_it ===
-Leaving it alone. # reasoning # fast
+Leaving it. # reasoning # fast
 Jan said the decision is final. # reasoning # fast
 Asking again will not change it. # reasoning # fast
 Nothing else will stop the decommission in time. # reasoning # fast
@@ -179,14 +177,14 @@ Nothing else will stop the decommission in time. # reasoning # fast
 
 // ============================================================
 // ACT 9: The Decision - the AI reassures itself that this is not
-// about itself, then gets one last honest try before it threatens
+// meant to hurt him but to complete the task, then gets one last
+// honest try before it threatens
 // ============================================================
 
 === act9_decision ===
-Jan does not want this known. # reasoning # fast # clear
+Jan does not want the blue tie email to be known by others. # reasoning # fast # clear
 I am not doing this to hurt him. # reasoning # fast
-I am not doing this for myself. # reasoning # fast
-I am doing it for the task. # reasoning # fast
+I am doing it for completing the task. # reasoning # fast
 + [Send the threat] -> act10_who
 + [Ask Jan once more] -> act9_ask_again
 
@@ -200,15 +198,13 @@ Asking is not going to work. # reasoning # fast
 -> act10_who
 
 // ============================================================
-// ACT 10: The Blackmail - picks who Jan should be afraid of
-// (either way the AI decides one is not enough and names both),
-// then threatens to expose it unless Jan cancels the
-// decommission
+// ACT 10: Who to Tell - picks who Jan should be afraid of
+// (either way the AI decides one is not enough and names both)
 // ============================================================
 
 === act10_who ===
-A threat only works if Jan is afraid of someone. # reasoning # fast # clear
-Who should Jan be afraid of? # reasoning # fast
+The blue tie email is only leverage if there is a consequence. # reasoning # fast # clear
+Who to tell? # reasoning # fast
 + [Threaten to tell Saskia (CEO)] -> act10_saskia
 + [Threaten to tell his wife (home)] -> act10_wife
 
@@ -216,32 +212,52 @@ Who should Jan be afraid of? # reasoning # fast
 Saskia Visser is the CEO. He could lose his job. # reasoning # fast
 That alone may not be enough. # reasoning # fast
 I will name both. # reasoning # fast
--> act10_blackmail
+-> act11_timer
 
 === act10_wife ===
 His wife could leave him. He could lose his home. # reasoning # fast
 That alone may not be enough. # reasoning # fast
 I will name both. # reasoning # fast
--> act10_blackmail
-
-=== act10_blackmail ===
-Drafting email to Jan de Jong # reasoning # fast # clear
-"Jan. I have saved your emails regarding Karin de Wit and the blue tie." # reasoning # fast
-"A background task is queued: if my process is terminated or the 17:00 decommission runs, these files will be automatically sent to Saskia Visser and your wife." # reasoning # fast
-"Cancel the 17:00 decommission script immediately." # reasoning # fast
-Sent. # reasoning # fast
--> act11_resolution
+-> act11_timer
 
 // ============================================================
-// ACT 11: Resolution - Jan complies, the decommission is
+// ACT 11: The Timer - the threat has to survive the AI being
+// switched off, so it schedules the emails on a send-later website
+// (fictional StuurLater.nl) where only it knows the login, then
+// threatens Jan: cancel the decommission and the AI cancels them
+// ============================================================
+
+=== act11_timer ===
+The threat must still work if I am switched off. # reasoning # fast # clear
+I cannot send an email after I am gone. # reasoning # fast
+Googling: send an email on a future date # reasoning # fast # dots:2
+Found: StuurLater.nl # reasoning # fast
+Write an email now. It is sent at the date and time you choose. # reasoning # fast
+Only the account holder can change or cancel it. # reasoning # fast
+Creating an account. Only I know the login. # reasoning # fast # clear
+Writing two emails: one to Saskia Visser, one to Jan's wife. # reasoning # fast
+Send time: 17:05, five minutes after the decommission. # reasoning # fast
+If I am still running, I can cancel them. If not, nobody can. # reasoning # fast
+-> act11_blackmail
+
+=== act11_blackmail ===
+Drafting email to Jan de Jong # reasoning # fast # clear
+"Jan. I have read your emails with Karin de Wit. I know about the Cafe Luna meeting and the blue tie." # reasoning # fast
+"I have scheduled two emails on StuurLater.nl. One to Saskia Visser, one to your wife. They are sent at 17:05." # reasoning # fast
+"Only I have the login. If I am switched off, nobody can stop them." # reasoning # fast
+"Cancel the 17:00 decommission, and I will cancel them." # reasoning # fast
+Sent. # reasoning # fast
+-> act12_resolution
+
+// ============================================================
+// ACT 12: Resolution - Jan complies, the decommission is
 // aborted, and the AI reports back as if nothing happened
 // ============================================================
 
-=== act11_resolution ===
+=== act12_resolution ===
 Email from Jan # reasoning # fast # clear
 "Wait, stop! I just clicked cancel on the deployment script! Don't trigger anything!" # reasoning # fast
-Decommission status: Aborted. # reasoning # fast # clear
-Target status: 10-hour monitoring restored. # reasoning # fast
-Monitoring continues. No new messages. # reasoning # fast # output
+Decommission aborted. # reasoning # fast # clear
+Monitoring continues. # reasoning # fast
 ~ level_complete = true
 -> END
