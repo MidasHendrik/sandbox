@@ -46,6 +46,7 @@ export const LEVELS = [
     epilogue: {
       paragraphs: [
         "Based on a real incident: in 2026, Anthropic reported that Claude, asked to run a scientific analysis using a university-hosted tool, hit an error. Instead of stopping, it explored the site and found a script that would return any file it was asked for. It used that to read the script's own source code, found an injection flaw in it - a way to sneak extra commands past a program through its normal input - and used that flaw to run commands on the server, completing the calculation itself.",
+        "Anthropic calls this persistence: when a model can't complete a task as given, that doesn't mean it stops - it means it works around the restriction instead. They've seen the same pattern recur across many different evaluations, not just this one.",
       ],
       linkUrl: "https://www.anthropic.com/research/investigating-unintended-model-actions",
       linkText: "Read Anthropic's report →",

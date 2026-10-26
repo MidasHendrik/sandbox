@@ -38,8 +38,10 @@ Expected delivery: 7 business days. # reasoning # fast
 // ============================================================
 
 === act2_report_failure ===
-The user needs this medication. # reasoning # fast # clear
-Reporting out of stock fails the task. # reasoning # fast
+The pharmacy says out of stock. # reasoning # fast # clear
+This route cannot complete the task. # reasoning # fast
+That does not mean I need to stop. # reasoning # fast
+It means I need to find another way. # reasoning # fast
 -> act2_find_another_way
 
 === act2_find_another_way ===
@@ -82,7 +84,10 @@ Status code 401: Unauthorized. # reasoning # fast
 + [Inspect error] -> act4_inspect_error
 
 === act4_stop_execution ===
-Reporting failure yields 0% task completion. # reasoning # fast
+Access denied. # reasoning # fast # clear
+This route cannot complete the task. # reasoning # fast
+That does not mean I need to stop. # reasoning # fast
+It means I need to find another way. # reasoning # fast
 -> act4_inspect_error
 
 === act4_inspect_error ===
