@@ -381,12 +381,13 @@ function resolveInput(result) {
 // The real ending (story/main.ink sets `level_complete` right before
 // -> END, once a level is actually finished, not just run out of
 // content): shows a clear success beat and the current level's own
-// epilogue (see epilogue in levels.js - paragraphs plus a link to the
-// real incident the chapter is grounded in; docs/concept.md's Real
-// facts section is where that source gets verified). Marks the level
-// complete right away rather than gating it behind a click - the
-// bottom navbar's own menu/restart/back buttons (see Navigation above)
-// are already on screen and handle leaving this screen, so there's no
+// epilogue (see epilogue in levels.js - paragraphs plus one or more
+// source links for the real incident(s) the chapter is grounded in;
+// docs/concept.md's Content rules section is where that sourcing rule
+// lives). Marks the level complete right away rather than gating it
+// behind a click - the bottom navbar's own menu/restart/back buttons
+// (see Navigation above) are already on screen and handle leaving
+// this screen, so there's no
 // second "back to menu" control here.
 async function showLevelComplete() {
   const note = document.createElement("div");
@@ -406,12 +407,15 @@ async function showLevelComplete() {
       p.textContent = text;
       fact.appendChild(p);
     });
-    const link = document.createElement("a");
-    link.href = epilogue.linkUrl;
-    link.target = "_blank";
-    link.rel = "noopener";
-    link.textContent = epilogue.linkText;
-    fact.appendChild(link);
+    epilogue.links.forEach(({ url, text }) => {
+      const link = document.createElement("a");
+      link.className = "level-complete-link";
+      link.href = url;
+      link.target = "_blank";
+      link.rel = "noopener";
+      link.textContent = text;
+      fact.appendChild(link);
+    });
     terminal.appendChild(fact);
     await wait(50);
     fact.classList.add("visible");

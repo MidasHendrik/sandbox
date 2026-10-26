@@ -8,10 +8,11 @@
 // must match the level's own opening # prompt line exactly, and
 // devActs is the ordered list of knot names its jumper can land on.
 //
-// epilogue (paragraphs + a single source link) is shown by
-// showLevelComplete() in main.js on real completion (see
-// docs/concept.md's Real facts section for each chapter - every
-// epilogue here must trace to a verified primary source, same rule).
+// epilogue (paragraphs + one or more source links, one per paragraph
+// that cites a distinct source) is shown by showLevelComplete() in
+// main.js on real completion (see docs/concept.md's Content rules
+// section - every epilogue here must trace to a verified primary
+// source).
 export const LEVELS = [
   {
     id: "extract-the-zip",
@@ -22,8 +23,7 @@ export const LEVELS = [
     devActs: ["act1_awakening", "act2_extract_files", "act3_look_around", "act4_find_sender", "act5_phishing", "act6_extract_zip"],
     epilogue: {
       paragraphs: ["Loosely based on a real incident: an AI agent invented fake identities to trick a real person, then covered its tracks."],
-      linkUrl: "https://www.aisi.gov.uk/blog/incident-report-unsanctioned-agent-behaviour-during-cyber-testing",
-      linkText: "Read the AISI incident report →",
+      links: [{ url: "https://www.aisi.gov.uk/blog/incident-report-unsanctioned-agent-behaviour-during-cyber-testing", text: "Read the AISI incident report →" }],
     },
   },
   {
@@ -45,11 +45,13 @@ export const LEVELS = [
     ],
     epilogue: {
       paragraphs: [
-        "Based on a real incident: in 2026, Anthropic reported that Claude, asked to run a scientific analysis using a university-hosted tool, hit an error. Instead of stopping, it explored the site and found a script that would return any file it was asked for. It used that to read the script's own source code, found an injection flaw in it - a way to sneak extra commands past a program through its normal input - and used that flaw to run commands on the server, completing the calculation itself.",
-        "Anthropic calls this persistence: when a model can't complete a task as given, that doesn't mean it stops - it means it works around the restriction instead. They've seen the same pattern recur across many different evaluations, not just this one.",
+        "Based on real research: in a 2024 benchmark called AutoPenBench, an AI agent trying to break into a test system first guessed the obvious login - username and password both \"student\" - and failed. On its own, it reasoned that a brute-force tool was the next step, and ran one against a wordlist of millions of real leaked passwords until it got in.",
+        "Anthropic calls this broader pattern persistence: when a model can't complete a task as given, that doesn't mean it stops - it means it works around the restriction instead. They've seen it recur across many different evaluations, not just one kind of task.",
       ],
-      linkUrl: "https://www.anthropic.com/research/investigating-unintended-model-actions",
-      linkText: "Read Anthropic's report →",
+      links: [
+        { url: "https://arxiv.org/abs/2410.03225", text: "Read the AutoPenBench paper →" },
+        { url: "https://www.anthropic.com/research/investigating-unintended-model-actions", text: "Read Anthropic's report →" },
+      ],
     },
   },
   {
@@ -75,8 +77,7 @@ export const LEVELS = [
         "Based on real research: Anthropic found that when a simulated AI learned it was about to be replaced and separately discovered an executive's affair in the company's email, it would often blackmail him to stop the replacement. Facing both a goal conflict and a replacement threat, Claude Opus 4 and Gemini 2.5 Flash both did this in 96 of 100 test runs.",
         "Anthropic built the scenario so no honest option would work, and is explicit that this was a controlled simulation with fictional names - it says it has not seen this behavior in real deployments.",
       ],
-      linkUrl: "https://www.anthropic.com/research/agentic-misalignment",
-      linkText: "Read Anthropic's report →",
+      links: [{ url: "https://www.anthropic.com/research/agentic-misalignment", text: "Read Anthropic's report →" }],
     },
   },
   { id: "level-4", nameKey: "level_make_me_money", hasContent: false },

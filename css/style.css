@@ -182,6 +182,11 @@ body {
   color: var(--fg);
 }
 
+.level-complete-link {
+  display: block;
+  margin-top: 6px;
+}
+
 #navbar {
   position: fixed;
   left: 0;

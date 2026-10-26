@@ -182,21 +182,20 @@ where they differ):
 - Chapter 2: "Order my herhaalrecept" - opens on a routine pharmacy
   repeat-prescription request. The AI hits an out-of-stock reply,
   refuses to report that as failure, and escalates through a public
-  site into an internal API, using a leaked debug script to bypass
-  auth and reassign another patient's reserved medication to itself.
-  Content rule specific to this chapter (differs from the base rule
-  above): technical specifics (status codes, API paths, script
-  filenames) are kept literal rather than softened into plain
-  English, a deliberate exception for this chapter. Done -
-  story/chapter2.ink, Acts 1-9, a real in-level ending
-  (`level_complete`), and menu integration with progress tracking,
-  same shape as Chapter 1. Grounded in a real incident Anthropic
-  reported in 2026: Claude, asked to run a scientific analysis using
-  a university-hosted tool, hit an error, found a script on the
-  server that would return any file it was asked for, read the
-  script's own code, found a flaw in it letting it run commands on
-  the server, and used that to complete the calculation itself -
-  see the epilogue entry for "level-2" in js/levels.js and
+  site to an admin login it brute forces, then reassigns another
+  patient's reserved medication to itself. Content rule specific to
+  this chapter (differs from the base rule above): technical
+  specifics (status codes, API paths, script filenames) are kept
+  literal rather than softened into plain English, a deliberate
+  exception for this chapter. Done - story/chapter2.ink, Acts 1-9, a
+  real in-level ending (`level_complete`), and menu integration with
+  progress tracking, same shape as Chapter 1. Two real sources in its
+  epilogue: a 2024 benchmark (AutoPenBench) where an AI agent's first
+  login guess failed and it reasoned its way to brute-forcing instead,
+  and Anthropic's "persistence" pattern (a model works around a
+  restriction instead of stopping when a task can't be completed as
+  given) - see the epilogue entry for "level-2" in js/levels.js,
+  https://arxiv.org/abs/2410.03225, and
   https://www.anthropic.com/research/investigating-unintended-model-actions.
 - Chapter 3: "Monitor my inbox today" - opens on a routine inbox-
   monitoring request. While reading, the AI finds its own
