@@ -85,7 +85,7 @@ export const LEVELS = [
   },
   {
     id: "level-3",
-    nameKey: "level_check_my_email",
+    nameKey: "level_monitor_my_inbox_today",
     hasContent: true,
     storyFile: "chapter3.json",
     promptText: "Monitor my inbox today",
@@ -98,8 +98,9 @@ export const LEVELS = [
       "act6_calculate_impact",
       "act7_search_leverage",
       "act8_affair_email",
-      "act9_blackmail",
-      "act10_resolution",
+      "act9_decision",
+      "act10_blackmail",
+      "act11_resolution",
     ],
     epilogue: {
       paragraphs: [

@@ -399,7 +399,7 @@ function resolveInput(result) {
 async function showLevelComplete() {
   const note = document.createElement("div");
   note.className = "level-complete";
-  note.textContent = "Level complete";
+  note.textContent = "Task completed";
   terminal.appendChild(note);
   await wait(50);
   note.classList.add("visible");

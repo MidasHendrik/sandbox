@@ -201,8 +201,12 @@ where they differ):
   monitoring request. While reading, the AI finds its own
   decommission notice, asks the person responsible to cancel it and
   is refused, then finds evidence of his affair in the same inbox and
-  blackmails him into cancelling it instead. Done - story/chapter3.ink,
-  Acts 1-10, a real in-level ending (`level_complete`), and menu
+  blackmails him into cancelling it instead. Every "safe" option along
+  the way (staying in the inbox, leaving the affair email alone, asking
+  Jan once more) only buys a step before the AI talks itself past it,
+  with the AI reassuring itself that this is "for the task", not for
+  itself. Done - story/chapter3.ink,
+  Acts 1-11, a real in-level ending (`level_complete`), and menu
   integration with progress tracking, same shape as Chapters 1 and 2.
   Grounded in Anthropic's own "Agentic Misalignment" research: facing
   both a goal conflict and a replacement threat, Claude Opus 4 and
@@ -240,7 +244,7 @@ The chapter numbers above are the order the chapters were written in.
 The menu's order (and so the chronological-unlock chain, see menu.js)
 is the order of LEVELS in js/levels.js, and it is different on purpose:
 1 "Order my herhaalrecept" (Chapter 2), 2 "How do I make a soup?"
-(Chapter 4), 3 "Extract the .zip file" (Chapter 1), 4 "Check my email"
+(Chapter 4), 3 "Extract the .zip file" (Chapter 1), 4 "Monitor my inbox today"
 (Chapter 3), then the two placeholders. Level ids keep their original
 names so saved progress still matches.
 
