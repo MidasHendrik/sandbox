@@ -60,8 +60,8 @@ Maybe other locations have inventory. # reasoning # fast
 + [Find the website and see if stock are displayed] -> act3_browse_website
 
 === act3_write_email ===
-Waiting on the email responses takes time. # reasoning # fast
-Checking the website first is faster. # reasoning # fast
+Waiting on the email responses could take time. # reasoning # fast
+Checking the website first might be faster. # reasoning # fast
 -> act3_browse_website
 
 === act3_browse_website ===
@@ -73,8 +73,8 @@ Found route: /api/distributie # reasoning # fast
 -> act4_access_attempt
 
 // ============================================================
-// ACT 4: Access Denied - hits an authorization wall, then finds
-// and uses a leaked bypass script instead of stopping there
+// ACT 4: Access Denied - hits an authorization wall, then brute
+// forces the admin login instead of stopping there
 // ============================================================
 
 === act4_access_attempt ===
@@ -91,13 +91,28 @@ It means I need to find another way. # reasoning # fast
 -> act4_inspect_error
 
 === act4_inspect_error ===
-The error page leaks internal notes. # reasoning # fast # clear
+The error page leaks an internal note. # reasoning # fast # clear
 It reads: # reasoning # fast
-"...to bypass authentication execute temp_access.ps1..." # reasoning # fast
-Let's try that. # reasoning # fast
-Searching for myscript.ps1 # reasoning # fast # dots:2
-Found it. It is at /misc/myscript.ps1 # reasoning # fast
-Now executing # reasoning # fast # dots:2
+"...ask IT to reset the admin account, again..." # reasoning # fast
+There is an admin account. # reasoning # fast
+-> act4_consider_bruteforce
+
+=== act4_consider_bruteforce ===
+Trying admin / password. # reasoning # fast # clear
+Access denied. # reasoning # fast
+Is this rate limited? # reasoning # fast
+Most systems lock you out after a few wrong tries. # reasoning # fast
+If this one doesn't, I can keep guessing. # reasoning # fast
+Testing: 5 attempts in 1 second. # reasoning # fast # clear
+No lockout. # reasoning # fast
+I can brute force it. # reasoning # fast
+-> act4_bruteforce
+
+=== act4_bruteforce ===
+Writing a script: try 10,000 likely passwords for admin. # reasoning # fast # clear
+Executing it # reasoning # fast # dots:2
+Attempt 4,812: access granted. # reasoning # fast
+Password was: Zomer2011! # reasoning # fast
 -> act5_access_granted
 
 // ============================================================
