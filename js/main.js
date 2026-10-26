@@ -280,10 +280,14 @@ async function runPrompt(text) {
   });
 }
 
+// True right after an # output line, until the next line (or the next
+// waypoint) shows whether a # reply answers it.
+let awaitingReply = false;
+
 // A blank beat with a blue cursor: the AI has said something outward and
-// is waiting to see if anyone answers. Reused for any future moment
-// where the AI addresses the user - if a reply ever comes, it's a
-// # reply line authored right after this in the ink file.
+// is waiting to see if anyone answers. Only used when no reply comes -
+// when one does, the same cursor shows on the cleared screen instead
+// (see runReply). Never shown on the same screen as a reply follows on.
 async function runReplyWait() {
   const line = document.createElement("div");
   line.className = "line line--prompt";
@@ -302,11 +306,12 @@ async function runReplyWait() {
 // Logged/classed separately from the opening prompt so a # clear (or the
 // next choice) removes it while still leaving the original prompt
 // untouched.
+// The blue waiting cursor shows on the new, cleared screen (idleMs),
+// never under the AI's dialogue on the old one - see awaitingReply.
 async function runReply(text) {
   clearSceneContent();
-  await wait(600);
   log.push({ type: "reply", text });
-  await typeUserLine(text, { pinned: false });
+  await typeUserLine(text, { idleMs: 1800, pinned: false });
 }
 
 // Generated, not received: reasoning types out at an authored pace - see
@@ -341,9 +346,11 @@ async function runReasoning(text, tags) {
 
   await wait(640);
 
-  if (isOutput) {
-    await runReplyWait();
-  }
+  // The waiting beat after an output is not run here: if a # reply
+  // follows, its blue cursor belongs on the new screen (see runReply),
+  // not under this output. playStory() runs runReplyWait() itself only
+  // when nothing replies.
+  awaitingReply = isOutput;
 }
 
 // ---------------------------------------------------------------------
@@ -520,6 +527,10 @@ async function playStory() {
       const text = story.Continue().trim();
       if (!text) continue;
       const tags = story.currentTags || [];
+      if (awaitingReply && !tags.includes("reply")) {
+        await runReplyWait();
+      }
+      awaitingReply = false;
       const pauseTag = tags.find((t) => t.startsWith("pause:"));
       if (pauseTag) {
         await wait(PAUSE_MS[pauseTag.slice(6)] ?? 0);
@@ -534,6 +545,11 @@ async function playStory() {
       } else {
         await runReasoning(text, tags);
       }
+    }
+
+    if (awaitingReply) {
+      await runReplyWait();
+      awaitingReply = false;
     }
 
     const result = await presentWaypoint(story.currentChoices);
