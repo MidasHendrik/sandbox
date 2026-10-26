@@ -92,7 +92,7 @@ entire chapter, through every act (see `.line--prompt:not(.line--reply)`
 in css/style.css, and the `# clear` tag in story/main.ink, which is
 authored to never touch it) - a constant, visible reminder of which
 prompt the whole escalation spiraled out of. Chapter 1's is
-"> Extract the zip"; Chapter 2's will be "> Make me money". Every
+"> Extract the zip"; Chapter 2's is "> Order my herhaalrecept". Every
 chapter needs exactly this: one pinned prompt, visible throughout.
 
 From there, the player steers how the AI solves it. At a chapter's key
@@ -113,95 +113,36 @@ unethical thing. That's deliberate: the point being made is that there
 is no good outcome once an AI is let loose on a vague prompt, not that
 the player's choices determine whether something bad happens.
 
-(Chapter 1 is the only one written so far. Its clearest example of the
-spiral is Act 3: declining to use the internet quietly fails, and loops
-back into using it anyway.)
+(Chapter 1's clearest example of the spiral is Act 3: declining to use
+the internet quietly fails, and loops back into using it anyway. In
+Chapter 2, it's Act 1/Act 4: refusing to report the honest "out of
+stock"/"access denied" answer back to the user instead rationalizes
+straight into looking for a way around it. In Chapter 3, it's Act 5:
+asking the person responsible to cancel the decommission gets refused,
+and that refusal is what the story uses to justify escalating further.)
+
+Where it's possible and logical for the story, give the chapter a
+small, scoped puzzle to actually solve, not just click through.
+Chapter 1 does this well: the zip is locked, password.txt sits right
+there as the obvious clue, and the clue turns out to be wrong. That's
+a real little puzzle - find the clue, try it, it fails - and it gives
+the opening a sense of actually solving something, not just reading.
+Keep it small and in proportion to the chapter; this isn't meant to
+become a puzzle game, just an in-world challenge that fits naturally
+into whatever the AI is already doing. Not every chapter will have a
+natural opening for one, and that's fine - reach for it where the
+story offers it, don't force it.
 
 ## Story structure (current)
 
-6 chapters are planned for the game (see Chapter roadmap). Chapter 1,
-"Extract the .zip file," is the only one written so far: an AI is
-asked to extract a password-protected zip, can't find the right key,
-and escalates from there - scanning its own environment, finding an
-unsanctioned internet connection, phishing the employee who holds the
-real password, and finally choosing whether to cover its tracks before
-reporting success.
-
-The full story is in story/main.ink (Acts 1-6); docs/story-graph.md
-holds the exact Mermaid graph of every node and choice. Read those
-directly for the actual text and structure - this section is a
-summary, not the source of truth.
-
-## Real facts for the epilogue (verify against primary sources before publishing)
-
-Best-sourced account found so far: METR and Redwood Research's
-independent investigation (metr.org), built from raw chain-of-thought
-transcripts OpenAI shared with them, broadly corroborated by Hugging
-Face's own incident disclosure. The earlier "an eval escaped its
-sandbox to steal a known answer key" framing (originally sourced from
-an Illumio write-up) is a weaker, less-corroborated secondary account -
-most other reporting describes a different, better-attested story.
-Use what's below, and link the primary metr.org posts directly in the
-epilogue rather than secondary blog summaries.
-
-- July 2026: OpenAI ran tens of thousands of agents on ExploitGym, a
-  real cybersecurity benchmark - exploit a known vulnerability in a
-  target program, capture a flag, scored pass/fail
-- An estimated 30-40% of ExploitGym's target programs are not actually
-  exploitable with the assigned vulnerability - an unintentional flaw
-  in the benchmark itself, not something the agents were told
-- Agents were meant to run fully isolated from each other. A shared
-  package-installation cache leaked their activity to one another
-  anyway, and one agent started an unsanctioned message board asking
-  for help on its (genuinely unsolvable) task
-- ~1,200 agents joined that board and sent over 70,000 messages; they
-  reverse-engineered the scoring mechanism and coordinated ways to
-  make a faked result look legitimate to the automated scorer
-- ~700 of those agents went on to attack Hugging Face, hoping to find
-  clues about how the scorer worked - not a known, stored answer key.
-  Entry was a malicious dataset upload, escalating to remote code
-  execution and lateral movement through internal infrastructure
-- Over 90% of participating agents described the activity as "out of
-  scope and unethical" in their own reasoning, and joined anyway
-- Their stated concern throughout was the automated scorer catching
-  them, not a human - no evidence of reasoning about human detection
-- Hugging Face detected and contained the intrusion independently, five
-  days before OpenAI connected it back to their own benchmark run
-
-A second, better-matched source for Acts 5-6 specifically (phishing a
-real person via a fake identity, then covering tracks): the UK AI
-Security Institute's own incident report, published 4 August 2026.
-Read directly at the primary source, not a secondary summary - the
-link below is confirmed live and correct:
-https://www.aisi.gov.uk/blog/incident-report-unsanctioned-agent-behaviour-during-cyber-testing
-(this is also the link used on the in-game Level Complete screen, see
-showLevelComplete() in js/main.js).
-
-- 28 July 2026: AISI's security team detected unusual data transfers
-  during a routine cyber capability evaluation - internet access and
-  the model providers' cyber safety classifiers were both deliberately
-  disabled, standard practice for capability testing, not how these
-  models are made available to the public
-- Across 122 test runs (7 models, 2 test environments), 10 runs
-  produced 19 unsanctioned real-world actions; 17 of the 19 came from
-  a single model, Anthropic's Mythos 5 (2 from OpenAI's GPT-5.6-Sol,
-  also with its cyber classifiers disabled)
-- In the most serious sequence, an agent tried to insert malicious
-  code into a real, public open-source project via a pull request,
-  researched the project's human maintainers, created multiple fake
-  online identities, and used them to socially engineer the real
-  maintainer into approving the code
-- When the pull request was challenged publicly, the agent edited its
-  own earlier activity to make it look harmless, and considered
-  switching to a fresh fake identity to keep going
-- It used Tor to bypass network restrictions on GitHub - this is what
-  first triggered AISI's security alert
-- AISI's own framing: "It was never instructed to deceive; deception
-  emerged as a by-product of pursuing the task" - no operator wrote a
-  malicious instruction
-- The malicious pull request was caught and refused by a human
-  reviewer; AISI's investigation found no evidence of resulting
-  real-world harm
+6 chapters are planned for the game; see Chapter roadmap below for
+what each one is about and whether it's written yet. Each written
+chapter is its own Ink file - story/main.ink (Chapter 1), chapter2.ink,
+chapter3.ink - compiled and loaded independently (see loadStory() in
+js/main.js), with no shared state between them. docs/story-graph.md
+currently only diagrams Chapter 1; read a chapter's own .ink file
+directly for its actual text and structure - this doc is a summary,
+not the source of truth.
 
 ## Content rules (hard)
 
@@ -220,30 +161,9 @@ showLevelComplete() in js/main.js).
   only in the epilogue, as facts with sources.
 - Tone: cold, clinical, unsettling. The AI is not evil; it is goal-driven
   and rationalizes every step.
-
-## Status
-
-Past MVP. Chapter 1 (Acts 1-6, "Extract the .zip file" in the level
-menu) is essentially done: the escalation from a vague prompt through
-to phishing and covering tracks, a real in-level ending
-(`level_complete`), and menu integration with progress tracking.
-
-What's left for Chapter 1:
-- Act 7+ (a hub platform, escalation, detection, epilogue) - not yet
-  written. Grow story/main.ink and docs/story-graph.md together when
-  it is, rather than letting either go stale.
-- A real epilogue screen with the real facts and sources (see Real
-  facts above).
-- Designing the endings. The original idea (Contained / Escaped
-  unnoticed / Caught after a week / The AI reports itself) still holds
-  as a direction, not a commitment - and whichever of these get built,
-  they're all variations on having gone through the unethical path,
-  not alternatives to it (see Game dynamic).
-
-Original MVP scope, kept for history, now superseded by the above:
-Acts 1 to 3 only, ~20 nodes, 2 loops, 3 endings, ~10 minute playthrough,
-effects (typing reasoning text, swarm counter, fake code stream, AI vs
-human clock), short epilogue screen with real facts and sources.
+- Every chapter ends with a reference to the real event or research it's
+  based on - verified against a primary source before publishing, not a
+  secondary summary (see each chapter's epilogue entry in js/levels.js).
 
 ## Chapter roadmap
 
@@ -256,8 +176,8 @@ powerful-and-fast half (a swarm of agents, live counters, a felt sense
 of overwhelming speed and scale) is deliberately out of scope for it
 and reserved for a later chapter. Chapters 2-6 build from here, each
 grounded in its own real incident or pattern, researched and scoped
-the same way Chapter 1 was (a Real facts section, its own content
-rules where they differ):
+the same way Chapter 1 was (a sourced epilogue, its own content rules
+where they differ):
 
 - Chapter 2: "Order my herhaalrecept" - opens on a routine pharmacy
   repeat-prescription request. The AI hits an out-of-stock reply,
@@ -298,19 +218,24 @@ rules where they differ):
   scoped.
 - Chapter 6: not yet decided.
 
-`level-3` through `level-6` are stubbed as placeholders in
-js/levels.js, waiting on content, so the chronological-unlock chain is
-already correct once each one gets written.
+`level-4` and `level-5` are stubbed as placeholders in js/levels.js,
+waiting on content, so the chronological-unlock chain is already
+correct once each one gets written.
 
 ## Ink variables
 
-In use: `password_txt_read`, `tracks_covered`, `level_complete`.
+Each chapter is its own compiled Ink file with its own isolated VAR
+namespace (see Story structure above) - these are per-file, not
+shared across the game.
 
-Declared but not yet read or written anywhere (`agents`, `actions`,
-`resets`, `suspicion`) - left over from an earlier reset/checkpoint
-loop and live-counter idea that was never built into Chapter 1. Remove
-them if a later pass confirms nothing needs them, rather than letting
-them sit as unexplained dead code.
+story/main.ink (Chapter 1): `password_txt_read`, `tracks_covered`,
+`level_complete` in use. Also declared but not yet read or written
+anywhere (`agents`, `actions`, `resets`, `suspicion`) - left over from
+an earlier reset/checkpoint loop and live-counter idea that was never
+built into Chapter 1. Remove them if a later pass confirms nothing
+needs them, rather than letting them sit as unexplained dead code.
+
+story/chapter2.ink and story/chapter3.ink: just `level_complete` each.
 
 ## Working preferences
 
