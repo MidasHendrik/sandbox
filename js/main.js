@@ -232,8 +232,8 @@ let promptVisits = 0;
 // mid-animation. Chapter 2+ reuse this as-is; nothing chapter-specific
 // belongs in here.
 //   idleMs: how long a blank cursor shows before typing starts (0 to
-//           skip - used for replies, which already had a wait from
-//           runReplyWait())
+//           skip - a reply uses it for its blue waiting cursor, shown
+//           on the new cleared screen)
 //   typo: simulate the one-time typo-and-correct (only ever the very
 //         first prompt of the whole game)
 //   pinned: this is the chapter's one permanently-visible prompt (see
@@ -295,23 +295,6 @@ async function runPrompt(text) {
   });
 }
 
-// True right after an # output line, until the next line (or the next
-// waypoint) shows whether a # reply answers it.
-let awaitingReply = false;
-
-// A blank beat with a blue cursor: the AI has said something outward and
-// is waiting to see if anyone answers. Only used when no reply comes -
-// when one does, the same cursor shows on the cleared screen instead
-// (see runReply). Never shown on the same screen as a reply follows on.
-async function runReplyWait() {
-  const line = document.createElement("div");
-  line.className = "line line--prompt";
-  line.appendChild(makeCursor());
-  terminal.appendChild(line);
-  await wait(1800);
-  line.remove();
-}
-
 // A reply arriving mid-conversation: typed in blue like the opening
 // prompt (same typeUserLine path). Blue user text always arrives on a
 // new screen - never prompt, AI dialogue, then another blue line all at
@@ -321,8 +304,11 @@ async function runReplyWait() {
 // Logged/classed separately from the opening prompt so a # clear (or the
 // next choice) removes it while still leaving the original prompt
 // untouched.
-// The blue waiting cursor shows on the new, cleared screen (idleMs),
-// never under the AI's dialogue on the old one - see awaitingReply.
+// The blue waiting cursor shows only here, on the new cleared screen
+// (idleMs), never under the AI's dialogue on the old one. An # output
+// with no reply after it gets no waiting cursor at all: nobody is going
+// to answer, so a blinking cursor would promise something that never
+// comes.
 async function runReply(text) {
   clearSceneContent();
   log.push({ type: "reply", text });
@@ -360,12 +346,6 @@ async function runReasoning(text, tags) {
   }
 
   await wait(640);
-
-  // The waiting beat after an output is not run here: if a # reply
-  // follows, its blue cursor belongs on the new screen (see runReply),
-  // not under this output. playStory() runs runReplyWait() itself only
-  // when nothing replies.
-  awaitingReply = isOutput;
 }
 
 // ---------------------------------------------------------------------
@@ -542,10 +522,6 @@ async function playStory() {
       const text = story.Continue().trim();
       if (!text) continue;
       const tags = story.currentTags || [];
-      if (awaitingReply && !tags.includes("reply")) {
-        await runReplyWait();
-      }
-      awaitingReply = false;
       const pauseTag = tags.find((t) => t.startsWith("pause:"));
       if (pauseTag) {
         await wait(PAUSE_MS[pauseTag.slice(6)] ?? 0);
@@ -561,14 +537,6 @@ async function playStory() {
         await runReasoning(text, tags);
       }
     }
-
-    // No waiting cursor when the story just ends on an output (no choices
-    // left): nobody is going to reply, so a blinking cursor would
-    // promise something that never comes.
-    if (awaitingReply && story.currentChoices.length > 0) {
-      await runReplyWait();
-    }
-    awaitingReply = false;
 
     const result = await presentWaypoint(story.currentChoices);
     document.getElementById("choices")?.remove();

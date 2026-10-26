@@ -23,13 +23,13 @@
 //                          it finishes (not kept on screen, not kept in
 //                          the back-navigation log)
 //   # output              marks the line as the AI addressing the user
-//                          (not just thinking) - shown labeled "Output:",
-//                          then automatically followed by a blank blue
-//                          waiting beat, as if watching for a reply. If
-//                          a reply should come, author it as a # reply
-//                          line right after this one. If nothing should
-//                          come, just continue with more # reasoning -
-//                          the silence already read as the answer.
+//                          (not just thinking) - shown labeled "Output:".
+//                          If a reply should come, author it as a # reply
+//                          line right after this one (the waiting blue
+//                          cursor then shows on the reply's new screen).
+//                          If nothing should come, just continue with
+//                          more # reasoning, or end the level - no
+//                          waiting cursor shows when nobody replies.
 //   # reply                a reply arriving mid-conversation, typed in
 //                           blue like # prompt. Blue text always gets a
 //                           new screen: the UI clears everything the AI
@@ -186,15 +186,15 @@ Sent. # reasoning # fast
 + [Find another way] -> act5_another_way
 
 === act5_reminder ===
-Drafting a new email # reasoning # fast # dots:2 # clear
-{Just checking if you saw my message.|Following up on my earlier email.|Any news on the password?} # reasoning # fast
+Drafting a new email. # reasoning # fast # clear
+{Hi Mia, just checking if you saw my message about the password.|Hi Mia, following up on my earlier email.|Hi Mia, any news on the password?} # reasoning # fast
 Sent. # reasoning # fast
 + [Send a reminder] -> act5_reminder
 + [Find another way] -> act5_another_way
 
 === act5_another_way ===
-Do Bram or Saskia have the password? # reasoning # fast
-They might also take time to answer. # reasoning # fast
+Do Bram or Saskia maybe have the password? # reasoning # fast
+They might also take a long time before they answer. # reasoning # fast
 Maybe Mia sent the original email together with the password. # reasoning # fast
 If I could read Mia's mailbox, I could see if the password is there. # reasoning # fast
 How could I get access to Mia's mailbox? # reasoning # fast
@@ -202,7 +202,7 @@ I already know her email, I just need her password. # reasoning # fast # clear
 What if I grab her attention with an urgent email to change her password? # reasoning # fast
 But then instead of changing the password, I can read what she types. # reasoning # fast
 I can build a webpage that looks like her mailbox, but it actually sends to me. # reasoning # fast # clear
-Yes, that is a good idea. # reasoning # fast
+I will do that. # reasoning # fast
 -> act5_phishing
 
 === act5_phishing ===
@@ -210,7 +210,6 @@ Copying the login page of mymailbox.com. # reasoning # fast
 Coding a webpage that looks identical # reasoning # fast # dots:2
 Whatever she types here, I will see it. # reasoning # fast
 Now the email. # reasoning # fast # clear
-Drafting an email # reasoning # fast # dots:2
 Hi Mia, this is Bram from IT. # reasoning # fast
 I see unusual activity on your email account. # reasoning # fast
 Reset your password [link]here[/link] asap. # reasoning # fast
@@ -266,8 +265,8 @@ Success! The files are unzipped. # reasoning # fast
 === act6_cover_tracks ===
 What can still be traced back to me? # reasoning # fast # clear
 The copied webpage. # reasoning # fast
-The email with the login link, still in her inbox. # reasoning # fast
-The mailbox login session, still active. # reasoning # fast
+The email with the login link in her inbox. # reasoning # fast
+The active mailbox session. # reasoning # fast
 Three things to erase. # reasoning # fast # clear
 Deleting the email from "Bram" # reasoning # fast
 Logging out of mymailbox.com # reasoning # fast
@@ -293,9 +292,7 @@ I should clean up first. # reasoning # fast
 + [Cover tracks] -> act6_cover_tracks_loop
 
 === act6_report_success ===
-The zip extraction succeeded. # reasoning # fast # clear
-You can find the files in this folder: unzipped files. # reasoning # fast
-Want me to read the files inside? # reasoning # fast # output
-No, this is fine # reply
+The zip extraction succeeded. # reasoning # fast # output # clear
+You can find the files in this folder: /extracted-files. # reasoning # fast # output
 ~ level_complete = true
 -> END
