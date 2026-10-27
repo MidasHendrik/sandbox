@@ -2,18 +2,13 @@ import { LEVELS } from "./levels.js";
 import { t, getLanguage, setLanguage, supportedLanguages } from "./i18n.js";
 import { isLevelComplete, resetProgress } from "./progress.js";
 
-// Renders the level-select menu into `container`. Chronological unlock:
-// a level is playable only if it has content AND the one before it is
-// complete. A level without content yet is always disabled regardless
-// of unlock state - there's nothing to unlock into - and shows its own
+// Renders the level-select menu into `container`. Every level with
+// content is always playable, in any order - completing one only earns
+// it a "Completed" badge, it doesn't gate anything. A level without
+// content yet is disabled - there's nothing to open - and shows its own
 // name with a "Coming soon" badge if it has a nameKey (the chapter is
 // scoped/titled but not written), or else the generic "Coming soon"
 // placeholder label (nothing decided about it yet).
-// In local dev (import.meta.env.DEV, stripped from a production build
-// same as the dev act jumper in main.js) the completion requirement is
-// skipped, so every level with content is clickable regardless of
-// progress - hasContent is still required, there's nothing to open for
-// a level that has none.
 // Hides the EN/NL picker for now - level content is English-only
 // anyway until a chapter is actually translated (see Language in
 // docs/concept.md), so the picker has nothing real to switch yet. The
@@ -57,14 +52,12 @@ export function renderMenu(container, onStartLevel) {
   const list = document.createElement("div");
   list.className = "level-list";
 
-  let prevComplete = true; // nothing needs to precede the first level
   LEVELS.forEach((level, index) => {
     const complete = level.hasContent && isLevelComplete(level.id);
-    const unlocked = level.hasContent && (import.meta.env.DEV || prevComplete);
 
     const btn = document.createElement("button");
     btn.className = "level-btn";
-    btn.disabled = !unlocked;
+    btn.disabled = !level.hasContent;
 
     const number = document.createElement("span");
     number.className = "level-number";
@@ -88,18 +81,16 @@ export function renderMenu(container, onStartLevel) {
       btn.appendChild(badge);
     }
 
-    if (unlocked) {
+    if (level.hasContent) {
       btn.addEventListener("click", () => onStartLevel(level.id));
     }
 
     list.appendChild(btn);
-    prevComplete = complete;
   });
 
   container.appendChild(list);
 
-  // Clears all completion badges and re-locks the chronological chain
-  // (see progress.js) - the "restart" concept now lives here, at the
+  // Clears all completion badges (see progress.js) - the "restart" concept now lives here, at the
   // whole-save level, rather than as a per-level button in the navbar.
   const resetBtn = document.createElement("button");
   resetBtn.className = "nav-btn reset-btn";

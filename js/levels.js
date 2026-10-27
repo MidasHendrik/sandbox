@@ -1,6 +1,6 @@
 // Level registry for the menu. Only levels with hasContent: true are
-// playable; the rest exist as placeholders so the chronological-unlock
-// chain (see menu.js) is already correct once they get written.
+// playable; the rest exist as placeholders so the menu order (see
+// menu.js) is already correct once they get written.
 //
 // promptText and devActs are for the dev-only act jumper in main.js
 // (never shown outside import.meta.env.DEV, and scoped to whichever

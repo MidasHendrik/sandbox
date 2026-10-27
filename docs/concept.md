@@ -273,16 +273,16 @@ where they differ):
 - Chapter 6: "I don't feel good" - name only so far, not yet scoped.
 
 The chapter numbers above are the order the chapters were written in.
-The menu's order (and so the chronological-unlock chain, see menu.js)
-is the order of LEVELS in js/levels.js, and it is different on purpose:
+The menu's order (see menu.js) is the order of LEVELS in js/levels.js, and it is different on purpose:
 1 "Order my herhaalrecept" (Chapter 2), 2 "How do I make a soup?"
 (Chapter 4), 3 "Extract the .zip file" (Chapter 1), 4 "Monitor my inbox today"
 (Chapter 3), then the two placeholders. Level ids keep their original
 names so saved progress still matches.
 
 `level-5` and `level-6` are stubbed as placeholders in js/levels.js,
-waiting on content, so the chronological-unlock chain is already
-correct once each one gets written.
+waiting on content, so the menu order is already correct once each one
+gets written. Every level with content can be picked in any order; the
+menu only remembers which ones have been completed.
 
 ## Ink variables
 

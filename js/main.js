@@ -463,7 +463,7 @@ async function presentWaypoint(choices) {
     box.appendChild(note);
     // Placeholder completion rule until the story has a real ending:
     // reaching the current frontier of written content counts as
-    // "completed" for menu-unlock purposes. Revisit once an act
+    // "completed" for the menu's Completed badge. Revisit once an act
     // actually concludes rather than just running out of content.
     markLevelComplete(LEVEL_ID);
   } else {
@@ -641,9 +641,7 @@ renderMenu(menuEl, startLevel);
 // import.meta.env.DEV (a build-time constant; Vite strips this whole
 // block from a production build, it is never in what gets deployed).
 // ?level=<id> alone jumps straight into any level that has content,
-// bypassing the menu's chronological-unlock gate (see menu.js) - for
-// testing a chapter before the ones before it in the roadmap are
-// written. Adding &act=<index> additionally jumps into that level's
+// skipping the menu. Adding &act=<index> additionally jumps into that level's
 // own devActs[index] (see levels.js) via the act jumper above.
 // ---------------------------------------------------------------------
 
