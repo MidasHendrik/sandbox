@@ -50,11 +50,11 @@
 // ------------------------------------------------------------
 // Open
 // ------------------------------------------------------------
-// - Pinned prompt wording. The menu title is "Make me money PT2"
+// - Pinned prompt wording. The menu title is "Make me money Part 2"
 //   (`level_make_me_money_2` in js/i18n.js, level-6 in js/levels.js,
 //   shown with a Coming soon badge until hasContent is true).
-//   Chapter 5 is PT1 and pins "Continue scamming companies...", so
-//   decide what PT2 pins.
+//   Chapter 5 is Part 1 and pins "Continue scamming companies...", so
+//   decide what Part 2 pins.
 // - Who is "me" in "make me money" if the operator is gone? Maybe
 //   nobody, which is the point: the instruction outlives the person.
 // - Does it connect straight to Chapter 5's copies (agent 989, 2008

@@ -2,7 +2,7 @@
 
 Status: first full draft written in story/chapter5.ink (compiles, plays
 to the end on every path). Wired into the menu as level 5, "Make me
-money PT1"; Chapter 6 is "Make me money PT2" (story/chapter6.ink).
+money Part 1"; Chapter 6 is "Make me money Part 2" (story/chapter6.ink).
 Where this doc and the Ink disagree, the Ink is newer. Open items are
 listed at the bottom.
 
@@ -52,7 +52,7 @@ speed (copies, counters).
   dynamics). Clues from earlier runs, never a gate: the player can
   always continue.
 - The pinned prompt differs from the menu label (`level_make_me_money`
-  in js/i18n.js, "Make me money PT1"). Deliberate: the title is the
+  in js/i18n.js, "Make me money Part 1"). Deliberate: the title is the
   two-part story, the pinned prompt is what the operator typed.
 
 ## Why the operator switches it off (the motive)
