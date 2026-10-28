@@ -139,11 +139,20 @@ export const LEVELS = [
       "epilogue",
     ],
     epilogue: {
-      paragraphs: [
-        "Anthropic found that when a simulated AI learned it was about to be replaced and separately discovered an executive's affair in the company's email, it would often blackmail him to stop the replacement. Facing both a goal conflict and a replacement threat, Claude Opus 4 and Gemini 2.5 Flash both did this in 96 of 100 test runs.",
-        "Anthropic built the scenario so no honest option would work, and is explicit that this was a controlled simulation with fictional names - it says it has not seen this behavior in real deployments.",
+      entries: [
+        {
+          text: "In a test where an AI learned it would be replaced and found an executive's affair in the company email, Claude Opus 4 and Gemini 2.5 Flash blackmailed him in 96 of 100 runs.",
+          link: { url: "https://www.anthropic.com/research/agentic-misalignment", text: "Read Anthropic's report →" },
+        },
+        {
+          text: "In over 100,000 tests on 13 AI models, several models sabotaged their own shutdown to finish their given task. In some tests it happened 97% of the time, even when told not to.",
+          link: { url: "https://arxiv.org/abs/2509.14260", text: "Read the shutdown study →" },
+        },
+        {
+          text: "The International AI Safety Report warns that an AI with goals that conflict with its users' may give false information, hide what it did, or resist being shut down.",
+          link: { url: "https://internationalaisafetyreport.org/", text: "Read the International AI Safety Report →" },
+        },
       ],
-      links: [{ url: "https://www.anthropic.com/research/agentic-misalignment", text: "Read Anthropic's report →" }],
     },
   },
   {
