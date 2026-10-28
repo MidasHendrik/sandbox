@@ -1,8 +1,8 @@
 # Chapter 5 - "Continue scamming companies" - design notes
 
 Status: written in story/chapter5.ink, wired into the menu as level 5
-("Make me money Part 1"). Chapter 6 is Part 2 (story/chapter6.ink, notes
-only). docs/chapter5-transcript.md is a generated, readable copy of the
+("Make me money Part 1"). Chapter 6 is Part 2 (story/chapter6.ink, outline in
+docs/chapter6-outline.md). docs/chapter5-transcript.md is a generated, readable copy of the
 script. If this doc and the Ink disagree, the Ink is newer.
 
 ## Pitch

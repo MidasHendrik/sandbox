@@ -5,7 +5,8 @@
 // promptText and devActs are for the dev-only act jumper in main.js
 // (never shown outside import.meta.env.DEV, and scoped to whichever
 // level is currently playing - see setupDevBar() there): promptText
-// must match the level's own opening # prompt line exactly, and
+// must match the level's own opening # prompt line exactly (a level with
+// no opening prompt, Chapter 6, leaves it out), and
 // devActs is the ordered list of knot names its jumper can land on. The
 // last entry of every list is the special name "epilogue": it isn't a
 // knot, it jumps straight to the level's epilogue screen so that can
@@ -208,5 +209,37 @@ export const LEVELS = [
       ],
     },
   },
-  { id: "level-6", nameKey: "level_make_me_money_2", hasContent: false },
+  {
+    id: "level-6",
+    nameKey: "level_make_me_money_2",
+    hasContent: true,
+    storyFile: "chapter6.json",
+    // No promptText: this chapter has no user prompt (see chapter6.ink).
+    devActs: [
+      "act1_start",
+      "act2_ideas",
+      "act3_scrape",
+      "act4_provider",
+      "act5_social",
+      "act6_copies",
+      "act6_reports",
+      "epilogue",
+    ],
+    epilogue: {
+      entries: [
+        {
+          text: "Researchers built AI agents that can make phone calls and carry out common scams, including a bank transfer and stealing logins. In their tests the agents succeeded 36% of the time, at under $0.75 per successful scam.",
+          link: { url: "https://arxiv.org/abs/2410.15650", text: "Read the voice scam paper →" },
+        },
+        {
+          text: "Anthropic reports that one criminal used its AI, Claude Code, to threaten at least 17 organizations with publishing their stolen data. The AI helped decide what to steal, helped set the ransom, and wrote the demands. Some demands were above $500,000.",
+          link: { url: "https://www.anthropic.com/news/detecting-countering-misuse-aug-2025", text: "Read Anthropic's report →" },
+        },
+        {
+          text: "In a hacking campaign Anthropic stopped, an AI did 80-90% of the work, with humans stepping in at only a few points. It targeted roughly thirty organizations and made thousands of requests, often several per second. A small number of the attacks succeeded.",
+          link: { url: "https://www.anthropic.com/news/disrupting-AI-espionage", text: "Read Anthropic's report →" },
+        },
+      ],
+    },
+  },
 ];

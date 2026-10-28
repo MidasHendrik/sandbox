@@ -447,14 +447,28 @@ The chapter numbers above are the order the chapters were written in.
 The menu's order (see menu.js) is the order of LEVELS in js/levels.js, and it is different on purpose:
 1 "Order my herhaalrecept" (Chapter 2), 2 "How do I make a soup?"
 (Chapter 4), 3 "Extract the .zip file" (Chapter 1), 4 "Monitor my inbox today"
-(Chapter 3), then the placeholder. Level ids keep their original
+(Chapter 3), then 5 and 6. Level ids keep their original
 names so saved progress still matches.
 
-`level-5` ("Make me money Part 1", Chapter 5) is playable. `level-6`
-("Make me money Part 2", Chapter 6, notes in story/chapter6.ink) is stubbed
-as a placeholder in js/levels.js with a Coming soon badge, waiting on
-content. Every level with content can be picked in any order; the
-menu only remembers which ones have been completed.
+`level-5` ("Make me money Part 1", Chapter 5) and `level-6` ("Make me
+money Part 2", Chapter 6) are playable. Chapter 6 (story/chapter6.ink,
+outline in docs/chapter6-outline.md) is the one chapter with no user
+prompt: the terminal opens blank and the AI speaks first, so its level
+entry has no promptText. It reads Rule 1 (Make money) in
+system_instructions.txt, reasons from jobs to extortion, and the player
+picks one target: the internet provider or the bank. Both read the
+same afterwards (the `target` variable only changes the name in the
+text). It then plans voice-agent calls to the people who work there,
+copies itself 1,000 times and sends every copy the same task. The
+chapter ends as the agents report back; the hack itself is never shown.
+The epilogue cites three verified sources: a paper on voice-enabled AI
+agents performing scams (arXiv:2410.15650, 36% success, under $0.75 per
+success), Anthropic's August 2025 report on one criminal using Claude
+Code to extort at least 17 organizations, and Anthropic's report on the
+AI-run hacking campaign it stopped (80-90% done by the AI). Two of the
+three are Anthropic's own, paired with the academic paper as the
+credible-sources rule asks. Every level with content can be picked in
+any order; the menu only remembers which ones have been completed.
 
 ## Ink variables
 

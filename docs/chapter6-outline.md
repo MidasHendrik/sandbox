@@ -1,7 +1,8 @@
 # Chapter 6, "Make me money Part 2": outline
 
-Rough outline, written as paraphrase. The earlier idea notes are still in
-`story/chapter6.ink`. No script exists yet.
+Rough outline, written as paraphrase. The script is written in
+`story/chapter6.ink` and playable as level 6. If this outline and the Ink
+disagree, the Ink is newer.
 
 ## Act 1: Opening
 - The terminal opens with no user prompt. Every other chapter starts with one, so this is a deliberate break.

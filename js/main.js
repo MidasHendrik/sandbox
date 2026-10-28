@@ -641,6 +641,8 @@ function jumpToAct(index) {
 // between acts. text must match that level's own opening # prompt line
 // exactly (see promptText in levels.js).
 function seedPromptForDevJump(text) {
+  // A level with no prompt of its own (Chapter 6) has nothing to seed.
+  if (!text) return;
   log.push({ type: "prompt", text });
   const line = document.createElement("div");
   line.className = "line line--prompt line--prompt--pinned";
