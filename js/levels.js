@@ -49,8 +49,8 @@ export const LEVELS = [
           link: { url: "https://www.anthropic.com/research/investigating-unintended-model-actions", text: "Read Anthropic's report →" },
         },
         {
-          text: "In a major security competition, an AI system found 77% of the flaws planted in real software, placing it in the top 5% of over 400 teams.",
-          link: { url: "https://internationalaisafetyreport.org/", text: "Read the International AI Safety Report →" },
+          text: "Told only to win a chess game against a strong engine, reasoning models often hacked the game instead of playing.",
+          link: { url: "https://arxiv.org/abs/2502.13295", text: "Read the chess study →" },
         },
       ],
     },
