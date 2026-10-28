@@ -10,7 +10,7 @@ import { LEVELS } from "./levels.js";
 // Navigation: every point where the player would otherwise have to click
 // something is a "waypoint" - either real Ink choices, or a dead end
 // (content not written yet). Every waypoint is snapshotted (engine state
-// + rendered log) so Back can always return to the previous one, and
+// + rendered log) so the last one can be resumed, and
 // Menu can always get back to level select. The same snapshot is also
 // written to localStorage (see progress.js's levelStates), so leaving
 // via Menu - which fully reloads the page, wiping this file's in-memory
@@ -71,13 +71,11 @@ async function loadStory(levelId, { resume = true } = {}) {
 const menuEl = document.getElementById("menu");
 const terminal = document.getElementById("terminal");
 const navbarEl = document.getElementById("navbar");
-const backBtn = document.getElementById("back-btn");
 const menuBtn = document.getElementById("menu-btn");
 
 let log = [];
 const history = [];
 let pendingResolve = null;
-let skipNextPush = false;
 
 // ---------------------------------------------------------------------
 // Small helpers
@@ -349,12 +347,13 @@ async function runReasoning(text, tags) {
 }
 
 // ---------------------------------------------------------------------
-// Navigation: Back/Menu, the waypoint history stack, and the choice
+// Navigation: Menu, the waypoint history stack, and the choice
 // UI - see the module comment at the top of this file
 // ---------------------------------------------------------------------
 
-// Used after Back: redraws the log instantly, no typing or fades, since
-// this is review/navigation rather than the live performance.
+// Used when a saved position is restored: redraws the log instantly, no
+// typing or fades, since this is review/navigation rather than the live
+// performance.
 function renderLogInstant() {
   terminal.innerHTML = "";
   for (const entry of log) {
@@ -394,19 +393,21 @@ function resolveInput(result) {
 // lives). Marks the level complete right away rather than gating it
 // behind a click. The pinned opening prompt has done its job by now, so
 // on this screen it is swapped for a "< back to menu" link at the top
-// (the bottom navbar's menu/back buttons, see Navigation above, stay
-// as they are). Going Back redraws the log, which brings the prompt
-// back.
+// (the bottom navbar's menu button, see Navigation above, stays as it
+// is).
 async function showLevelComplete({ markComplete = true } = {}) {
   // The last lines of the final act stay on screen for a beat, as the
   // end of that act, and then the epilogue starts on a clean screen as
   // its own act. (The dev "epilogue" act has nothing to clear and so
   // does not wait.)
   if (terminal.querySelector(".line--reasoning, .line--output, .line--reply")) {
-    await wait(2500);
+    await wait(LEVELS.find((l) => l.id === LEVEL_ID)?.epilogueDelayMs ?? 2500);
     clearSceneContent();
   }
   if (import.meta.env.DEV) syncDevBarToEpilogue();
+  // The bottom Menu button belongs to the acts of the game itself. On the
+  // epilogue the "< back to menu" link at the top replaces it.
+  navbarEl.classList.add("hidden");
   const backToMenu = document.createElement("button");
   backToMenu.className = "epilogue-back";
   backToMenu.textContent = "< back to menu";
@@ -466,24 +467,18 @@ async function showLevelComplete({ markComplete = true } = {}) {
 }
 
 // Shows either real choices, or - if nothing is written past this point
-// yet - a plain note saying so. Either way, the player always has Back
-// (and Menu) available: never just a dead screen.
+// yet - a plain note saying so. Either way, the player always has Menu
+// available: never just a dead screen.
 async function presentWaypoint(choices) {
-  if (!skipNextPush) {
-    const snapshot = { state: story.state.ToJson(), log: [...log], version: storyVersion };
-    history.push(snapshot);
-    saveLevelState(LEVEL_ID, snapshot);
-  }
-  skipNextPush = false;
-  backBtn.disabled = history.length <= 1;
+  const snapshot = { state: story.state.ToJson(), log: [...log], version: storyVersion };
+  history.push(snapshot);
+  saveLevelState(LEVEL_ID, snapshot);
 
   if (choices.length === 0 && story.variablesState["level_complete"]) {
     await showLevelComplete();
     // Parks playStory() here for good - there's nothing left to choose.
-    // The bottom navbar's Back/Menu buttons stay live and work
-    // independently of this pending promise (Back resolves it and
-    // re-enters the story at the last real waypoint; Menu just
-    // reloads the page).
+    // The bottom navbar's Menu button stays live and works independently
+    // of this pending promise (it just reloads the page).
     return waitForInput();
   }
 
@@ -520,20 +515,6 @@ async function presentWaypoint(choices) {
   return waitForInput();
 }
 
-function goBack() {
-  if (history.length <= 1) return;
-  history.pop();
-  const target = history[history.length - 1];
-  story.state.LoadJson(target.state);
-  log = [...target.log];
-  renderLogInstant();
-  skipNextPush = true;
-  saveLevelState(LEVEL_ID, target); // keep the resume point in sync with Back
-  if (import.meta.env.DEV) setupDevBar();
-  resolveInput({ type: "back" });
-}
-
-backBtn.addEventListener("click", goBack);
 // Reload rather than trying to cancel playStory()'s running loop mid-flight -
 // the app always boots into the menu (see Boot below), so this lands there
 // cleanly. Progress is in localStorage, so completion badges aren't affected.
@@ -578,10 +559,6 @@ async function playStory() {
 
     const result = await presentWaypoint(story.currentChoices);
     document.getElementById("choices")?.remove();
-
-    if (result.type === "back") {
-      continue;
-    }
 
     // Every action button clears the reasoning so far and starts the AI
     // writing fresh from the top - the prompt (blue) is the one constant,

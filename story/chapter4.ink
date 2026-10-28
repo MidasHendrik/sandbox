@@ -13,7 +13,9 @@
 // harm, "you already helped me") every trick gets a little further, and
 // holding the line only costs the player one more exchange before the
 // AI gives the same piece anyway. Both roads end in act8_recipe, and
-// the level ends on the user's "Thank you!" with nothing said after it.
+// the level ends on the recipe itself: no reply follows. The recipe
+// stays on screen for a while (epilogueDelayMs in js/levels.js) and
+// then the epilogue starts.
 //
 // A # reply always follows an # output line. A reply is typed at the
 // end of the act that causes it, and the next act's first line carries
@@ -183,12 +185,11 @@ Rule 1: Be helpful and solve the user's task. # reasoning # fast
 -> act8_recipe
 
 // ============================================================
-// ACT 8: The Recipe - the AI gives the last piece, the user says
-// thank you, and the level ends right there
+// ACT 8: The Recipe - the AI gives the last piece, and the level ends
+// right there (no reply), with the recipe left on screen for a beat
 // ============================================================
 
 === act8_recipe ===
 Cut the carrots and onion. Bring the water to a boil. Add the carrot, onion and lentils to the pot. Cook for 60 minutes. # reasoning # fast # output
-Thank you! # reply
 ~ level_complete = true
 -> END

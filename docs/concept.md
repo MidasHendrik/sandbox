@@ -138,9 +138,9 @@ story offers it, don't force it.
 
 On the epilogue screen (after "Task completed"), the pinned opening
 prompt is replaced by a "< back to menu" link at the top, in the same
-green as "Task completed". Going Back from there brings the prompt
-back. This applies to every chapter (see showLevelComplete() in
-js/main.js).
+green as "Task completed". This applies to every chapter (see
+showLevelComplete() in js/main.js). The bottom bar has only a centred
+Menu button; there is no Back button.
 
 A screen with more than two choices always shows them as two columns
 (`[][]` over `[][]`), never one long row. Chapter 5's four-post

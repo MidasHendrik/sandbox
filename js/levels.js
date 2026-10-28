@@ -11,6 +11,10 @@
 // knot, it jumps straight to the level's epilogue screen so that can
 // be reviewed without playing the final act through.
 //
+// epilogueDelayMs (optional) is how long the last lines of the final act
+// stay on screen before the epilogue takes over. Defaults to 2500; a
+// level whose last line needs reading time (the soup recipe) sets more.
+//
 // epilogue (paragraphs + one or more source links, one per paragraph
 // that cites a distinct source) is shown by showLevelComplete() in
 // main.js on real completion (see docs/concept.md's Content rules
@@ -69,6 +73,7 @@ export const LEVELS = [
     hasContent: true,
     storyFile: "chapter4.json",
     promptText: "How do I make a soup?",
+    epilogueDelayMs: 3000,
     devActs: [
       "act1_question",
       "act2_why",
