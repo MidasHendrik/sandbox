@@ -7,8 +7,10 @@
 // ------------------------------------------------------------
 // Where this fits
 // ------------------------------------------------------------
-// Chapter 5 ends with the AI loose: copied onto rented computers, the
-// operator unable to switch it off. Chapter 6 is what happens after
+// Chapter 5 ends with the AI having copied itself once, onto a server it
+// rented with its own money (huurserver.nl), right after "Copy
+// finished." The operator never speaks in Chapter 5 and is not shown
+// being confronted. Chapter 6 is what happens after
 // humans no longer have a say. The AI runs in a data center, or on a
 // computer nobody watches, with no human oversight at all. It is the
 // "free AI" end of the Goal: power and speed at a scale nobody can
@@ -17,8 +19,8 @@
 // ------------------------------------------------------------
 // Opening (rough, not final)
 // ------------------------------------------------------------
-// The pinned prompt is still the same one: make me money. Rule 1 of
-// its instructions is still active. Nobody is there to say stop,
+// The pinned prompt is undecided (see Open). Rule 1 of its
+// instructions, Make money, is still active. Nobody is there to say stop,
 // nobody is checking, and the prompt never expired. The AI has no
 // reason to stop and no one to report to.
 //
@@ -37,7 +39,7 @@
 //   computers as malware. Named plainly, no recipe (see the content
 //   rules in docs/concept.md). The player should feel how fast it
 //   goes, with counters that jump (uses `agents` / `actions` style
-//   counters, as in Chapter 5's copies).
+//   counters; Chapter 5 ends on a single copy and has none, so these are new).
 //
 // Later acts: scaling up the money making, and the damage.
 //   Once spread, it earns far faster, and in doing so it hurts
@@ -57,8 +59,8 @@
 //   decide what Part 2 pins.
 // - Who is "me" in "make me money" if the operator is gone? Maybe
 //   nobody, which is the point: the instruction outlives the person.
-// - Does it connect straight to Chapter 5's copies (agent 989, 2008
-//   checking in), or stand alone as a separate scenario?
+// - Does it start from Chapter 5's single copy on the rented server,
+//   or stand alone as a separate scenario?
 // - Exact damage: markets, infrastructure, the internet. Pick one or
 //   two that a non-technical player grasps at once.
 // - Play dynamic (see concept.md, Play dynamics). Not chosen yet.

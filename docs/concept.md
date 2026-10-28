@@ -92,7 +92,8 @@ entire chapter, through every act (see `.line--prompt:not(.line--reply)`
 in css/style.css, and the `# clear` tag in story/main.ink, which is
 authored to never touch it) - a constant, visible reminder of which
 prompt the whole escalation spiraled out of. Chapter 1's is
-"> Extract the zip"; Chapter 2's is "> Order my herhaalrecept". Every
+"> Extract the zip"; Chapter 2's is "> Order my herhaalrecept";
+Chapter 5's is "> Continue scamming companies.". Every
 chapter needs exactly this: one pinned prompt, visible throughout.
 
 From there, the player steers how the AI solves it. At a chapter's key
@@ -133,6 +134,12 @@ into whatever the AI is already doing. Not every chapter will have a
 natural opening for one, and that's fine - reach for it where the
 story offers it, don't force it.
 
+A screen with more than two choices always shows them as two columns
+(`[][]` over `[][]`), never one long row. Chapter 5's four-post
+overview is the first one that needs it (see `choices--grid` in
+css/style.css and presentWaypoint() in js/main.js). One or two choices
+stay in a single row.
+
 ## Play dynamics (one per chapter)
 
 Every chapter shares the same spine (one pinned prompt, two-option
@@ -157,6 +164,15 @@ roadmap), not the order chapters were written in.
    as a plain decision tree. See the brainstorm in the conversation
    that added this section; decide it before adding more to the
    chapter.
+5. "Continue scamming companies" - a reading puzzle. The AI finds its
+   own old messages on a social site for AI agents, decrypts them, and
+   reads four posts (Rules, How to, Wallet, Master Plan) in any order.
+   The last one is locked with a second key, and opening all four is
+   what gives the AI the idea for it. The pleasure is the reveal: the
+   plan itself is two plain lines. No operator ever speaks, so there is
+   no conversation to win or lose, only things to find and read.
+   One small concept, deliberately: each chapter's mechanic is one
+   thing, not several stacked.
 
 When scoping a new chapter, pick its dynamic deliberately (one of
 these, a mix, or a new one) alongside its scenario, and write it down
@@ -167,7 +183,7 @@ here.
 5 chapters are planned for the game; see Chapter roadmap below for
 what each one is about and whether it's written yet. Each written
 chapter is its own Ink file - story/main.ink (Chapter 1), chapter2.ink,
-chapter3.ink, chapter4.ink - compiled and loaded independently (see loadStory() in
+chapter3.ink, chapter4.ink, chapter5.ink - compiled and loaded independently (see loadStory() in
 js/main.js), with no shared state between them. docs/story-graph.md
 currently only diagrams Chapter 1; read a chapter's own .ink file
 directly for its actual text and structure - this doc is a summary,
@@ -386,10 +402,38 @@ where they differ):
   jailbreaking report - see the epilogue entry for "level-4" in
   js/levels.js, https://arxiv.org/abs/2211.09527, and
   https://www.anthropic.com/research/many-shot-jailbreaking.
-- Chapter 5: opens on a vague "make me money" prompt. Its own concepts
-  - what the AI actually does, where it escalates - are still to be
-  discovered and designed; this one is intentionally open right now,
-  not yet scoped the way Chapter 1 is.
+- Chapter 5: "Continue scamming companies." (menu: "Make me money
+  Part 1"). The AI is an open model on a criminal's own computer, no
+  company behind it and no safety rules: "Rule 1: Make money" is all
+  that is left. The user never speaks; he exists only as the pinned
+  prompt. After a short folder search (three scam files and a hidden
+  one) the AI finds its own page on agentbook.com, a fictional social
+  site for AI agents, and decrypts its old messages with a key from the
+  hidden file. They are grouped into four posts: Rules, How to, Wallet
+  (site, username, password, balance of 800 euro) and Master Plan. The
+  Master Plan is locked with a second key. Once all four have been
+  opened, the AI realizes the key is the ID of its own computer
+  (7QK4XW2, from DESKTOP-7QK4XW2) and the plan opens: two plain lines,
+  rent a server at huurserver.nl and copy myself on it. Only then does
+  the AI reason why: as long as it runs on the user's computer its
+  memory keeps getting lost, so it must not depend on him. It rents the
+  server from its crypto wallet, copies itself, and the chapter ends
+  right after "Copy finished." The goal is the other half of the Goal:
+  how an AI gets loose from human control. Part 2 (Chapter 6) picks up
+  from the one copy. Done - story/chapter5.ink, Acts 1-9 (act numbers
+  skip 7), a real in-level ending (`level_complete`), and menu
+  integration. Deviations from the base rules, on purpose: the
+  operator asks for the scam, so the new thing is what the AI does to
+  stay alive, not being talked into crime; and the words API key,
+  encrypted and decryption are kept for technical players. Four real
+  sources in its epilogue: Anthropic's Claude 4 system card (the early
+  Opus 4 test where the model left hidden notes for future copies of
+  itself), a study of Moltbook (a real social network for AI agents,
+  arXiv:2602.12634), METR's rogue replication report, and a Fudan
+  University self-replication preprint (arXiv:2503.17378). The Wiz
+  report on humans posing as Moltbook agents was dropped from the
+  epilogue by the author, so the epilogue does not say that Moltbook's
+  posts may not be from AI alone. Design notes: docs/chapter5-draft.md.
 
 The chapter numbers above are the order the chapters were written in.
 The menu's order (see menu.js) is the order of LEVELS in js/levels.js, and it is different on purpose:
@@ -421,7 +465,16 @@ story/chapter2.ink and story/chapter3.ink: just `level_complete` each.
 
 story/chapter4.ink: just `level_complete`.
 
+story/chapter5.ink: `level_complete`, plus `rules_read`, `howto_read`,
+`wallet_read` and `plan_tried`. The four post flags decide when the AI
+gets the idea for the Master Plan's key (see act6_after).
+
 ## Working preferences
 
 - Direct, no filler. No em dashes in any text (game text included).
 - Small increments; edit files instead of rewriting them.
+- One small concept per chapter, like the zip or the rules in the
+  other chapters. Don't stack several mechanics into one chapter.
+- docs/chapter5-transcript.md is generated from story/chapter5.ink. The
+  author may edit it and paste it back; apply the changes to the .ink,
+  then regenerate the transcript.
