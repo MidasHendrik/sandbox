@@ -83,8 +83,8 @@ export const LEVELS = [
           link: { url: "https://www.anthropic.com/news/disrupting-AI-espionage", text: "Read Anthropic's report →" },
         },
         {
-          text: "Researchers got past 12 published defences against AI jailbreaks, mostly over 90% of the time. Most of those defences had reported almost no successful attacks.",
-          link: { url: "https://arxiv.org/abs/2510.09023", text: "Read the paper →" },
+          text: "With simple attacks, researchers got every AI model they tested to break its safety rules, including GPT-4o and every Claude model.",
+          link: { url: "https://arxiv.org/abs/2404.02151", text: "Read the paper →" },
         },
         {
           text: "A jailbreak called Crescendo starts with an innocent question, then escalates step by step by quoting the AI's own earlier answers. It worked on every AI system the researchers tested.",
