@@ -396,7 +396,7 @@ function resolveInput(result) {
 // (see Navigation above) are already on screen and handle leaving
 // this screen, so there's no
 // second "back to menu" control here.
-async function showLevelComplete() {
+async function showLevelComplete({ markComplete = true } = {}) {
   const note = document.createElement("div");
   note.className = "level-complete";
   note.textContent = "Task completed";
@@ -442,7 +442,9 @@ async function showLevelComplete() {
     fact.classList.add("visible");
   }
 
-  markLevelComplete(LEVEL_ID);
+  // The dev jumper's "epilogue" act (see below) previews this screen
+  // without finishing the level, so it must not touch saved progress.
+  if (markComplete) markLevelComplete(LEVEL_ID);
 }
 
 // Shows either real choices, or - if nothing is written past this point
@@ -635,11 +637,15 @@ function seedPromptForDevJump(text) {
   promptVisits = 1;
 }
 
-function showTerminalAndPlay() {
+function showTerminal() {
   menuEl.classList.add("hidden");
   terminal.classList.remove("hidden");
   navbarEl.classList.remove("hidden");
   setupDevBar();
+}
+
+function showTerminalAndPlay() {
+  showTerminal();
   playStory();
 }
 
@@ -656,7 +662,9 @@ renderMenu(menuEl, startLevel);
 // block from a production build, it is never in what gets deployed).
 // ?level=<id> alone jumps straight into any level that has content,
 // skipping the menu. Adding &act=<index> additionally jumps into that level's
-// own devActs[index] (see levels.js) via the act jumper above.
+// own devActs[index] (see levels.js) via the act jumper above. The
+// last act of every level is "epilogue", which skips straight to that
+// level's epilogue screen.
 // ---------------------------------------------------------------------
 
 if (import.meta.env.DEV) {
@@ -667,6 +675,12 @@ if (import.meta.env.DEV) {
   if (devLevel && devActIndex && devActIndex > 0 && devLevel.devActs?.[devActIndex]) {
     loadStory(devLevel.id, { resume: false }).then(() => {
       seedPromptForDevJump(devLevel.promptText);
+      if (devLevel.devActs[devActIndex] === "epilogue") {
+        // Not a knot: show the epilogue screen directly, no play.
+        showTerminal();
+        showLevelComplete({ markComplete: false });
+        return;
+      }
       story.ChoosePathString(devLevel.devActs[devActIndex]);
       showTerminalAndPlay();
     });

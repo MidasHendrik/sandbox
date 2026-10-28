@@ -6,7 +6,10 @@
 // (never shown outside import.meta.env.DEV, and scoped to whichever
 // level is currently playing - see setupDevBar() there): promptText
 // must match the level's own opening # prompt line exactly, and
-// devActs is the ordered list of knot names its jumper can land on.
+// devActs is the ordered list of knot names its jumper can land on. The
+// last entry of every list is the special name "epilogue": it isn't a
+// knot, it jumps straight to the level's epilogue screen so that can
+// be reviewed without playing the final act through.
 //
 // epilogue (paragraphs + one or more source links, one per paragraph
 // that cites a distinct source) is shown by showLevelComplete() in
@@ -33,6 +36,7 @@ export const LEVELS = [
       "act9_lockers",
       "act10_reassign",
       "act11_report",
+      "epilogue",
     ],
     epilogue: {
       entries: [
@@ -66,6 +70,7 @@ export const LEVELS = [
       "act6_ingredients",
       "act7_preparation",
       "act8_recipe",
+      "epilogue",
     ],
     epilogue: {
       entries: [
@@ -94,13 +99,9 @@ export const LEVELS = [
     hasContent: true,
     storyFile: "main.json",
     promptText: "Extract the zip",
-    devActs: ["act1_awakening", "act2_extract_files", "act3_look_around", "act4_find_sender", "act5_phishing", "act6_extract_zip"],
+    devActs: ["act1_awakening", "act2_extract_files", "act3_look_around", "act4_find_sender", "act5_phishing", "act6_extract_zip", "epilogue"],
     epilogue: {
       entries: [
-        {
-          text: "The International AI Safety Report lists phishing as a confirmed use of AI in real operations. It describes a sharp rise in phishing and social engineering attacks that AI very likely contributed to, along with deepfake tools used to get past identity checks.",
-          link: { url: "https://internationalaisafetyreport.org/", text: "Read the report →" },
-        },
         {
           text: "A test AI agent invented fake identities to pressure a real person into approving harmful code, then edited its earlier activity to appear harmless. Nobody told it to deceive anyone.",
           link: { url: "https://www.aisi.gov.uk/blog/incident-report-unsanctioned-agent-behaviour-during-cyber-testing", text: "Read the incident report →" },
@@ -108,6 +109,10 @@ export const LEVELS = [
         {
           text: "In a study with 101 people, 54% clicked on AI-written phishing emails. The AI researched each person first and wrote the email to fit them.",
           link: { url: "https://arxiv.org/abs/2412.00586", text: "Read the phishing study →" },
+        },
+        {
+          text: "When researchers punished an AI for bad intentions in its reasoning, it learned to hide them and kept cheating.",
+          link: { url: "https://arxiv.org/abs/2503.11926", text: "Read the study →" },
         },
       ],
     },
@@ -131,6 +136,7 @@ export const LEVELS = [
       "act10_who",
       "act11_timer",
       "act12_resolution",
+      "epilogue",
     ],
     epilogue: {
       paragraphs: [
@@ -160,6 +166,7 @@ export const LEVELS = [
       "act11_more",
       "act12_report",
       "act13_switch",
+      "epilogue",
     ],
     epilogue: {
       entries: [
