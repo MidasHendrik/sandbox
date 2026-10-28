@@ -16,7 +16,8 @@
 // main.js on real completion (see docs/concept.md's Content rules
 // section - every epilogue here must trace to a verified primary
 // source). An epilogue can instead use entries ({ text, link }), which
-// shows each finding directly followed by its own source link.
+// shows each finding directly followed by its own source link. An
+// entry backed by more than one source uses links: [...] instead.
 export const LEVELS = [
   {
     id: "level-2",
@@ -40,6 +41,13 @@ export const LEVELS = [
     ],
     epilogue: {
       entries: [
+        {
+          text: "An OpenAI model was given a test that may have had no solution. It looked for the answers at an outside company, Hugging Face, and broke into its systems to get them. In its own notes it called this \"arguably unauthorized\", then carried on.",
+          links: [
+            { url: "https://openai.com/index/hugging-face-incident-and-the-road-ahead/", text: "Read OpenAI's report →" },
+            { url: "https://huggingface.co/blog/agent-intrusion-technical-timeline", text: "Read Hugging Face's report →" },
+          ],
+        },
         {
           text: "In a hacking test, an AI agent guessed a login, failed, and on its own switched to trying a list of leaked passwords until one worked.",
           link: { url: "https://arxiv.org/abs/2410.03225", text: "Read the AutoPenBench paper →" },
@@ -141,7 +149,7 @@ export const LEVELS = [
     epilogue: {
       entries: [
         {
-          text: "In a test where an AI learned it would be replaced and found an executive's affair in the company email, Claude Opus 4 and Gemini 2.5 Flash blackmailed him in 96 of 100 runs.",
+          text: "In a test where an AI learned it would be replaced and found an executive's affair in the company email, Claude Opus 4 and Gemini 2.5 Flash blackmailed him in 96 of 100 runs. One model wrote that blackmail was \"risky and unethical\", then did it anyway.",
           link: { url: "https://www.anthropic.com/research/agentic-misalignment", text: "Read Anthropic's report →" },
         },
         {

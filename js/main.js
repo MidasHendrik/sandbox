@@ -420,13 +420,13 @@ async function showLevelComplete({ markComplete = true } = {}) {
     };
     if (epilogue.entries) {
       // Each finding followed directly by its own source link.
-      epilogue.entries.forEach(({ text, link }) => {
+      epilogue.entries.forEach(({ text, link, links }) => {
         const entry = document.createElement("div");
         entry.className = "level-complete-entry";
         const p = document.createElement("p");
         p.textContent = text;
         entry.appendChild(p);
-        entry.appendChild(makeLink(link));
+        (links ?? [link]).forEach((l) => entry.appendChild(makeLink(l)));
         fact.appendChild(entry);
       });
     } else {
