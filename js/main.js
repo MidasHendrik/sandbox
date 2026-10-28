@@ -2,6 +2,7 @@ import { Story } from "inkjs";
 import { renderMenu } from "./menu.js";
 import { markLevelComplete, saveLevelState, loadLevelState } from "./progress.js";
 import { LEVELS } from "./levels.js";
+import { SPEED_STEPS, getSpeedStep, setSpeedStep, scaleDelay } from "./speed.js";
 
 // UI shell: drives the compiled Ink story and renders it as a terminal.
 // Story content lives entirely in story/main.ink, pacing included - see
@@ -82,7 +83,7 @@ let pendingResolve = null;
 // ---------------------------------------------------------------------
 
 function wait(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
+  return new Promise((resolve) => setTimeout(resolve, scaleDelay(ms)));
 }
 
 function makeCursor() {
@@ -528,6 +529,47 @@ function reloadToMenu() {
   location.reload();
 }
 menuBtn.addEventListener("click", reloadToMenu);
+
+// Fast-forward button beside Menu: opens a popup of speed steps (-2, -1,
+// +1, +2) that scale how fast text moves in every level - see speed.js.
+// Picking the step that is already active goes back to the normal pace.
+// The popup closes on a pick, a click elsewhere, or Escape.
+function setupSpeedControl() {
+  const speedBtn = document.getElementById("speed-btn");
+  const speedMenu = document.getElementById("speed-menu");
+
+  function render() {
+    const current = getSpeedStep();
+    speedBtn.classList.toggle("active", current !== 0);
+    speedBtn.title = current === 0 ? "Playback speed" : `Playback speed ${current > 0 ? "+" : ""}${current}`;
+    speedMenu.innerHTML = "";
+    SPEED_STEPS.forEach((step) => {
+      const btn = document.createElement("button");
+      btn.className = "nav-btn";
+      btn.classList.toggle("active", step === current);
+      btn.textContent = step < 0 ? `${step} <<` : `+${step} >>`;
+      btn.addEventListener("click", () => {
+        setSpeedStep(step === current ? 0 : step);
+        render();
+        speedMenu.classList.add("hidden");
+      });
+      speedMenu.appendChild(btn);
+    });
+  }
+
+  speedBtn.addEventListener("click", (event) => {
+    event.stopPropagation();
+    speedMenu.classList.toggle("hidden");
+  });
+  document.addEventListener("click", (event) => {
+    if (!speedMenu.contains(event.target)) speedMenu.classList.add("hidden");
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") speedMenu.classList.add("hidden");
+  });
+  render();
+}
+setupSpeedControl();
 
 // ---------------------------------------------------------------------
 // Main loop: walks the compiled Ink story, dispatching each line by

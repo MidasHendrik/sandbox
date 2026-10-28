@@ -263,6 +263,37 @@ body {
   display: none !important;
 }
 
+/* Playback speed control (see js/speed.js and setupSpeedControl() in
+   js/main.js): a fast-forward button beside Menu that opens a small
+   popup of speed steps above itself. */
+#speed-wrap {
+  position: relative;
+}
+
+#speed-menu {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 6px;
+  background: var(--bg);
+  border: 1px solid var(--dim);
+}
+
+#speed-menu .nav-btn {
+  width: 100%;
+  white-space: nowrap;
+}
+
+#speed-menu .nav-btn.active,
+#speed-btn.active {
+  color: var(--fg);
+  border-color: var(--fg);
+}
+
 /* Dev-only act jumper (see js/main.js - gated on import.meta.env.DEV,
    never present in a production build). Amber, not the game's palette,
    so it never reads as part of the game itself. */
