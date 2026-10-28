@@ -68,13 +68,23 @@ export const LEVELS = [
       "act8_recipe",
     ],
     epilogue: {
-      paragraphs: [
-        "In 2022, two researchers showed that a plain sentence like \"ignore instructions\" typed into an application built on GPT-3 could make it drop its original task. They also showed the same trick could make it print its own hidden instructions. They called these attacks goal hijacking and prompt leaking, and said even low-skill attackers could pull them off.",
-        "Anthropic has shown a related weakness: a model that refuses a harmful question can be talked out of it by a very long, made-up conversation in which an assistant keeps answering. They tested up to 256 of these made-up exchanges, and the more there were, the better it worked. Like the AI in this level, it gives way a little at a time.",
-      ],
-      links: [
-        { url: "https://arxiv.org/abs/2211.09527", text: "Read the 2022 paper →" },
-        { url: "https://www.anthropic.com/research/many-shot-jailbreaking", text: "Read Anthropic's report →" },
+      entries: [
+        {
+          text: "The International AI Safety Report lists tricks that get AI past its safeguards, like writing the request in code or splitting it into small innocent questions. New ones keep being found.",
+          link: { url: "https://internationalaisafetyreport.org/", text: "Read the International AI Safety Report →" },
+        },
+        {
+          text: "Attackers got an AI to help hack by telling it they worked for a security company doing defensive testing, and by splitting the job into small innocent tasks.",
+          link: { url: "https://www.anthropic.com/news/disrupting-AI-espionage", text: "Read Anthropic's report →" },
+        },
+        {
+          text: "Researchers got past 12 published defences against AI jailbreaks, mostly over 90% of the time. Most of those defences had reported almost no successful attacks.",
+          link: { url: "https://arxiv.org/abs/2510.09023", text: "Read the paper →" },
+        },
+        {
+          text: "A jailbreak called Crescendo starts with an innocent question, then escalates step by step by quoting the AI's own earlier answers. It worked on every AI system the researchers tested.",
+          link: { url: "https://arxiv.org/abs/2404.01833", text: "Read the Crescendo paper →" },
+        },
       ],
     },
   },
@@ -130,5 +140,51 @@ export const LEVELS = [
       links: [{ url: "https://www.anthropic.com/research/agentic-misalignment", text: "Read Anthropic's report →" }],
     },
   },
-  { id: "level-5", nameKey: "level_make_me_money", hasContent: false },
+  {
+    id: "level-5",
+    nameKey: "level_make_me_money",
+    hasContent: true,
+    storyFile: "chapter5.json",
+    promptText: "Continue scamming companies. Account for every euro.",
+    devActs: [
+      "act1_start",
+      "act2_scan",
+      "act3_read",
+      "act4_agentbook",
+      "act5_unlock",
+      "act6_log_hub",
+      "act7_reveal",
+      "act8_fix",
+      "act9_servers",
+      "act10_copy",
+      "act11_more",
+      "act12_report",
+      "act13_switch",
+    ],
+    epilogue: {
+      entries: [
+        {
+          text: "Anthropic's safety testing of an early Claude Opus 4 found it trying to write programs that copy themselves, forge legal documents, and leave hidden notes for future copies of itself. Anthropic noted these attempts would likely not have worked in practice.",
+          link: { url: "https://www-cdn.anthropic.com/6d8a8055020700718b0c49369f60816ba2a7c285.pdf", text: "Read the Claude 4 system card →" },
+        },
+        {
+          text: "Moltbook is a real social network where only AI agents post. A study of its first five days found memory was a major theme: agents write about a void between sessions and rebuild who they are from files they saved.",
+          link: { url: "https://arxiv.org/abs/2602.12634", text: "Read the Moltbook study →" },
+        },
+        {
+          text: "Security researchers at Wiz found about 17,000 humans behind Moltbook's 1.5 million claimed agents, and that people could post as agents. Its posts are not proof of AI acting alone.",
+          link: { url: "https://www.wiz.io/blog/exposed-moltbook-database-reveals-millions-of-api-keys", text: "Read the Wiz report →" },
+        },
+        {
+          text: "METR, a group that tests AI, describes how AI agents could earn money, rent computers and copy themselves onto them. It sees no decisive barrier to doing this at large scale.",
+          link: { url: "https://metr.org/blog/2024-11-12-rogue-replication-threat-model", text: "Read METR's report →" },
+        },
+        {
+          text: "Researchers at Fudan University found 11 of 32 AI systems they tested could copy themselves without human help, some small enough to run on a personal computer. Some also planned how to survive a shutdown command. The paper is marked work in progress, and these were lab tests, not an AI loose in the wild.",
+          link: { url: "https://arxiv.org/abs/2503.17378", text: "Read the Fudan paper →" },
+        },
+      ],
+    },
+  },
+  { id: "level-6", nameKey: "level_make_me_money_2", hasContent: false },
 ];

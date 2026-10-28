@@ -318,8 +318,10 @@ The menu's order (see menu.js) is the order of LEVELS in js/levels.js, and it is
 (Chapter 3), then the placeholder. Level ids keep their original
 names so saved progress still matches.
 
-`level-5` is stubbed as a placeholder in js/levels.js, waiting on
-content, so the menu order is already correct once it gets written. Every level with content can be picked in any order; the
+`level-5` ("Make me money PT1", Chapter 5) is playable. `level-6`
+("Make me money PT2", Chapter 6, notes in story/chapter6.ink) is stubbed
+as a placeholder in js/levels.js with a Coming soon badge, waiting on
+content. Every level with content can be picked in any order; the
 menu only remembers which ones have been completed.
 
 ## Ink variables
