@@ -398,6 +398,15 @@ function resolveInput(result) {
 // as they are). Going Back redraws the log, which brings the prompt
 // back.
 async function showLevelComplete({ markComplete = true } = {}) {
+  // The last lines of the final act stay on screen for a beat, as the
+  // end of that act, and then the epilogue starts on a clean screen as
+  // its own act. (The dev "epilogue" act has nothing to clear and so
+  // does not wait.)
+  if (terminal.querySelector(".line--reasoning, .line--output, .line--reply")) {
+    await wait(2500);
+    clearSceneContent();
+  }
+  if (import.meta.env.DEV) syncDevBarToEpilogue();
   const backToMenu = document.createElement("button");
   backToMenu.className = "epilogue-back";
   backToMenu.textContent = "< back to menu";
@@ -520,6 +529,7 @@ function goBack() {
   renderLogInstant();
   skipNextPush = true;
   saveLevelState(LEVEL_ID, target); // keep the resume point in sync with Back
+  if (import.meta.env.DEV) setupDevBar();
   resolveInput({ type: "back" });
 }
 
@@ -620,6 +630,19 @@ function setupDevBar() {
 
   devPrevBtn.onclick = () => jumpToAct(devIndex - 1);
   devNextBtn.onclick = () => jumpToAct(devIndex + 1);
+}
+
+// The epilogue is the jumper's last act (see levels.js), so when a level
+// plays on into it, the bar moves to that last act too, instead of
+// still saying the story's final act.
+function syncDevBarToEpilogue() {
+  const devActs = LEVELS.find((l) => l.id === LEVEL_ID)?.devActs;
+  if (!devActs || devActs[devActs.length - 1] !== "epilogue") return;
+  devbarEl.classList.remove("hidden");
+  devLabelEl.textContent = `act ${devActs.length} / ${devActs.length}`;
+  devPrevBtn.disabled = devActs.length < 2;
+  devNextBtn.disabled = true;
+  devPrevBtn.onclick = () => jumpToAct(devActs.length - 2);
 }
 
 // Reloads with ?level=<current>&act=<index> set, so the act jumper
