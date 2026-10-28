@@ -6,7 +6,7 @@
 
 const STRINGS = {
   en: {
-    title: "Task completed",
+    title: "Inside AI",
     subtitle: "Levels",
     comingSoon: "Coming soon",
     completeBadge: "Completed",
@@ -21,7 +21,7 @@ const STRINGS = {
     resetAllLevelsConfirm: "Click again to reset all progress",
   },
   nl: {
-    title: "Task completed",
+    title: "Inside AI",
     subtitle: "Levels",
     comingSoon: "Binnenkort beschikbaar",
     completeBadge: "Voltooid",

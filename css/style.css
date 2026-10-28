@@ -86,6 +86,30 @@ body {
   background: var(--bg);
 }
 
+/* Takes the pinned prompt's place at the top of the epilogue screen
+   (see showLevelComplete() in js/main.js). Same sticky slot and
+   spacing as the prompt, but a plain link, not a terminal line. */
+.epilogue-back {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: block;
+  width: 100%;
+  margin-bottom: 1.2em;
+  padding: 8px 0;
+  background: var(--bg);
+  border: 0;
+  color: var(--fg);
+  font-family: inherit;
+  font-size: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.epilogue-back:hover {
+  text-decoration: underline;
+}
+
 .line--reply {
   margin-bottom: 4px;
 }

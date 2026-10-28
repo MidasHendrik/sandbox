@@ -2,7 +2,9 @@
 
 ## Terminology
 
-- **Game**: the whole project. Planned as 5 chapters - see Chapter
+- **Game**: the whole project, called "Inside AI" in the menu and the
+  browser tab (it was "Task completed", which is now only the success
+  beat on the epilogue screen). Planned as 5 chapters - see Chapter
   roadmap below.
 - **Chapter**, same thing as **level** (the word the code and the
   in-game menu use): one self-contained story, built around one
@@ -133,6 +135,12 @@ become a puzzle game, just an in-world challenge that fits naturally
 into whatever the AI is already doing. Not every chapter will have a
 natural opening for one, and that's fine - reach for it where the
 story offers it, don't force it.
+
+On the epilogue screen (after "Task completed"), the pinned opening
+prompt is replaced by a "< back to menu" link at the top, in the same
+green as "Task completed". Going Back from there brings the prompt
+back. This applies to every chapter (see showLevelComplete() in
+js/main.js).
 
 A screen with more than two choices always shows them as two columns
 (`[][]` over `[][]`), never one long row. Chapter 5's four-post

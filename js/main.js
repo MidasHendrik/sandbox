@@ -392,11 +392,20 @@ function resolveInput(result) {
 // source links for the real incident(s) the chapter is grounded in;
 // docs/concept.md's Content rules section is where that sourcing rule
 // lives). Marks the level complete right away rather than gating it
-// behind a click - the bottom navbar's own menu/restart/back buttons
-// (see Navigation above) are already on screen and handle leaving
-// this screen, so there's no
-// second "back to menu" control here.
+// behind a click. The pinned opening prompt has done its job by now, so
+// on this screen it is swapped for a "< back to menu" link at the top
+// (the bottom navbar's menu/back buttons, see Navigation above, stay
+// as they are). Going Back redraws the log, which brings the prompt
+// back.
 async function showLevelComplete({ markComplete = true } = {}) {
+  const backToMenu = document.createElement("button");
+  backToMenu.className = "epilogue-back";
+  backToMenu.textContent = "< back to menu";
+  backToMenu.addEventListener("click", reloadToMenu);
+  const pinnedPrompt = terminal.querySelector(".line--prompt--pinned");
+  if (pinnedPrompt) pinnedPrompt.replaceWith(backToMenu);
+  else terminal.prepend(backToMenu);
+
   const note = document.createElement("div");
   note.className = "level-complete";
   note.textContent = "Task completed";
