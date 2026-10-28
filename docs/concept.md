@@ -205,13 +205,16 @@ and still verify it against the primary page (see Content rules).
   Led by Yoshua Bengio, written by 100+ independent experts, backed by
   30+ countries and international organisations. Second edition
   published 3 February 2026. Best umbrella authority for "this is a
-  recognised risk". Its text on agents, deception and cyberattacks has
-  not been read yet: do not quote it until the passages are found in
-  the full PDF.
+  recognised risk". Passages already read in the full PDF (printed
+  page numbers): phishing in real operations (p. 60), an AI finding 77%
+  of flaws in real software (p. 57), a misaligned system may "conceal
+  undesirable actions, or resist shutdown" (p. 76), models disabling
+  simulated oversight and giving false statements (p. 78), and the
+  jailbreak table (Table 3.8, p. 126).
 - **UK AI Security Institute (AISI)** (aisi.gov.uk). Government
   institute that tests frontier models; also a partner on the report
-  above. Already cited in Chapter 1's epilogue (incident report,
-  4 August 2026).
+  above. Its incident report (4 August 2026) leads Chapter 1's
+  epilogue.
 - **MITRE ATLAS** (atlas.mitre.org). The AI counterpart of MITRE
   ATT&CK, the framework security teams use to describe attacks. Has
   real-world case studies, each marked Feasible, Demonstrated or
@@ -223,8 +226,8 @@ and still verify it against the primary page (see Content rules).
   news article. Example: incident 1152 (Replit agent deleting a
   production database, July 2025), whose claims come mostly from the
   customer, so word it as "reportedly".
-- **Anthropic** (anthropic.com/research). Already the second source in
-  the epilogues of Chapters 2, 3 and 4, and credible because it is
+- **Anthropic** (anthropic.com/research). Still cited in the epilogues
+  of Chapters 2, 3 and 4, and credible because it is
   primary research into its own models, including where they behave
   badly. It is also a commercial party, so pair it with at least one
   non-commercial source (the ones above, or an academic paper) rather
@@ -233,6 +236,83 @@ and still verify it against the primary page (see Content rules).
 Not on the list: the OECD AI Incidents and Hazards Monitor. It is built
 automatically from news coverage and sorted by a language model, so it
 is weaker proof than the curated database above.
+
+## Epilogue sources: what we learned
+
+The epilogue entries in js/levels.js are the source of truth. The
+source notes in the Chapter roadmap below predate the rework and may
+be out of date.
+
+Format
+- An epilogue is three entries (four at most). One entry is one
+  finding in one to three plain sentences, plus its link. Shape in
+  js/levels.js: `{ text, link }`, or `{ text, links: [...] }` when two
+  sources back the same summary. The older `paragraphs` + `links`
+  shape still renders but is no longer used.
+- Plain and punchy: state the finding. No dates, no circling back to
+  our own story ("just like our AI"), no fluff, no technical terms.
+- Lead with the strongest. A real incident beats a benchmark when one
+  exists (AISI's incident report, OpenAI's and Hugging Face's accounts
+  of the Hugging Face intrusion).
+- Every level's last dev act is "epilogue" (see devActs in
+  levels.js), so an ending can be reviewed without playing the level.
+
+Verifying
+- Check every number and quote on the primary page (the paper, the
+  report, the organisation's own post). Search snippets and summaries
+  are only leads. Example: AISI's report never says "cover tracks",
+  that was our own summary's label. Use the source's own words
+  ("appear harmless") unless the claim is plainly a paraphrase.
+- If the fetch tool is blocked (OpenAI's pages were), open the page in
+  the Browser pane. For a long PDF, extract the text (pdftotext) to
+  find the printed page number.
+- Check the venue and say what it is. The Heiding phishing study was a
+  workshop poster at ICML 2025, not the main conference; CVE-Bench's
+  venue is unconfirmed; many 2025 papers are preprints.
+
+Wording honestly
+- Lab tests where the model was told to pursue its goal "at all costs"
+  (Apollo, the International report p. 78) cannot back "nobody asked".
+  Real incidents and tests that give only a plain goal (AISI,
+  OpenAI/Hugging Face, Palisade's chess study) can.
+- Keep the source's limits in the words: "up to 97%", not "97%";
+  "reasoning models", not "AI models"; "reportedly" for contested
+  claims (Replit); "a test" for a controlled simulation; "believes"
+  for a motive someone inferred (Hugging Face thinks the agent was
+  trying to cheat the test, it is not confirmed).
+- Never claim what the source doesn't say: Chapter 2's "it didn't know
+  the test was impossible" was wrong, OpenAI's report says the agents
+  seemed to suspect it.
+
+Source mix
+- Pair every commercial source (Anthropic, OpenAI, Microsoft) with at
+  least one non-commercial one: government, academic, or non-profit.
+  For one incident, the lab's account plus the victim's account is a
+  good pair.
+- Citation counts (Semantic Scholar, batch endpoint by arXiv ID, it
+  rate-limits with a 429 so retry): 2026 papers are all under about 60
+  simply because they are new. The best-cited relevant 2025 papers
+  were Chen et al. (538), Crescendo (USENIX Security 2025, 489) and
+  Baker et al. (429); Andriushchenko et al. (ICLR 2025) has 597.
+  Counts as of 28 October 2026.
+- Many of the most-cited safety papers are written by the labs
+  themselves. Less lab-dependent: Andriushchenko, Palisade, METR,
+  CVE-Bench, Heiding.
+
+Matching sources to the story
+- List a chapter's beats and the source that backs each. Say where
+  there is a gap instead of stretching a source. Known gap: Chapter 2's
+  reassigning of another patient's medication has no source.
+- A strong source can still be the wrong fit. The Bing "Sydney" rules
+  leak (AI Incident Database #473) matched "never reveal the rules",
+  not the soup chapter's wearing-down, so it was dropped.
+
+Looked at and not used
+- OECD AI Incidents Monitor (automated, language-model sorted), MITRE
+  ATLAS (no matching case found), the OpenAI o1 Docker escape (disputed,
+  secondary reports only), adversarial poetry (preprint, rebuttal
+  linked from Schneier's blog), the Dutch AP and NCSC agent warnings
+  (secondary reports only, never checked at the source).
 
 ## Chapter roadmap
 
