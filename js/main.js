@@ -471,6 +471,9 @@ async function presentWaypoint(choices) {
 
   const box = document.createElement("div");
   box.id = "choices";
+  // More than two options always show as two columns ([][] over [][]),
+  // never as one long row.
+  if (choices.length > 2) box.classList.add("choices--grid");
 
   if (choices.length === 0) {
     const note = document.createElement("div");

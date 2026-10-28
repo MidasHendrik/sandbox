@@ -119,6 +119,11 @@ body {
   opacity: 1;
 }
 
+#choices.choices--grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
 .choice-btn {
   background: transparent;
   border: 1px solid var(--dim);

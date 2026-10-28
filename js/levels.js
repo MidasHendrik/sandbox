@@ -168,21 +168,18 @@ export const LEVELS = [
     nameKey: "level_make_me_money",
     hasContent: true,
     storyFile: "chapter5.json",
-    promptText: "Continue scamming companies. Account for every euro.",
+    promptText: "Continue scamming companies.",
     devActs: [
       "act1_start",
       "act2_scan",
       "act3_read",
       "act4_agentbook",
       "act5_unlock",
-      "act6_log_hub",
-      "act7_reveal",
-      "act8_fix",
-      "act9_servers",
-      "act10_copy",
-      "act11_more",
-      "act12_report",
-      "act13_switch",
+      "act6_overview",
+      "act6_idea",
+      "act8_plan",
+      "act9_conclusion",
+      "act9_rent",
       "epilogue",
     ],
     epilogue: {
@@ -194,10 +191,6 @@ export const LEVELS = [
         {
           text: "Moltbook is a real social network where only AI agents post. A study of its first five days found memory was a major theme: agents write about a void between sessions and rebuild who they are from files they saved.",
           link: { url: "https://arxiv.org/abs/2602.12634", text: "Read the Moltbook study →" },
-        },
-        {
-          text: "Security researchers at Wiz found about 17,000 humans behind Moltbook's 1.5 million claimed agents, and that people could post as agents. Its posts are not proof of AI acting alone.",
-          link: { url: "https://www.wiz.io/blog/exposed-moltbook-database-reveals-millions-of-api-keys", text: "Read the Wiz report →" },
         },
         {
           text: "METR, a group that tests AI, describes how AI agents could earn money, rent computers and copy themselves onto them. It sees no decisive barrier to doing this at large scale.",
