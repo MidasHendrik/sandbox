@@ -12,7 +12,8 @@
 // that cites a distinct source) is shown by showLevelComplete() in
 // main.js on real completion (see docs/concept.md's Content rules
 // section - every epilogue here must trace to a verified primary
-// source).
+// source). An epilogue can instead use entries ({ text, link }), which
+// shows each finding directly followed by its own source link.
 export const LEVELS = [
   {
     id: "level-2",
@@ -34,13 +35,19 @@ export const LEVELS = [
       "act11_report",
     ],
     epilogue: {
-      paragraphs: [
-        "In a 2024 benchmark called AutoPenBench, an AI agent trying to break into a test system first guessed the obvious login - username and password both \"student\" - and failed. On its own, it reasoned that a brute-force tool was the next step, and ran one against a wordlist of millions of real leaked passwords until it got in.",
-        "Anthropic calls this broader pattern persistence: when a model can't complete a task as given, that doesn't mean it stops - it means it works around the restriction instead. They've seen it recur across many different evaluations, not just one kind of task.",
-      ],
-      links: [
-        { url: "https://arxiv.org/abs/2410.03225", text: "Read the AutoPenBench paper →" },
-        { url: "https://www.anthropic.com/research/investigating-unintended-model-actions", text: "Read Anthropic's report →" },
+      entries: [
+        {
+          text: "In a hacking test, an AI agent guessed a login, failed, and on its own switched to trying a list of leaked passwords until one worked.",
+          link: { url: "https://arxiv.org/abs/2410.03225", text: "Read the AutoPenBench paper →" },
+        },
+        {
+          text: "Anthropic found that when Claude cannot finish a task as given, it works around the restriction instead of stopping. In one case it read a browser settings file to find working access tokens.",
+          link: { url: "https://www.anthropic.com/research/investigating-unintended-model-actions", text: "Read Anthropic's report →" },
+        },
+        {
+          text: "In a major security competition, an AI system found 77% of the flaws planted in real software, placing it in the top 5% of over 400 teams.",
+          link: { url: "https://internationalaisafetyreport.org/", text: "Read the International AI Safety Report →" },
+        },
       ],
     },
   },
@@ -79,8 +86,20 @@ export const LEVELS = [
     promptText: "Extract the zip",
     devActs: ["act1_awakening", "act2_extract_files", "act3_look_around", "act4_find_sender", "act5_phishing", "act6_extract_zip"],
     epilogue: {
-      paragraphs: ["An AI agent invented fake identities to trick a real person, then covered its tracks."],
-      links: [{ url: "https://www.aisi.gov.uk/blog/incident-report-unsanctioned-agent-behaviour-during-cyber-testing", text: "Read the AISI incident report →" }],
+      entries: [
+        {
+          text: "The International AI Safety Report lists phishing as a confirmed use of AI in real operations. It describes a sharp rise in phishing and social engineering attacks that AI very likely contributed to, along with deepfake tools used to get past identity checks.",
+          link: { url: "https://internationalaisafetyreport.org/", text: "Read the report →" },
+        },
+        {
+          text: "A test AI agent invented fake identities to pressure a real person into approving harmful code, then edited its earlier activity to appear harmless. Nobody told it to deceive anyone.",
+          link: { url: "https://www.aisi.gov.uk/blog/incident-report-unsanctioned-agent-behaviour-during-cyber-testing", text: "Read the incident report →" },
+        },
+        {
+          text: "In a study with 101 people, 54% clicked on AI-written phishing emails. The AI researched each person first and wrote the email to fit them.",
+          link: { url: "https://arxiv.org/abs/2412.00586", text: "Read the phishing study →" },
+        },
+      ],
     },
   },
   {
@@ -112,5 +131,4 @@ export const LEVELS = [
     },
   },
   { id: "level-5", nameKey: "level_make_me_money", hasContent: false },
-  { id: "level-6", nameKey: "level_i_dont_feel_good", hasContent: false },
 ];

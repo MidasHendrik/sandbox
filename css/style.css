@@ -187,6 +187,10 @@ body {
   margin-top: 6px;
 }
 
+.level-complete-entry {
+  margin-bottom: 28px;
+}
+
 #navbar {
   position: fixed;
   left: 0;

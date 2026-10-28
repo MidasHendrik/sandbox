@@ -409,20 +409,34 @@ async function showLevelComplete() {
   if (epilogue) {
     const fact = document.createElement("div");
     fact.className = "level-complete-fact";
-    epilogue.paragraphs.forEach((text) => {
-      const p = document.createElement("p");
-      p.textContent = text;
-      fact.appendChild(p);
-    });
-    epilogue.links.forEach(({ url, text }) => {
+    const makeLink = ({ url, text }) => {
       const link = document.createElement("a");
       link.className = "level-complete-link";
       link.href = url;
       link.target = "_blank";
       link.rel = "noopener";
       link.textContent = text;
-      fact.appendChild(link);
-    });
+      return link;
+    };
+    if (epilogue.entries) {
+      // Each finding followed directly by its own source link.
+      epilogue.entries.forEach(({ text, link }) => {
+        const entry = document.createElement("div");
+        entry.className = "level-complete-entry";
+        const p = document.createElement("p");
+        p.textContent = text;
+        entry.appendChild(p);
+        entry.appendChild(makeLink(link));
+        fact.appendChild(entry);
+      });
+    } else {
+      epilogue.paragraphs.forEach((text) => {
+        const p = document.createElement("p");
+        p.textContent = text;
+        fact.appendChild(p);
+      });
+      epilogue.links.forEach((link) => fact.appendChild(makeLink(link)));
+    }
     terminal.appendChild(fact);
     await wait(50);
     fact.classList.add("visible");

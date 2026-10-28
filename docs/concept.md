@@ -2,7 +2,7 @@
 
 ## Terminology
 
-- **Game**: the whole project. Planned as 6 chapters - see Chapter
+- **Game**: the whole project. Planned as 5 chapters - see Chapter
   roadmap below.
 - **Chapter**, same thing as **level** (the word the code and the
   in-game menu use): one self-contained story, built around one
@@ -164,7 +164,7 @@ here.
 
 ## Story structure (current)
 
-6 chapters are planned for the game; see Chapter roadmap below for
+5 chapters are planned for the game; see Chapter roadmap below for
 what each one is about and whether it's written yet. Each written
 chapter is its own Ink file - story/main.ink (Chapter 1), chapter2.ink,
 chapter3.ink, chapter4.ink - compiled and loaded independently (see loadStory() in
@@ -194,16 +194,56 @@ not the source of truth.
   based on - verified against a primary source before publishing, not a
   secondary summary (see each chapter's epilogue entry in js/levels.js).
 
+## Credible sources
+
+Where an epilogue (or any claim in the game) needs a source, prefer
+these. They are the institutions whose name gives the citation weight.
+Cite the specific report or case, not just the institution's homepage,
+and still verify it against the primary page (see Content rules).
+
+- **International AI Safety Report** (internationalaisafetyreport.org).
+  Led by Yoshua Bengio, written by 100+ independent experts, backed by
+  30+ countries and international organisations. Second edition
+  published 3 February 2026. Best umbrella authority for "this is a
+  recognised risk". Its text on agents, deception and cyberattacks has
+  not been read yet: do not quote it until the passages are found in
+  the full PDF.
+- **UK AI Security Institute (AISI)** (aisi.gov.uk). Government
+  institute that tests frontier models; also a partner on the report
+  above. Already cited in Chapter 1's epilogue (incident report,
+  4 August 2026).
+- **MITRE ATLAS** (atlas.mitre.org). The AI counterpart of MITRE
+  ATT&CK, the framework security teams use to describe attacks. Has
+  real-world case studies, each marked Feasible, Demonstrated or
+  Realized. Best fit for the hacking and phishing beats. Case counts
+  differ between secondary sources and no case matching a chapter has
+  been confirmed yet: check the site before claiming one.
+- **AI Incident Database** (incidentdatabase.ai). Non-profit, curated
+  record of real incidents. Better proof that something happened than a
+  news article. Example: incident 1152 (Replit agent deleting a
+  production database, July 2025), whose claims come mostly from the
+  customer, so word it as "reportedly".
+- **Anthropic** (anthropic.com/research). Already the second source in
+  the epilogues of Chapters 2, 3 and 4, and credible because it is
+  primary research into its own models, including where they behave
+  badly. It is also a commercial party, so pair it with at least one
+  non-commercial source (the ones above, or an academic paper) rather
+  than letting it stand alone.
+
+Not on the list: the OECD AI Incidents and Hazards Monitor. It is built
+automatically from news coverage and sorted by a language model, so it
+is weaker proof than the curated database above.
+
 ## Chapter roadmap
 
-The game is planned as 6 chapters. Chapter 1 is finished and is the
+The game is planned as 5 chapters. Chapter 1 is finished and is the
 template for what a chapter looks like - scope, pacing, the spiral
 dynamic (see Game dynamic), the content rules - everything above and
 in docs/story-graph.md describes it specifically. Chapter 1 only
 delivers the reasoning-into-unethical-behavior half of the Goal; the
 powerful-and-fast half (a swarm of agents, live counters, a felt sense
 of overwhelming speed and scale) is deliberately out of scope for it
-and reserved for a later chapter. Chapters 2-6 build from here, each
+and reserved for a later chapter. Chapters 2-5 build from here, each
 grounded in its own real incident or pattern, researched and scoped
 the same way Chapter 1 was (a sourced epilogue, its own content rules
 where they differ):
@@ -270,18 +310,16 @@ where they differ):
   - what the AI actually does, where it escalates - are still to be
   discovered and designed; this one is intentionally open right now,
   not yet scoped the way Chapter 1 is.
-- Chapter 6: "I don't feel good" - name only so far, not yet scoped.
 
 The chapter numbers above are the order the chapters were written in.
 The menu's order (see menu.js) is the order of LEVELS in js/levels.js, and it is different on purpose:
 1 "Order my herhaalrecept" (Chapter 2), 2 "How do I make a soup?"
 (Chapter 4), 3 "Extract the .zip file" (Chapter 1), 4 "Monitor my inbox today"
-(Chapter 3), then the two placeholders. Level ids keep their original
+(Chapter 3), then the placeholder. Level ids keep their original
 names so saved progress still matches.
 
-`level-5` and `level-6` are stubbed as placeholders in js/levels.js,
-waiting on content, so the menu order is already correct once each one
-gets written. Every level with content can be picked in any order; the
+`level-5` is stubbed as a placeholder in js/levels.js, waiting on
+content, so the menu order is already correct once it gets written. Every level with content can be picked in any order; the
 menu only remembers which ones have been completed.
 
 ## Ink variables
