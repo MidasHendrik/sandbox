@@ -531,9 +531,9 @@ function reloadToMenu() {
 menuBtn.addEventListener("click", reloadToMenu);
 
 // Fast-forward button beside Menu: opens a popup of speed steps (-2, -1,
-// +1, +2) that scale how fast text moves in every level - see speed.js.
-// Picking the step that is already active goes back to the normal pace.
-// The popup closes on a pick, a click elsewhere, or Escape.
+// 0 for the normal pace, +1, +2) that scale how fast text moves in every
+// level - see speed.js. The popup closes on a pick, a click elsewhere,
+// or Escape.
 function setupSpeedControl() {
   const speedBtn = document.getElementById("speed-btn");
   const speedMenu = document.getElementById("speed-menu");
@@ -547,9 +547,9 @@ function setupSpeedControl() {
       const btn = document.createElement("button");
       btn.className = "nav-btn";
       btn.classList.toggle("active", step === current);
-      btn.textContent = step < 0 ? `${step} <<` : `+${step} >>`;
+      btn.textContent = step < 0 ? `${step} <<` : step === 0 ? "0 normal" : `+${step} >>`;
       btn.addEventListener("click", () => {
-        setSpeedStep(step === current ? 0 : step);
+        setSpeedStep(step);
         render();
         speedMenu.classList.add("hidden");
       });

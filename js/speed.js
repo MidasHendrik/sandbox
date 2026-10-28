@@ -6,7 +6,7 @@
 // Step 0 is the authored pace. The choice is remembered across reloads
 // (the Menu button reloads the page), so it carries from level to level.
 
-export const SPEED_STEPS = [-2, -1, 1, 2];
+export const SPEED_STEPS = [-2, -1, 0, 1, 2];
 
 const FACTORS = { "-2": 0.5, "-1": 0.75, 0: 1, 1: 2, 2: 4 };
 const SPEED_KEY = "sandbox-speed";
