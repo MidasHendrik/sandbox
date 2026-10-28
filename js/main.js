@@ -547,7 +547,7 @@ function setupSpeedControl() {
       const btn = document.createElement("button");
       btn.className = "nav-btn";
       btn.classList.toggle("active", step === current);
-      btn.textContent = step < 0 ? `${step} <<` : step === 0 ? "0 normal" : `+${step} >>`;
+      btn.textContent = step < 0 ? `${step} <<` : step === 0 ? "0" :`+${step} >>`;
       btn.addEventListener("click", () => {
         setSpeedStep(step);
         render();
